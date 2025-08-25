@@ -1,51 +1,82 @@
-import { useState } from "react"
-import ModalPerito from "./Modal/modalPerito.jsx"
-import { sampleRequerimientos } from "../data.js"
+import { useState, useEffect } from "react";
+import ModalPerito from "./Modal/modalPerito.jsx";
+import { samplePeritos, sampleRequerimientos } from "../data.js";
+import { useNavigate } from 'react-router-dom'
 
+// ⏳ Función de formato de tiempo
 function fmt(t) {
-  const n = Math.max(0, Math.floor(t / 1000))
-  const h = String(Math.floor(n / 3600)).padStart(2, "0")
-  const m = String(Math.floor((n % 3600) / 60)).padStart(2, "0")
-  const s = String(n % 60).padStart(2, "0")
-  return `${h}:${m}:${s}`
+  const n = Math.max(0, Math.floor(t / 1000));
+  const h = String(Math.floor(n / 3600)).padStart(2, "0");
+  const m = String(Math.floor((n % 3600) / 60)).padStart(2, "0");
+  const s = String(n % 60).padStart(2, "0");
+  return `${h}:${m}:${s}`;
 }
 
+// ⏱️ Componente de cuenta regresiva
 function Countdown({ until }) {
-  const [left, setLeft] = useState(until - Date.now())
-  useState(() => {
-    const id = setInterval(() => setLeft(until - Date.now()), 1000)
-    return () => clearInterval(id)
-  }, [until])
+  const [left, setLeft] = useState(until - Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setLeft(until - Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [until]);
   return (
     <span className="badge info">
       {left > 0 ? `⏳ ${fmt(left)}` : "Vencido"}
     </span>
-  )
+  );
 }
 
-export default function Perito() {
-  const [selected, setSelected] = useState(null)
-  const [tab, setTab] = useState("Asignado")
-  const [requerimientos, setRequerimientos] = useState(sampleRequerimientos)
+export default function Perito({ peritoId }) {
+  const perito = samplePeritos.find((p) => p.id == peritoId);
+  const navigate = useNavigate()
+  const [requerimientos, setRequerimientos] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [tab, setTab] = useState("Asignado");
 
-  const handleDecision = (id, decision) => {
-    setRequerimientos((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? { ...r, estado: decision === "aceptar" ? "En curso" : "Finalizado" }
-          : r
-      )
-    )
-    setSelected(null)
-  }
+  // ✅ Siempre refrescar requerimientos de este perito
+  useEffect(() => {
+  const misReqs = sampleRequerimientos.filter((r) => r.peritoId == peritoId);
+  setRequerimientos(misReqs);
+}, [peritoId]);
 
-  const filteredReqs = requerimientos.filter((r) => r.estado === tab)
+  // ✅ Manejo de decisiones en modal
+  const handleDecision = (id, decision, extraData = {}) => {
+  setRequerimientos((prev) =>
+    prev.map((r) => {
+      if (r.id !== id) return r;
+
+      if (decision === "aceptar") {
+        return { ...r, estado: "En curso" };
+      }
+
+      if (decision === "rechazar") {
+        return { ...r, estado: "Rechazado" };
+      }
+
+      if (decision === "finalizado") {
+        return { ...r, estado: "Finalizado", ...extraData };
+      }
+
+      return r; 
+    })
+  );
+  setSelected(null);
+};
+
+
+  const filteredReqs = requerimientos.filter((r) => r.estado === tab);
 
   return (
     <div className="container">
-      <div className="header">
-        <h2 style={{ margin: 0 }}>Panel Perito</h2>
-      </div>
+      {/* Perfil del perito */}
+      {perito && (
+        <div className="perfil" style={{ marginBottom: "10px" }}>
+          <h2>👤 Perfil del Perito</h2>
+          <p><strong>Nombre:</strong> {perito.nombre}</p>
+          <p><strong>Teléfono:</strong> {perito.telefono}</p>
+          <p><strong>Disponible:</strong> {perito.disponible ? "Sí" : "No"}</p>
+        </div>
+      )}
 
       {/* Pestañas */}
       <div className="tabs">
@@ -66,18 +97,24 @@ export default function Perito() {
           <div className="small">No hay requerimientos en {tab}</div>
         ) : (
           filteredReqs.map((r) => {
-            const asignacion = new Date(r.fechaAsignacion).getTime()
+            const asignacion = new Date(r.fechaAsignacion).getTime();
             const globalDeadline =
-              asignacion + r.plazoDias * 24 * 3600 * 1000
+              asignacion + r.plazoDias * 24 * 3600 * 1000;
             return (
               <div
                 key={r.id}
                 className="item"
-                onClick={() => setSelected(r)}
+                onClick={() => {
+                  if (r.estado === "Finalizado") {
+                    navigate(`/requerimiento/${r.id}`)
+                  } else {
+                    setSelected(r)
+                  }
+                }}
               >
                 <div>
                   <strong>
-                    #{r.id} — {r.cliente}
+                    #{r.id} — Cliente {r.clienteId}
                   </strong>
                   <div className="small">{r.direccion}</div>
                 </div>
@@ -86,7 +123,7 @@ export default function Perito() {
                   <Countdown until={globalDeadline} />
                 </div>
               </div>
-            )
+            );
           })
         )}
       </div>
@@ -98,5 +135,5 @@ export default function Perito() {
         onDecision={handleDecision}
       />
     </div>
-  )
+  );
 }

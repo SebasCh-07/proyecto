@@ -1,6 +1,6 @@
 // PeritosAdmin.jsx
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom' // 👈 importamos useLocation
 import { FaArrowLeft } from "react-icons/fa"
 import { samplePeritos } from '../data.js'
 import ModalAdmin from './Modal/modalAdmin.jsx'
@@ -9,6 +9,8 @@ export default function PeritosAdmin() {
     const [query, setQuery] = useState('')
     const [peritoSeleccionado, setPeritoSeleccionado] = useState(null)
     const navigate = useNavigate()
+    const location = useLocation() // 👈 recibimos datos enviados con navigate
+    const cliente = location.state?.cliente || null // 👈 cliente recibido
 
     const peritos = samplePeritos
 
@@ -36,15 +38,17 @@ export default function PeritosAdmin() {
                 >
                     <FaArrowLeft />
                 </button>
-
-                {/* 👉 Botón para ir al formulario */}
-                <button 
-                  onClick={() => navigate("/agregar-perito")} 
-                  className="btn"
-                >
-                  + Agregar Perito
-                </button>
             </div>
+
+            {/* 👉 Mostrar cliente si fue enviado */}
+            {cliente && (
+                <div style={{marginTop:"10px", padding:"10px", border:"1px solid #ccc", borderRadius:"8px"}}>
+                    <h3>Asignar un perito al cliente:</h3>
+                    <p>{cliente.nombre}</p>
+                    <p>📞 {cliente.telefono}</p>
+                    <p>📧 {cliente.correo}</p>
+                </div>
+            )}
 
             <div className="row" style={{ marginTop: "10px", marginBottom: "10px" }}>
                 <input 
@@ -72,7 +76,14 @@ export default function PeritosAdmin() {
                 {filteredPeritos.length === 0 && <div className="card">No hay resultados</div>}
             </div>
 
-            {peritoSeleccionado && <ModalAdmin p={peritoSeleccionado} onClose={() => setPeritoSeleccionado(null)} />}
+            {/* 👇 Pasamos el cliente también al modal */}
+            {peritoSeleccionado && (
+                <ModalAdmin 
+                  p={peritoSeleccionado} 
+                  cliente={cliente}   // 👈 cliente recibido va al modal
+                  onClose={() => setPeritoSeleccionado(null)} 
+                />
+            )}
         </div>
     )
 }

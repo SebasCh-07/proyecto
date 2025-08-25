@@ -1,36 +1,80 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Modal from '../Modal.jsx'
 import { sampleClientes } from '../../data.js'
+import { asignarRequerimiento } from '../../data.js'
 
-
-export default function ModalAdmin({ p, onClose }) {
+export default function ModalAdmin({ p, cliente, onClose }) {
     const [assignOpen, setAssignOpen] = useState(false)
 
     const clientes = sampleClientes
 
+    // Estado para formulario de asignación
+    const [form, setForm] = useState({
+        clienteId: cliente?.id || '',       // seleccionamos cliente si viene
+        contacto: cliente?.contacto || '',    // contacto por defecto el nombre del cliente
+        telefono: cliente?.telefono || '',
+        pdf: null,
+        excel: null
+    })
+
+    // Si cambia el cliente recibido, actualizar form
+    useEffect(() => {
+        if (cliente) {
+            setForm({
+                clienteId: cliente.id,
+                contacto: cliente.contacto,
+                telefono: cliente.telefono,
+                pdf: null,
+                excel: null
+            })
+        }
+    }, [cliente])
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target
+        if (files) {
+            setForm(prev => ({ ...prev, [name]: files[0] }))
+        } else {
+            setForm(prev => ({ ...prev, [name]: value }))
+        }
+    }
+
+    const handleAsignar = () => {
+    if (!form.clienteId) return alert('Selecciona un cliente')
+    
+    const req = asignarRequerimiento({
+        clienteId: form.clienteId,
+        peritoId: p.id,
+        direccion: 'Dirección del requerimiento', // puedes pedir input si quieres
+        plazoDias: 3,
+        postVisitHours: 24
+    })
+
+    setAssignOpen(false)
+    alert(`Requerimiento asignado al cliente ${clientes.find(c => c.id === form.clienteId)?.nombre} con perito ${p.nombre}`)
+}
 
     return (
         <div>
-            <Modal open={!!p} onClose={onClose} title={p ? `Opciones: Perito ${p.perito}` : ''}>
+            <Modal open={!!p} onClose={onClose} title={p ? `Opciones: Perito ${p.nombre}` : ''}>
                 {p && (
                     <div className='flex flex-col'>
                         <div style={{ marginBottom: "25px" }}>
                             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-                                <div style={{fontWeight: "700"}}>Nombre:</div>
+                                <div style={{ fontWeight: "700" }}>Nombre:</div>
                                 <div>{p.nombre}</div>
                             </div>
                             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-                                <div style={{fontWeight: "700"}}>CI:</div>
+                                <div style={{ fontWeight: "700" }}>CI:</div>
                                 <div>{p.id}</div>
                             </div>
                             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-                                <div style={{fontWeight: "700"}}>Teléfono:</div>
+                                <div style={{ fontWeight: "700" }}>Teléfono:</div>
                                 <div>{p.telefono}</div>
                             </div>
                         </div>
                         <div style={{ display: 'grid', gap: 10 }}>
                             <button className="btn" onClick={() => setAssignOpen(true)}>➕ Asignar requerimiento</button>
-                            <button className="btn secondary" onClick={() => alert('Abrir historial de visitas e informes (maquetado)')}>🗂 Historial de visitas / informes</button>
                             <button className="btn secondary" onClick={() => window.open('https://maps.google.com', '_blank')}>📍 Ver en mapa</button>
                         </div>
                     </div>
@@ -40,30 +84,42 @@ export default function ModalAdmin({ p, onClose }) {
             <Modal open={assignOpen} onClose={() => setAssignOpen(false)} title="Asignar requerimiento">
                 <div style={{ display: 'grid', gap: 10 }}>
                     <label className="label">Cliente</label>
-                    <select>
+                    <select name="clienteId" value={form.clienteId} onChange={handleChange}>
+                        <option value="">-- Seleccionar cliente --</option>
                         {clientes.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
                     </select>
 
                     <label className="label">Contacto en sitio (nombre)</label>
-                    <input className="input" placeholder="Nombre del contacto" />
+                    <input 
+                        name="contacto" 
+                        className="input" 
+                        placeholder="Nombre del contacto" 
+                        value={form.contacto} 
+                        onChange={handleChange} 
+                    />
 
                     <label className="label">Teléfono</label>
-                    <input className="input" placeholder="099..." />
+                    <input 
+                        name="telefono" 
+                        className="input" 
+                        placeholder="099..." 
+                        value={form.telefono} 
+                        onChange={handleChange} 
+                    />
 
                     <label className="label">Adjuntar PDF</label>
-                    <input type="file" accept=".pdf" />
+                    <input type="file" accept=".pdf" name="pdf" onChange={handleChange} />
 
                     <label className="label">Adjuntar Excel</label>
-                    <input type="file" accept=".xls,.xlsx" />
+                    <input type="file" accept=".xls,.xlsx" name="excel" onChange={handleChange} />
 
                     <div className="separator" />
                     <div className="row" style={{ justifyContent: 'flex-end' }}>
                         <button className="btn secondary" onClick={() => setAssignOpen(false)}>Cancelar</button>
-                        <button className="btn success" onClick={() => { setAssignOpen(false); alert('Requerimiento asignado (maquetado)') }}>Asignar</button>
+                        <button className="btn success" onClick={handleAsignar}>Asignar</button>
                     </div>
                 </div>
             </Modal>
         </div>
-
     )
 }

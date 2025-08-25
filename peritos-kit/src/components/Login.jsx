@@ -1,7 +1,8 @@
 // Login.jsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";  // 👈 Importamos hook
+import { useNavigate } from "react-router-dom";
 import imgPerito from "./img/perito.jpg";
+
 // MUI v5
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -14,6 +15,9 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// 👇 Importamos los peritos desde data.js
+import { samplePeritos } from "../data";
 
 function Copyright() {
   return (
@@ -34,13 +38,19 @@ export default function Login({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();  // 👈 Hook de navegación
+  const navigate = useNavigate();
 
+  // 🔑 Lista de usuarios disponibles
   const users = [
     { username: "admin123", password: "adminpass", role: "admin" },
-    { username: "perito1", password: "peritopass", role: "perito" },
-    { username: "perito2", password: "clave123", role: "perito" },
+    ...samplePeritos.map((p) => ({
+      username: p.username,
+      password: p.password,
+      role: "perito",
+      peritoId: p.id,
+    })),
   ];
+  console.log(users)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,11 +58,12 @@ export default function Login({ onLogin }) {
       (u) => u.username === username && u.password === password
     );
     if (user) {
-      onLogin(user.role);
+      // 👇 Mandamos también el peritoId (si aplica)
+      onLogin(user.role, user.peritoId || null);
       if (user.role === "admin") {
-        navigate("/clientes"); // 👈 Redirige a clientes (pantalla principal de admin)
+        navigate("/clientes");
       } else {
-        navigate("/perito"); // 👈 Si es perito, va a su página
+        navigate("/perito");
       }
     } else {
       setError("Credenciales incorrectas");
@@ -125,8 +136,9 @@ export default function Login({ onLogin }) {
                 Ingresar
               </Button>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  ¿Olvidaste tu contraseña?
+
+                <Link href="/agregar-perito" variant="body2">
+                  Registrar nuevo Perito
                 </Link>
               </Grid>
               <Box mt={55}>

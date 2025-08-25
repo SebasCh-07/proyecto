@@ -8,9 +8,9 @@ export default function ModalCliente({ cliente, onClose }) {
 
     return (
         <div>
-            <Modal 
-                open={!!cliente} 
-                onClose={onClose} 
+            <Modal
+                open={!!cliente}
+                onClose={onClose}
                 title={cliente ? `Opciones Cliente:  ${cliente.nombre}` : ''}
             >
                 {cliente && (
@@ -25,6 +25,10 @@ export default function ModalCliente({ cliente, onClose }) {
                                 <div>{cliente.telefono}</div>
                             </div>
                             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                                <div style={{ fontWeight: "700" }}>Contacto:</div>
+                                <div>{cliente.contacto}</div>
+                            </div>
+                            <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
                                 <div style={{ fontWeight: "700" }}>Correo:</div>
                                 <div>{cliente.correo}</div>
                             </div>
@@ -32,16 +36,16 @@ export default function ModalCliente({ cliente, onClose }) {
 
                         <div style={{ display: 'grid', gap: 10 }}>
                             {/* 🔹 Ahora navega a /peritos */}
-                            <button 
-                                className="btn" 
-                                onClick={() => navigate("/peritos")}
+                            <button
+                                className="btn"
+                                onClick={() => navigate("/peritos", { state: { cliente } })}
                             >
                                 ➕ Asignar Perito
                             </button>
 
-                            <button 
-                                className="btn secondary" 
-                                onClick={() => alert(`Historial del cliente ${cliente.nombre} (maquetado)`)}
+                            <button
+                                className="btn secondary"
+                                onClick={() => navigate("/historial-cliente", { state: { cliente } })}
                             >
                                 🗂 Historial de cliente
                             </button>

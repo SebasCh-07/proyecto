@@ -8,6 +8,8 @@ export default function AgregarPerito() {
   const [nombre, setNombre] = useState("")
   const [telefono, setTelefono] = useState("")
   const [id, setId] = useState("")
+  const [Username, setUsername] = useState("")
+  const [Password, setPassword] = useState("")
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -65,6 +67,20 @@ export default function AgregarPerito() {
           placeholder="Teléfono"
           value={telefono}
           onChange={(e) => setTelefono(e.target.value)}
+          className="input"
+        />
+         <input
+          type="text"
+          placeholder="Username"
+          value={Username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="input"
+        />
+         <input
+          type="text"
+          placeholder="Password"
+          value={Password}
+          onChange={(e) => setPassword(e.target.value)}
           className="input"
         />
         <button type="submit" className="btn">Guardar</button>

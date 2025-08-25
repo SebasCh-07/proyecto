@@ -5,21 +5,24 @@ import { addCliente } from "../data.js"   // 👈 importar función
 export default function NuevoCliente() {
   const [nombre, setNombre] = useState("")
   const [telefono, setTelefono] = useState("")
+  const [id, setID] = useState("")
   const [correo, setCorreo] = useState("")
+  const [contacto, setContacto] = useState("")
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const nuevo = {
-      id: Date.now(),
+      id,
       nombre,
       telefono,
       correo,
+      contacto
     }
 
     addCliente(nuevo)   // 👈 guardar en data.js
 
-    navigate("/clientes") // volver a la lista
+    navigate("/Login") // volver a la lista
   }
 
   return (
@@ -28,10 +31,27 @@ export default function NuevoCliente() {
       <form onSubmit={handleSubmit} style={{ display: "grid", gap: 10 }}>
         <input
           type="text"
-          placeholder="Nombre"
+          placeholder="Cedula"
+          value={id}
+          onChange={(e) => setID(parseInt(e.target.value))}
+          required
+          style={{padding: 10}}
+        />
+        <input
+          type="text"
+          placeholder="Cliente"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           required
+          style={{padding: 10}}
+        />
+        <input
+          type="text"
+          placeholder="Contacto"
+          value={contacto}
+          onChange={(e) => setContacto(e.target.value)}
+          required
+          style={{padding: 10}}
         />
         <input
           type="tel"
@@ -39,6 +59,7 @@ export default function NuevoCliente() {
           value={telefono}
           onChange={(e) => setTelefono(e.target.value)}
           required
+          style={{padding: 10}}
         />
         <input
           type="email"
@@ -46,6 +67,7 @@ export default function NuevoCliente() {
           value={correo}
           onChange={(e) => setCorreo(e.target.value)}
           required
+          style={{padding: 10}}
         />
         <button type="submit" className="btn primary">Guardar</button>
         <button type="button" className="btn" onClick={() => navigate("/clientes")}>

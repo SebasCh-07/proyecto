@@ -1,0 +1,7 @@
+Para Juan Pérez → usuario: perito1, contraseña: peritopass
+
+Para María Gómez → usuario: perito2, contraseña: clave123
+
+Para Carlos Ruiz → usuario: perito3, contraseña: ruizpass
+
+Para Ana Torres → usuario: perito4, contraseña: torres123
