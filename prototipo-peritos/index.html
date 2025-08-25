@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Ingreso al Sistema</h1>
+    <form id="loginForm" class="card">
+      <label>Usuario</label>
+      <input type="text" id="user" placeholder="admin o perito1" required>
+      <label>Contraseña</label>
+      <input type="password" id="pass" placeholder="••••••••" required>
+      <button type="submit" class="primary">Ingresar</button>
+      <div class="muted">Tips: usa <b>admin</b> o <b>perito1</b> (cualquier contraseña)</div>
+    </form>
+    <p id="msg" class="toast hidden"></p>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

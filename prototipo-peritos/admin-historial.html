@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial / Búsqueda</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="brand">Peritos • Admin</div>
+    <div class="navlinks">
+      <a href="admin-requerimientos.html">Requerimientos</a>
+      <a href="admin-mapa.html">Mapa</a>
+      <a href="admin-historial.html">Historial</a>
+      <a href="perfil.html">Perfil</a>
+      <button id="logoutBtn" class="link danger">Salir</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Historial</h1>
+    <div class="card">
+      <input id="buscadorCliente" placeholder="Buscar por cliente (p.ej. Reisac)">
+    </div>
+    <div class="card">
+      <table id="tablaHistorial">
+        <thead><tr><th>Cliente</th><th>Perito</th><th>Fecha</th><th>Estado</th><th>Ver</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

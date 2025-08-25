@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Inspecciones</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="brand">Peritos • Admin</div>
+    <div class="navlinks">
+      <a href="admin-requerimientos.html">Requerimientos</a>
+      <a href="admin-mapa.html">Mapa</a>
+      <a href="admin-historial.html">Historial</a>
+      <a href="perfil.html">Perfil</a>
+      <button id="logoutBtn" class="link danger">Salir</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Mapa (simulado)</h1>
+    <div class="card">
+      <div class="map" id="mapaSim"></div>
+      <div class="muted">* Mapa simulado: pines generados desde posiciones reportadas por peritos.</div>
+    </div>
+    <div class="card">
+      <h2>Inspecciones en mapa</h2>
+      <ul id="listaPines"></ul>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

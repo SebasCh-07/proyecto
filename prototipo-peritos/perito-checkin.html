@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in en Sitio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="brand">Peritos • Perito</div>
+    <div class="navlinks">
+      <a href="perito-dashboard.html">Mis Tareas</a>
+      <button id="logoutBtn" class="link danger">Salir</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <a href="perito-dashboard.html" class="link">&larr; Volver</a>
+    <div class="card">
+      <h1 id="checkCliente">Check-in</h1>
+      <button id="btnLlegada" class="primary">Marcar llegada</button>
+      <p id="gps">Ubicación: pendiente</p>
+      <p id="timer">Tiempo en sitio: 0s</p>
+      <label>Subir fotos/videos (máx 40s video)</label>
+      <input id="checkArchivos" type="file" multiple accept="image/*,video/*">
+      <ul id="archivosLista" class="list"></ul>
+      <div class="actions">
+        <a class="button" href="perito-informe.html">Continuar a Informe</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

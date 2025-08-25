@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Plataforma</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <h1>Panel Admin</h1>
+  <div class="tabs">
+    <button onclick="openTab('peritos')">Peritos</button>
+    <button onclick="openTab('clientes')">Clientes</button>
+  </div>
+
+  <div id="peritos" class="tab-content active">
+    <ul>
+      <li onclick="openModal('Juan Pérez')">Juan Pérez ✔️</li>
+      <li onclick="openModal('María Gómez')">María Gómez ❌</li>
+      <li onclick="openModal('Carlos Ruiz')">Carlos Ruiz ✔️</li>
+    </ul>
+  </div>
+
+  <div id="clientes" class="tab-content">
+    <ul>
+      <li>Reisac</li>
+      <li>Inmobiliaria Quito</li>
+    </ul>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <ul>
+        <li>📄 Ver requerimientos</li>
+        <li>➕ Asignar requerimiento</li>
+        <li>📍 Ver ubicación en mapa</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

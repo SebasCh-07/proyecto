@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del Requerimiento</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="brand">Peritos • Perito</div>
+    <div class="navlinks">
+      <a href="perito-dashboard.html">Mis Tareas</a>
+      <button id="logoutBtn" class="link danger">Salir</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <a href="perito-dashboard.html" class="link">&larr; Volver</a>
+    <div class="card">
+      <h1 id="detCliente">Cliente</h1>
+      <p><b>Contacto:</b> <span id="detContacto"></span> • <b>Tel:</b> <span id="detTelefono"></span></p>
+      <p><b>Perito:</b> <span id="detPerito"></span></p>
+      <p><b>Plazo:</b> <span id="detPlazo"></span> • <b>Deadline:</b> <span id="detDeadline"></span></p>
+      <div class="attachments" id="detAdjuntos"></div>
+      <div class="actions">
+        <button id="btnAceptar" class="primary">Aceptar</button>
+        <button id="btnRechazar" class="secondary">Rechazar</button>
+        <a id="btnIrCheckin" class="button" href="perito-checkin.html">Ir a Check-in</a>
+      </div>
+      <div class="deadline">
+        <div>Tiempo restante: <span id="detCountdown">--:--:--</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

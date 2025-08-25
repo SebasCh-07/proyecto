@@ -1,0 +1,54 @@
+Requerimientos de la Plataforma para Peritos Avaloradores
+
+ Roles principales
+
+1. Administrador (Admin)
+
+   * Crea y asigna requerimientos a cada perito.
+   * Adjunta PDF y Excel con la información del cliente.
+   * Registra datos del contacto en sitio (nombre, teléfono).
+   * Puede visualizar en un mapa los pines de todas las inspecciones realizadas y        en curso.
+   * Puede filtrar/buscar por cliente (ejemplo: “Reisac”) y acceder al historial de visitas e informes.
+
+
+
+2. Perito
+   * Recibe únicamente sus asignaciones.
+   * Acepta o rechaza un requerimiento.
+   * Tiene un plazo de 3-4 días para realizar la inspección en sitio.
+   * Al llegar al lugar debe:
+
+     * Marcar su llegada.
+     * Capturar la ubicación GPS (integración con Google Maps).
+     * Iniciar un cronómetro del tiempo en sitio.
+     * Subir fotografías y, en casos especiales, videos (máx. 40s).
+
+   * Después de la visita:
+
+     * Tiene entre 12 y 48 horas para subir el informe final (Word/PDF).
+     * El sistema debe mostrar un contador de tiempo restante.
+
+
+Funcionalidades 
+
+* Asignación de requerimientos:
+  El admin asigna y envía notificación al perito correspondiente.
+
+* Gestión de tiempos:
+  * Plazo global de entrega (3-4 días).
+  * Temporizador de tiempo en sitio.
+  * Plazo posterior para subir el informe (12-48 horas).
+
+* Mapa en tiempo real:
+  * Cuando un perito marca llegada, aparece un pin en el mapa del admin.
+  * Se guarda un historial de inspecciones con ubicación.
+
+* Base de datos de clientes:
+  * Se puede buscar un cliente y ver todas las inspecciones asociadas.
+  * Acceso a informes, fotos, PDFs y registros históricos.
+
+
+* Interfaz amigable:
+  * Diseñada para personas de 40-65 años, con botones claros y navegación simple.
+  * Versión web responsiva (usable en PC y móvil).
+
