@@ -22,7 +22,7 @@ export default function NuevoCliente() {
 
     addCliente(nuevo)   // 👈 guardar en data.js
 
-    navigate("/Login") // volver a la lista
+    navigate("/clientes") // volver a la lista
   }
 
   return (
