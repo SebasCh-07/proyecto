@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import Modal from "../Modal"
+import {getCliente} from "../../data"
 
 // Formato de tiempo
 function fmt(t) {
@@ -126,7 +127,7 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
       onClose={onClose}
       title={
         selected
-          ? `Requerimiento #${selected.id} — ${selected.cliente}`
+          ? `Requerimiento ${selected.id} — ${getCliente(selected.clienteId).nombre}`
           : ""
       }
     >
@@ -134,10 +135,41 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
                 <div style={{ display: "grid", gap: 12 }}>
           {/* DATOS BÁSICOS */}
           <div className="panel">
-            <strong>Cliente:</strong> {selected.cliente} <br />
+            <strong>Cliente:</strong> {getCliente(selected.clienteId).nombre} <br />
             <strong>Estado:</strong> {selected.estado} <br />
             <strong>Plazo global:</strong> {selected.plazoDias} días
           </div>
+
+          {/* Mostrar archivo adjunto */}
+          {selected.archivoAsignacion && (
+            <div className="panel">
+              <strong>📄 Documento de Asignación:</strong>
+              <div style={{ marginTop: '8px' }}>
+                <a 
+                  href={selected.archivoAsignacion} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 12px',
+                    backgroundColor: '#f0f8ff',
+                    border: '1px solid #007bff',
+                    borderRadius: '6px',
+                    textDecoration: 'none',
+                    color: '#007bff',
+                    fontWeight: '500'
+                  }}
+                >
+                  📋 {selected.archivoAsignacion.includes('.pdf') ? 'Ver PDF' : 'Ver Excel'}
+                </a>
+                <div className="small" style={{ marginTop: '8px', color: '#666' }}>
+                  Documento enviado al asignar este requerimiento
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Decisión inicial */}
           {selected.estado === "Asignado" && (

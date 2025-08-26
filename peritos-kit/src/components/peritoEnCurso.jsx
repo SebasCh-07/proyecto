@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { sampleRequerimientos } from "../data.js"
+import { sampleRequerimientos, getCliente } from "../data.js"
 
 // Formato de tiempo
 function fmt(t) {
@@ -161,13 +161,13 @@ export default function PeritoEnCurso() {
         >
           ← Volver
         </button>
-        <h2>Requerimiento #{requerimiento.id} — {requerimiento.cliente}</h2>
+        <h2>Requerimiento #{requerimiento.id} — {getCliente(requerimiento.clienteId).nombre}</h2>
       </div>
 
       <div style={{ display: "grid", gap: 16 }}>
         {/* DATOS BÁSICOS */}
         <div className="panel">
-          <strong>Cliente:</strong> {requerimiento.cliente} <br />
+          <strong>Cliente:</strong> {getCliente(requerimiento.clienteId).nombre} <br />
           <strong>Estado:</strong> {requerimiento.estado} <br />
           <strong>Plazo global:</strong> {requerimiento.plazoDias} días <br />
           <strong>Dirección:</strong> {requerimiento.direccion}

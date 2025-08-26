@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalPerito from "./Modal/modalPerito.jsx";
-import { samplePeritos, sampleRequerimientos } from "../data.js";
+import { getCliente, samplePeritos, sampleRequerimientos } from "../data.js";
 import { useNavigate } from 'react-router-dom'
 
 // ⏳ Función de formato de tiempo
@@ -32,12 +32,14 @@ export default function Perito({ peritoId }) {
   const [requerimientos, setRequerimientos] = useState([]);
   const [selected, setSelected] = useState(null);
   const [tab, setTab] = useState("Asignado");
+  const [cliente, setCliente] = useState(null);
 
   // ✅ Siempre refrescar requerimientos de este perito
   useEffect(() => {
   const misReqs = sampleRequerimientos.filter((r) => r.peritoId == peritoId);
   setRequerimientos(misReqs);
 }, [peritoId]);
+
 
   // ✅ Manejo de decisiones en modal
   const handleDecision = (id, decision, extraData = {}) => {
@@ -134,7 +136,7 @@ export default function Perito({ peritoId }) {
               >
                 <div>
                   <strong>
-                    #{r.id} — Cliente {r.clienteId}
+                    {r.id}.- Cliente: {getCliente(r.clienteId).nombre}
                   </strong>
                   <div className="small">{r.direccion}</div>
                 </div>
@@ -151,6 +153,7 @@ export default function Perito({ peritoId }) {
       {/* Modal */}
       <ModalPerito
         selected={selected}
+        cliente={getCliente(selected)}
         onClose={() => setSelected(null)}
         onDecision={handleDecision}
       />

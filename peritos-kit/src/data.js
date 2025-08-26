@@ -25,7 +25,7 @@ export class Perito {
 
 
 export class Requerimiento {
-  constructor({ id, clienteId = null, peritoId = null, direccion, estado, fechaAsignacion, plazoDias, postVisitHours, gps = null, fotos = [], video = null, pdf = null, observaciones = '' }) {
+  constructor({ id, clienteId = null, peritoId = null, direccion, estado, fechaAsignacion, plazoDias, postVisitHours, gps = null, fotos = [], video = null, pdf = null, observaciones = '', archivoAsignacion = null }) {
     this.id = id
     this.clienteId = clienteId // puede ser null
     this.peritoId = peritoId   // puede ser null
@@ -39,6 +39,7 @@ export class Requerimiento {
     this.video = video
     this.pdf = pdf
     this.observaciones = observaciones
+    this.archivoAsignacion = archivoAsignacion // Archivo Excel/PDF enviado al asignar
   }
 }
 
@@ -102,6 +103,7 @@ export let sampleRequerimientos = [
     fechaAsignacion: new Date().toISOString(),
     plazoDias: 4,
     postVisitHours: 24,
+    archivoAsignacion: '/documentos/requerimiento-101.pdf' // Archivo PDF de ejemplo
   }),
   new Requerimiento({
     id: 102,
@@ -112,6 +114,7 @@ export let sampleRequerimientos = [
     fechaAsignacion: new Date(Date.now() - 36*3600*1000).toISOString(),
     plazoDias: 3,
     postVisitHours: 12,
+    archivoAsignacion: '/documentos/requerimiento-102.xlsx' // Archivo Excel de ejemplo
   }),
   // Requerimiento finalizado de ejemplo con evidencias
   new Requerimiento({
@@ -127,7 +130,8 @@ export let sampleRequerimientos = [
     fotos: [],
     video: null,
     pdf: null,
-    observaciones: 'Visita completada satisfactoriamente. Se encontró el inmueble en buen estado.'
+    observaciones: 'Visita completada satisfactoriamente. Se encontró el inmueble en buen estado.',
+    archivoAsignacion: '/documentos/requerimiento-103.pdf' // Archivo PDF de ejemplo
   }),
 ]
 
@@ -138,6 +142,11 @@ export function addCliente(cliente) {
 
 export function removeCliente(id) {
   sampleClientes = sampleClientes.filter(c => c.id !== id)
+}
+
+export function getCliente(idC) {
+  const cliente = sampleClientes.find(c => c.id === idC)
+  return cliente
 }
 
 export function addPerito(perito) {
@@ -194,7 +203,7 @@ export function getRequerimientoCompleto(reqId) {
   return { ...req, cliente, perito }
 }
 
-export function asignarRequerimiento({ clienteId, peritoId, direccion, estado = 'Asignado', plazoDias = 3, postVisitHours = 24 }) {
+export function asignarRequerimiento({ clienteId, peritoId, direccion, estado = 'Asignado', plazoDias = 3, postVisitHours = 24, archivoAsignacion = null }) {
   const cliente = sampleClientes.find(c => c.id === clienteId)
   const perito = samplePeritos.find(p => p.id === peritoId)
   if (!cliente || !perito) return null
@@ -211,7 +220,8 @@ export function asignarRequerimiento({ clienteId, peritoId, direccion, estado = 
     estado,
     fechaAsignacion: new Date().toISOString(),
     plazoDias,
-    postVisitHours
+    postVisitHours,
+    archivoAsignacion
   })
 
   // Guardar en la lista de requerimientos
