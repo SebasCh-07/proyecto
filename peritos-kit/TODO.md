@@ -1,12 +1,24 @@
-# Plan de implementación de archivos adjuntos en modal
+# Plan de implementación de navegación a lista de clientes por perito
 
 ## Tareas completadas:
-- [x] Análisis de estructura del proyecto
-- [x] Modificar clase Requerimiento - Agregar campo archivoAsignacion
-- [x] Actualizar función asignarRequerimiento - Incluir archivo de asignación
-- [x] Modificar modalPerito.jsx - Mostrar archivo adjunto existente
-- [x] Actualizar datos de muestra con archivos de ejemplo
-- [x] Remover selector de archivo (solo visualización)
+- [x] Crear componente ListaClientesHistorial.jsx
+- [x] Modificar HistorialPerito.jsx para navegar al hacer clic en peritos
+- [x] Agregar ruta en App.jsx para la nueva página
+- [x] Implementar filtrado de clientes por perito seleccionado
 
 ## Funcionalidad implementada:
-El modal ahora muestra el archivo Excel o PDF que fue enviado al asignar el requerimiento, permitiendo al perito descargar o abrir el archivo para su revisión antes de tomar la decisión de aceptar o rechazar el requerimiento.
+1. **HistorialPerito.jsx**: 
+   - Lista de todos los peritos con información detallada
+   - Al hacer clic en cualquier perito, navega a `/listaClientesHistorial/:peritoId`
+
+2. **ListaClientesHistorial.jsx**:
+   - Muestra los clientes que han sido asignados al perito seleccionado
+   - Filtra los requerimientos por peritoId
+   - Extrae clientes únicos de los requerimientos filtrados
+   - Muestra información detallada de cada cliente
+
+3. **Navegación completa**: 
+   - Ruta `/listaClientesHistorial/:peritoId` agregada al enrutador
+   - Funcionalidad de regreso implementada en ambas páginas
+
+La aplicación ahora permite ver el historial de clientes asignados a cada perito de manera individual.

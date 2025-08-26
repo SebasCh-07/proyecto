@@ -46,15 +46,17 @@ export default function ClientesAdmin() {
     return (
         <div>
             <div className="header">
-                <button 
-                  className="btn primary" 
-                  onClick={() => navigate("/clientes/nuevo")}
+                <button
+                    className="btn primary"
+                    onClick={() => navigate("/clientes/nuevo")}
+                    style={{ fontSize: "20px" }}
                 >
-                  + Agregar Cliente
+                    + Agregar Cliente
                 </button>
 
                 <div className="row">
                     <input
+                        style={{ fontSize: "20px" }}
                         className="input"
                         placeholder='🔍 Buscar cliente (ej: "Reisac")'
                         value={query}
@@ -65,24 +67,25 @@ export default function ClientesAdmin() {
 
             <div className="list">
                 {filteredClientes.map(c => (
-                    <div 
-                      key={c.id} 
-                      className="item"
+                    <div
+                        key={c.id}
+                        className="item"
+                        style={{fontSize: "20px"}}
                     >
-                        <div onClick={() => abrirModal(c)} style={{cursor:"pointer", flex: 1}}>
+                        <div onClick={() => abrirModal(c)} style={{ cursor: "pointer", flex: 1 }}>
                             <div className="font-semibold mb-2">{c.nombre}</div>
-                            <div className="small text-muted">CI: {c.id}</div>
-                            <div className="small text-muted">Ver peritos y asignar</div>
+                            <div className="small text-muted" style={{fontSize: "18px"}}>CI: {c.id}</div>
+                            <div className="small text-muted" style={{fontSize: "18px"}}>Ver peritos y asignar</div>
                         </div>
 
                         <div className="row gap-4">
-                            <span className="badge info">Cliente</span>
-                            <button 
-                              className="btn primary" 
-                              onClick={() => abrirConfirmacion(c)} 
-                              style={{ display: 'flex', alignItems: 'center' }}
+                            <span className="badge info" style={{fontSize: "17px"}}>Cliente</span>
+                            <button
+                                className="btn primary"
+                                onClick={() => abrirConfirmacion(c)}
+                                style={{ display: 'flex', alignItems: 'center' }}
                             >
-                              <span className="small text-muted" style={{ fontSize: "12px", fontWeight: "bold", color: "black" }}>✖</span>
+                                <span className="small text-muted" style={{ fontSize: "12px", fontWeight: "bold", color: "black" }}>✖</span>
                             </button>
                         </div>
                     </div>
@@ -108,7 +111,7 @@ export default function ClientesAdmin() {
                     <div className="modal">
                         <h3 className="mb-4">¿Eliminar cliente?</h3>
                         <p className="text-muted mb-6">Esta acción no se puede deshacer.</p>
-                        <div className="row" style={{justifyContent: "flex-end", gap: "12px"}}>
+                        <div className="row" style={{ justifyContent: "flex-end", gap: "12px" }}>
                             <button className="btn secondary" onClick={cerrarConfirmacion}>Cancelar</button>
                             <button className="btn danger" onClick={confirmarEliminar}>
                                 Confirmar

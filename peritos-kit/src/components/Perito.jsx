@@ -20,7 +20,7 @@ function Countdown({ until }) {
     return () => clearInterval(id);
   }, [until]);
   return (
-    <span className="badge info">
+    <span className="badge info"  style={{fontSize: "18px"}}>
       {left > 0 ? `⏳ ${fmt(left)}` : "Vencido"}
     </span>
   );
@@ -90,7 +90,7 @@ export default function Perito({ peritoId }) {
     <div className="container">
       {/* Perfil del perito */}
       {perito && (
-        <div className="perfil" style={{ marginBottom: "10px"}}>
+        <div className="perfil" style={{ marginBottom: "10px", fontSize: "20px"}}>
           <h2>👤 Perfil del Perito</h2>
           <p><strong>Nombre:</strong> {perito.nombre}</p>
           <p><strong>Teléfono:</strong> {perito.telefono}</p>
@@ -105,6 +105,7 @@ export default function Perito({ peritoId }) {
             key={t}
             className={`tab ${tab === t ? "active" : ""}`}
             onClick={() => setTab(t)}
+             style={{fontSize: "20px"}}
           >
             {t}
           </button>
@@ -114,7 +115,7 @@ export default function Perito({ peritoId }) {
       {/* Lista filtrada */}
       <div className="list">
         {filteredReqs.length === 0 ? (
-          <div className="small">No hay requerimientos en {tab}</div>
+          <div className="small"  style={{fontSize: "20px"}}>No hay requerimientos en {tab}</div>
         ) : (
           filteredReqs.map((r) => {
             const asignacion = new Date(r.fechaAsignacion).getTime();
@@ -124,6 +125,7 @@ export default function Perito({ peritoId }) {
               <div
                 key={r.id}
                 className="item"
+                style={{fontSize: "22px"}}
                 onClick={() => {
                   if (r.estado === "Finalizado") {
                     navigate(`/requerimiento/${r.id}`)
@@ -138,10 +140,10 @@ export default function Perito({ peritoId }) {
                   <strong>
                     {r.id}.- Cliente: {getCliente(r.clienteId).nombre}
                   </strong>
-                  <div className="small">{r.direccion}</div>
+                  <div className="small"  style={{fontSize: "18px"}}>{r.direccion}</div>
                 </div>
-                <div className="row">
-                  <span className="badge info">{r.estado}</span>
+                <div className="row" >
+                  <span className="badge info"  style={{fontSize: "15px"}}>{r.estado}</span>
                   <Countdown until={globalDeadline} />
                 </div>
               </div>

@@ -126,15 +126,15 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
       open={!!selected}
       onClose={onClose}
       title={
-        selected
+        selected 
           ? `Requerimiento ${selected.id} — ${getCliente(selected.clienteId).nombre}`
           : ""
       }
     >
                 {selected && (
-                <div style={{ display: "grid", gap: 12 }}>
+                <div style={{ display: "grid", gap: 12}}>
           {/* DATOS BÁSICOS */}
-          <div className="panel">
+          <div className="panel"  style={{fontSize: "20px"}}>
             <strong>Cliente:</strong> {getCliente(selected.clienteId).nombre} <br />
             <strong>Estado:</strong> {selected.estado} <br />
             <strong>Plazo global:</strong> {selected.plazoDias} días
@@ -143,7 +143,7 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
           {/* Mostrar archivo adjunto */}
           {selected.archivoAsignacion && (
             <div className="panel">
-              <strong>📄 Documento de Asignación:</strong>
+              <strong  style={{fontSize: "18px"}}>Documento de Asignación:</strong>
               <div style={{ marginTop: '8px' }}>
                 <a 
                   href={selected.archivoAsignacion} 
@@ -164,7 +164,7 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
                 >
                   📋 {selected.archivoAsignacion.includes('.pdf') ? 'Ver PDF' : 'Ver Excel'}
                 </a>
-                <div className="small" style={{ marginTop: '8px', color: '#666' }}>
+                <div className="small" style={{ marginTop: '8px', color: '#666', fontSize: "18px"}}>
                   Documento enviado al asignar este requerimiento
                 </div>
               </div>
@@ -173,18 +173,20 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
 
           {/* Decisión inicial */}
           {selected.estado === "Asignado" && (
-            <div className="panel">
-              <strong>¿Aceptar este requerimiento?</strong>
-              <div className="row" style={{ marginTop: 8 }}>
+            <div className="panel"  style={{fontSize: "20px"}}>
+              <strong style={{display: "flex", justifyContent: "center" }}>¿Aceptar este requerimiento?</strong>
+              <div className="row" style={{ marginTop: 8, display: "flex", justifyContent: "center" }}>
                 <button
                   className="btn success"
                   onClick={() => onDecision(selected.id, "aceptar")}
+                   style={{fontSize: "20px"}}
                 >
                   Aceptar
                 </button>
                 <button
                   className="btn danger"
                   onClick={() => onDecision(selected.id, "rechazar")}
+                   style={{fontSize: "20px"}}
                 >
                   Rechazar
                 </button>

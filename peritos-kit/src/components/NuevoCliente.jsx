@@ -26,7 +26,7 @@ export default function NuevoCliente() {
   }
 
   return (
-    <div className="card" style={{ maxWidth: 400, margin: "0 auto", padding: 20 }}>
+    <div className="card" style={{ maxWidth: 400, margin: "0 auto", padding: 20, fontSize: "20px" }}>
       <h3>Nuevo Cliente</h3>
       <form onSubmit={handleSubmit} style={{ display: "grid", gap: 10 }}>
         <input
@@ -35,7 +35,7 @@ export default function NuevoCliente() {
           value={id}
           onChange={(e) => setID(parseInt(e.target.value))}
           required
-          style={{padding: 10}}
+          style={{padding: 10, fontSize: "20px"}}
         />
         <input
           type="text"
@@ -43,7 +43,7 @@ export default function NuevoCliente() {
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           required
-          style={{padding: 10}}
+          style={{padding: 10, fontSize: "20px"}}
         />
         <input
           type="text"
@@ -51,7 +51,7 @@ export default function NuevoCliente() {
           value={contacto}
           onChange={(e) => setContacto(e.target.value)}
           required
-          style={{padding: 10}}
+          style={{padding: 10, fontSize: "20px"}}
         />
         <input
           type="tel"
@@ -59,7 +59,7 @@ export default function NuevoCliente() {
           value={telefono}
           onChange={(e) => setTelefono(e.target.value)}
           required
-          style={{padding: 10}}
+          style={{padding: 10, fontSize: "20px"}}
         />
         <input
           type="email"
@@ -67,10 +67,10 @@ export default function NuevoCliente() {
           value={correo}
           onChange={(e) => setCorreo(e.target.value)}
           required
-          style={{padding: 10}}
+          style={{padding: 10, fontSize: "20px"}}
         />
-        <button type="submit" className="btn primary">Guardar</button>
-        <button type="button" className="btn" onClick={() => navigate("/clientes")}>
+        <button type="submit" className="btn primary" style={{padding: 10, fontSize: "20px"}}>Guardar</button>
+        <button type="button" className="btn" onClick={() => navigate("/clientes")} style={{padding: 10, fontSize: "20px"}}>
           Cancelar
         </button>
       </form>

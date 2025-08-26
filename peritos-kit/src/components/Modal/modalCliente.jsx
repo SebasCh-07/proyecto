@@ -7,7 +7,7 @@ export default function ModalCliente({ cliente, onClose }) {
     const navigate = useNavigate()
 
     return (
-        <div>
+        <div style={{ fontSize: "20px" }}>
             <Modal
                 open={!!cliente}
                 onClose={onClose}
@@ -39,6 +39,8 @@ export default function ModalCliente({ cliente, onClose }) {
                             <button
                                 className="btn"
                                 onClick={() => navigate("/peritos", { state: { cliente } })}
+                                style={{ fontSize: "20px" }}
+
                             >
                                 ➕ Asignar Perito
                             </button>
@@ -46,6 +48,8 @@ export default function ModalCliente({ cliente, onClose }) {
                             <button
                                 className="btn secondary"
                                 onClick={() => navigate("/historial-cliente", { state: { cliente } })}
+                                style={{ fontSize: "20px" }}
+
                             >
                                 🗂 Historial de cliente
                             </button>

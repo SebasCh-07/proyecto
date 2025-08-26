@@ -74,49 +74,51 @@ export default function ModalAdmin({ p, cliente, onClose }) {
                             </div>
                         </div>
                         <div style={{ display: 'grid', gap: 10 }}>
-                            <button className="btn" onClick={() => setAssignOpen(true)}>➕ Asignar requerimiento</button>
-                            <button className="btn secondary" onClick={() => window.open('https://maps.google.com', '_blank')}>📍 Ver en mapa</button>
+                            <button className="btn" onClick={() => setAssignOpen(true)} style={{fontSize: "20px"}}>➕ Asignar requerimiento</button>
+                            <button className="btn secondary" onClick={() => window.open('https://maps.google.com', '_blank')} style={{fontSize: "20px"}}>📍 Ver en mapa</button>
                         </div>
                     </div>
                 )}
             </Modal>
 
             <Modal open={assignOpen} onClose={() => setAssignOpen(false)} title="Asignar requerimiento">
-                <div style={{ display: 'grid', gap: 10 }}>
-                    <label className="label">Cliente</label>
-                    <select name="clienteId" value={form.clienteId} onChange={handleChange}>
+                <div style={{ display: 'grid', gap: 15, fontSize: "20px" }}>
+                    <label className="label" style={{fontSize: "20px"}}>Cliente</label>
+                    <select name="clienteId" value={form.clienteId} onChange={handleChange}  style={{fontSize: "20px"}}>
                         <option value="">-- Seleccionar cliente --</option>
                         {clientes.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
                     </select>
 
-                    <label className="label">Contacto en sitio (nombre)</label>
+                    <label className="label"  style={{fontSize: "20px"}}>Contacto en sitio (nombre)</label>
                     <input 
                         name="contacto" 
                         className="input" 
                         placeholder="Nombre del contacto" 
                         value={form.contacto} 
                         onChange={handleChange} 
+                         style={{fontSize: "20px"}}
                     />
 
-                    <label className="label">Teléfono</label>
+                    <label className="label"  style={{fontSize: "20px"}}>Teléfono</label>
                     <input 
                         name="telefono" 
                         className="input" 
                         placeholder="099..." 
                         value={form.telefono} 
                         onChange={handleChange} 
+                         style={{fontSize: "20px"}}
                     />
 
-                    <label className="label">Adjuntar PDF</label>
-                    <input type="file" accept=".pdf" name="pdf" onChange={handleChange} />
+                    <label className="label"  style={{fontSize: "20px"}}>Adjuntar PDF</label>
+                    <input type="file" accept=".pdf" name="pdf" onChange={handleChange}  style={{fontSize: "20px"}}/>
 
-                    <label className="label">Adjuntar Excel</label>
-                    <input type="file" accept=".xls,.xlsx" name="excel" onChange={handleChange} />
+                    <label className="label"  style={{fontSize: "20px"}}>Adjuntar Excel</label>
+                    <input type="file" accept=".xls,.xlsx" name="excel" onChange={handleChange}  style={{fontSize: "20px"}}/>
 
                     <div className="separator" />
-                    <div className="row" style={{ justifyContent: 'flex-end' }}>
-                        <button className="btn secondary" onClick={() => setAssignOpen(false)}>Cancelar</button>
-                        <button className="btn success" onClick={handleAsignar}>Asignar</button>
+                    <div className="row" style={{ justifyContent: 'flex-end', fontSize: "20px" }}>
+                        <button className="btn secondary" onClick={() => setAssignOpen(false)}  style={{fontSize: "20px"}}>Cancelar</button>
+                        <button className="btn success" onClick={handleAsignar}  style={{fontSize: "20px"}}>Asignar</button>
                     </div>
                 </div>
             </Modal>

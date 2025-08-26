@@ -138,7 +138,7 @@ export default function Login({ onLogin }) {
               <Grid item xs>
 
                 <Link href="/agregar-perito" variant="body2">
-                  Registrar nuevo Perito
+                  ¿Olvido su Contraseña?
                 </Link>
               </Grid>
               <Box mt={55}>

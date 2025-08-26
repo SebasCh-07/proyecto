@@ -151,7 +151,7 @@ export default function PeritoEnCurso() {
   }
 
   return (
-    <div className="container">
+    <div className="container" style={{fontSize: "20px"}}>
       {/* Header con botón de volver */}
       <div className="header" style={{ marginBottom: "20px" }}>
         <button 
@@ -179,13 +179,13 @@ export default function PeritoEnCurso() {
           <div className="panel">
             <strong>Llegada al sitio</strong>
             <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="small">
+              <div className="small" style={{fontSize: "18px"}}>
                 {arrivedAt
                   ? `Marcado: ${arrivedAt.toLocaleString()}`
                   : "Sin marcar"}
               </div>
               {!arrivedAt ? (
-                <button className="btn" onClick={handleLlegada}>
+                <button className="btn" onClick={handleLlegada} style={{fontSize: "18px"}}>
                   Marcar llegada + Capturar GPS
                 </button>
               ) : (
@@ -193,6 +193,7 @@ export default function PeritoEnCurso() {
                   className="btn secondary"
                   onClick={openMap}
                   disabled={!gps || gps.error}
+                  style={{fontSize: "18px"}}
                 >
                   Ver mapa
                 </button>
@@ -201,10 +202,10 @@ export default function PeritoEnCurso() {
           </div>
 
           {/* Timer */}
-          <div className="panel">
+          <div className="panel" >
             <strong>Tiempo en sitio</strong>
             <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="badge info">
+              <div className="badge info" style={{fontSize: "18px"}}>
                 {timerStart
                   ? `⏱ ${fmt(elapsed)}`
                   : timerStopped
@@ -216,6 +217,7 @@ export default function PeritoEnCurso() {
                   className="btn"
                   onClick={() => setTimerStart(Date.now())}
                   disabled={!!timerStart}
+                  style={{fontSize: "18px"}}
                 >
                   Iniciar
                 </button>
@@ -223,6 +225,7 @@ export default function PeritoEnCurso() {
                   className="btn secondary"
                   onClick={handleStopTimer}
                   disabled={!timerStart}
+                  style={{fontSize: "18px"}}
                 >
                   Detener
                 </button>
@@ -232,25 +235,27 @@ export default function PeritoEnCurso() {
 
           {/* Evidencias */}
           <div className="panel">
-            <strong>Subir evidencias</strong>
+            <strong style={{fontSize: "25px"}}>Subir evidencias</strong>
             <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
               <div>
-                <div className="label">Fotos</div>
+                <div className="label" style={{fontSize: "18px"}}>Fotos</div>
                 <input
                   type="file"
                   accept="image/*"
                   multiple
+                  style={{fontSize: "18px"}}
                   onChange={(e) =>
                     setPhotoFiles(Array.from(e.target.files || []))
                   }
                 />
               </div>
               <div>
-                <div className="label">Video (máx. 40s)</div>
+                <div className="label" style={{fontSize: "20px"}}>Video (máx. 40s)</div>
                 <input
                   type="file"
                   accept="video/*"
                   onChange={onVideoChange}
+                  style={{fontSize: "20px"}}
                 />
               </div>
             </div>
@@ -258,10 +263,11 @@ export default function PeritoEnCurso() {
 
           {/* Informe */}
           <div className="panel">
-            <strong>Informe final</strong>
+            <strong style={{fontSize: "20px"}}>Informe final</strong>
             <div className="row" style={{ marginTop: 8 }}>
               <input
                 type="file"
+                style={{fontSize: "20px"}}
                 accept=".pdf,.doc,.docx"
                 onChange={(e) =>
                   setReportFile(e.target.files?.[0] || null)
@@ -271,7 +277,7 @@ export default function PeritoEnCurso() {
           </div>
 
           <div className="panel" style={{ textAlign: "center" }}>
-            <button className="btn success" onClick={handleFinalize}>
+            <button className="btn success" onClick={handleFinalize} style={{fontSize: "20px"}}>
               ✅ Finalizar Requerimiento
             </button>
           </div>

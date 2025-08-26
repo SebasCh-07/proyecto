@@ -10,6 +10,8 @@ import PeritosAdmin from './components/Peritos.Admin.jsx'
 import HistorialCliente from './components/HistorialCliente.jsx'
 import logo from "./components/img/logo.png"
 import HistorialPerito from './components/HistorialPerito.jsx'
+import ListaClientesHistorial from './components/listaClientesHistorial.jsx'
+import DetalleCliente from './components/detalleCliente.jsx'
 import RequerimientoDetalle from './components/RequerimientoDetalle.jsx'
 import PeritoEnCurso from './components/peritoEnCurso.jsx'
 import img from "./components/img/perito.jpg"
@@ -93,7 +95,7 @@ export default function App() {
               src={logo}
               alt="Logo"
               style={{ 
-                height: isMobile ? "50px" : "70px", 
+                height: isMobile ? "60px" : "70px", 
                 objectFit: "contain",
                 borderRadius: "8px"
               }}
@@ -103,7 +105,8 @@ export default function App() {
                 fontSize: isMobile ? "18px" : "24px", 
                 margin: 0,
                 fontWeight: 700,
-                color: "var(--text)"
+                color: "var(--text)",
+                fontSize: "30px"
               }}>
                 Plataforma Peritos
               </h1>
@@ -122,6 +125,7 @@ export default function App() {
               <button
                 className="btn success"
                 onClick={() => navigate("/historial-perito")}
+                style={{fontSize: "20px"}}
               >
                 Historial Perito
               </button>
@@ -129,6 +133,7 @@ export default function App() {
             {role === 'admin' && (
               <button
                 onClick={() => navigate("/agregar-perito")}
+                style={{fontSize: "20px"}}
                 className="btn primary"
               >
                 + Agregar Perito
@@ -140,6 +145,7 @@ export default function App() {
                 setRole('');
                 localStorage.removeItem('role');
               }}
+              style={{fontSize: "20px"}}
             >
               Salir
             </button>
@@ -158,6 +164,8 @@ export default function App() {
                 <Route path="/peritos" element={<PeritosAdmin />} />
                 <Route path="/agregar-perito" element={<NuevoPerito />} />
                 <Route path="/historial-perito" element={<HistorialPerito />} />
+                <Route path="/listaClientesHistorial/:peritoId" element={<ListaClientesHistorial />} />
+                <Route path="/detalleCliente/:clienteId" element={<DetalleCliente />} />
                 <Route path="/historial-cliente" element={<HistorialCliente />} />
                 <Route path="/requerimiento/:id" element={<RequerimientoDetalle />} />
               </>

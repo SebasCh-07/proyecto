@@ -17,9 +17,9 @@ export default function RequerimientoDetalle() {
   if (!req) return <div>No se encontró el requerimiento</div>;
 
   return (
-    <div className="card" style={{ padding: 24, maxWidth: 800, margin: "0 auto" }}>
+    <div className="card" style={{ padding: 24, maxWidth: 900, margin: "0 auto", fontSize: "19px" }}>
       <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
-        <button onClick={() => navigate(-1)} className="btn secondary" style={{ marginRight: 12 }}>
+        <button onClick={() => navigate(-1)} className="btn secondary" style={{ marginRight: 12, fontSize: "17px" }}>
           ← Volver
         </button>
         <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700 }}>📋 Requerimiento #{req.id}</h2>
@@ -51,38 +51,42 @@ export default function RequerimientoDetalle() {
 
       <div className="panel" style={{ marginBottom: 16 }}>
         <h3 style={{ marginBottom: 12, color: "#005eff" }}>Evidencias</h3>
-        
+
         {/* Mapa de Ubicación */}
         <div style={{ marginBottom: 16 }}>
           <strong>📍 Mapa de Ubicación:</strong>
-          {req.gps && !req.gps.error ? (
-            <iframe
-              title="Mapa ubicación"
-              width="100%"
-              height="200"
-              style={{ border: 0, marginTop: "10px", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
-              loading="lazy"
-              src={`https://www.google.com/maps?q=${req.gps.lat},${req.gps.lng}&z=15&output=embed`}
-            />
-          ) : (
-            <p style={{ color: "#64748b", marginTop: 8 }}>No se pudo cargar el mapa.</p>
-          )}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            {req.gps && !req.gps.error ? (
+              <iframe
+                title="Mapa ubicación"
+                width="90%"
+                height="300"
+                style={{ border: 0, marginTop: "20px", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+                loading="lazy"
+                src={`https://www.google.com/maps?q=${req.gps.lat},${req.gps.lng}&z=15&output=embed`}
+              />
+            ) : (
+              <p style={{ color: "#64748b", marginTop: 8 }}>No se pudo cargar el mapa.</p>
+            )}
+          </div>
         </div>
-        
+
         {/* Fotos */}
         {req.fotos?.length > 0 && (
           <div style={{ marginBottom: 16 }}>
+            <div style={{marginBottom: "10px" ,display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
             <strong>📸 Fotos:</strong>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8, justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
               {req.fotos.map((f, i) => (
                 <img
                   key={i}
                   src={URL.createObjectURL(f)}
                   alt={`Foto ${i + 1}`}
-                  style={{ 
-                    width: 120, 
-                    height: 120, 
-                    objectFit: "cover", 
+                  style={{
+                    width: 500,
+                    height: 300,
+                    marginTop: "20px",
+                    objectFit: "cover",
                     borderRadius: "12px",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                     cursor: "pointer"
@@ -93,36 +97,40 @@ export default function RequerimientoDetalle() {
             </div>
           </div>
         )}
-        
-  {/* Video */}
-  {req.video && (
-    <div style={{ marginBottom: 16 }}>
-      <strong>🎥 Video:</strong>
-      <video 
-        key={URL.createObjectURL(req.video)} 
-        controls 
-        width="100%" 
-        src={URL.createObjectURL(req.video)} 
-        style={{ 
-          borderRadius: "12px", 
-          marginTop: 8,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-        }} 
-      />
-    </div>
-  )}
-        
+
+        {/* Video */}
+        {req.video && (
+          <div style={{ marginBottom: 16 }}>
+            <div style={{marginBottom: "10px" ,display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
+            <strong>🎥 Video:</strong>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+              <video
+                key={URL.createObjectURL(req.video)}
+                controls
+                width="90%"
+                src={URL.createObjectURL(req.video)}
+                style={{
+                  borderRadius: "12px",
+                  marginTop: 20,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+                }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Documentos */}
         {req.pdf && (
           <div style={{ marginBottom: 16 }}>
+            <div style={{marginBottom: "10px" ,display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
             <strong>📄 Informe:</strong>
             <div style={{ marginTop: 8 }}>
-              <a 
-                href={URL.createObjectURL(req.pdf)} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                style={{ 
-                  color: "#005eff", 
+              <a
+                href={URL.createObjectURL(req.pdf)}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "#005eff",
                   textDecoration: "none",
                   padding: "8px 16px",
                   backgroundColor: "#eaf1ff",

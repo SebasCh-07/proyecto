@@ -149,6 +149,11 @@ export function getCliente(idC) {
   return cliente
 }
 
+export function getPerito(idP) {
+  const perito = samplePeritos.find(c => c.id === idP)
+  return perito
+}
+
 export function addPerito(perito) {
   samplePeritos.push(new Perito(perito))
 }

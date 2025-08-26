@@ -44,13 +44,14 @@ export default function AgregarPerito() {
         >
           <FaArrowLeft />
         </button>
-        <h3 style={{ margin: 0 }}>Nuevo Perito</h3>
+        <h3 style={{ margin: 0, fontSize: "20px" }}>Nuevo Perito</h3>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ marginTop: "15px", display: "grid", gap: "10px" }}>
+      <form onSubmit={handleSubmit} style={{ marginTop: "15px", display: "grid", gap: "10px", marginLeft: "400px", marginRight: "400px" }}>
         <input
           type="number"
           placeholder="ID / Cédula"
+          style={{fontSize: "20px"}}
           value={id}
           onChange={(e) => setId(e.target.value)}
           className="input"
@@ -58,6 +59,7 @@ export default function AgregarPerito() {
         <input
           type="text"
           placeholder="Nombre"
+           style={{fontSize: "20px"}}
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           className="input"
@@ -65,6 +67,7 @@ export default function AgregarPerito() {
         <input
           type="text"
           placeholder="Teléfono"
+           style={{fontSize: "20px"}}
           value={telefono}
           onChange={(e) => setTelefono(e.target.value)}
           className="input"
@@ -72,6 +75,7 @@ export default function AgregarPerito() {
          <input
           type="text"
           placeholder="Username"
+           style={{fontSize: "20px"}}
           value={Username}
           onChange={(e) => setUsername(e.target.value)}
           className="input"
@@ -79,11 +83,12 @@ export default function AgregarPerito() {
          <input
           type="text"
           placeholder="Password"
+           style={{fontSize: "20px"}}
           value={Password}
           onChange={(e) => setPassword(e.target.value)}
           className="input"
         />
-        <button type="submit" className="btn">Guardar</button>
+        <button type="submit" className="btn" style={{marginBottom: "10px"}}>Guardar</button>
       </form>
     </div>
   )
