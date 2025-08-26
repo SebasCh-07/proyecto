@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { sampleClientes, removeCliente } from '../data.js'
 import ModalCliente from "./Modal/modalCliente.jsx"
 import { useNavigate } from "react-router-dom"
-import { Trash } from "lucide-react"   // 🗑️ icono
 
 export default function ClientesAdmin() {
     const [query, setQuery] = useState('')
@@ -68,28 +67,31 @@ export default function ClientesAdmin() {
                 {filteredClientes.map(c => (
                     <div 
                       key={c.id} 
-                      className="item" 
-                      style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}
+                      className="item"
                     >
-                        <div onClick={() => abrirModal(c)} style={{cursor:"pointer", display: "flex", flexDirection:"row"}} >
-                        <div onClick={() => abrirModal(c)} style={{cursor:"pointer"}}>
-                            <strong>{c.nombre}</strong>
-                            <div className="small">CI: {c.id}</div>
-                            <div className="small">Ver peritos y asignar</div>
-                        </div>
-                        <div style={{marginLeft: 250}}></div>
+                        <div onClick={() => abrirModal(c)} style={{cursor:"pointer", flex: 1}}>
+                            <div className="font-semibold mb-2">{c.nombre}</div>
+                            <div className="small text-muted">CI: {c.id}</div>
+                            <div className="small text-muted">Ver peritos y asignar</div>
                         </div>
 
-                        <div style={{display:"flex", gap:"10px", alignItems:"center"}}>
+                        <div className="row gap-4">
                             <span className="badge info">Cliente</span>
-                            <Trash 
-                              style={{cursor:"pointer", color:"red"}} 
+                            <button 
+                              className="btn primary" 
                               onClick={() => abrirConfirmacion(c)} 
-                            />
+                              style={{ display: 'flex', alignItems: 'center' }}
+                            >
+                              <span className="small text-muted" style={{ fontSize: "12px", fontWeight: "bold", color: "black" }}>✖</span>
+                            </button>
                         </div>
                     </div>
                 ))}
-                {filteredClientes.length === 0 && <div className="card">No hay resultados</div>}
+                {filteredClientes.length === 0 && (
+                    <div className="card text-center text-muted">
+                        No se encontraron clientes
+                    </div>
+                )}
             </div>
 
             {/* Modal info cliente */}
@@ -102,23 +104,14 @@ export default function ClientesAdmin() {
 
             {/* Modal confirmación */}
             {showConfirm && (
-                <div 
-                  style={{
-                    position:"fixed", top:0, left:0, right:0, bottom:0, 
-                    background:"rgba(0,0,0,0.5)", display:"flex", 
-                    alignItems:"center", justifyContent:"center"
-                  }}
-                >
-                    <div style={{background:"white", padding:"20px", borderRadius:"8px", minWidth:"300px"}}>
-                        <h3>¿Eliminar cliente?</h3>
-                        <p>Esta acción no se puede deshacer.</p>
-                        <div style={{display:"flex", justifyContent:"flex-end", gap:"10px", marginTop:"15px"}}>
-                            <button onClick={cerrarConfirmacion}>Cancelar</button>
-                            <button 
-                              onClick={confirmarEliminar} 
-                              style={{background:"red", color:"white", padding:"5px 10px", borderRadius:"5px"}}
-                            >
-                              Confirmar
+                <div className="modal-backdrop">
+                    <div className="modal">
+                        <h3 className="mb-4">¿Eliminar cliente?</h3>
+                        <p className="text-muted mb-6">Esta acción no se puede deshacer.</p>
+                        <div className="row" style={{justifyContent: "flex-end", gap: "12px"}}>
+                            <button className="btn secondary" onClick={cerrarConfirmacion}>Cancelar</button>
+                            <button className="btn danger" onClick={confirmarEliminar}>
+                                Confirmar
                             </button>
                         </div>
                     </div>

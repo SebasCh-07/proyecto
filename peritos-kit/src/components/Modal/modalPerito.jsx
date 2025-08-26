@@ -130,8 +130,8 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
           : ""
       }
     >
-      {selected && (
-        <div style={{ display: "grid", gap: 12 }}>
+                {selected && (
+                <div style={{ display: "grid", gap: 12 }}>
           {/* DATOS BÁSICOS */}
           <div className="panel">
             <strong>Cliente:</strong> {selected.cliente} <br />

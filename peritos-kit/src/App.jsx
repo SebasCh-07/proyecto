@@ -75,59 +75,52 @@ export default function App() {
       }}>
 
         {/* Header */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          paddingBottom: "12px",
-          borderBottom: "1px solid #ddd",
-          marginBottom: "20px"
+        <div className="header" style={{
+          borderBottom: "none",
+          marginBottom: "24px",
+          paddingBottom: "0"
         }}>
           {/* Logo + nombre */}
           <div style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
+            gap: "16px",
             flex: 1,
             justifyContent: isMobile ? "center" : "flex-start"
           }}>
             <img
               src={logo}
               alt="Logo"
-              style={{ height: isMobile ? "50px" : "70px", objectFit: "contain" }}
+              style={{ 
+                height: isMobile ? "50px" : "70px", 
+                objectFit: "contain",
+                borderRadius: "8px"
+              }}
             />
-            <div>
-              <strong style={{ fontSize: isMobile ? "16px" : "18px" }}>Plataforma Peritos</strong>
-              <div
-                style={{
-                  display: "inline-block",
-                  marginLeft: isMobile ? "0" : "10px",
-                  padding: "2px 8px",
-                  fontSize: "12px",
-                  backgroundColor: "#eaf1ff",
-                  color: "#005eff",
-                  borderRadius: "12px"
-                }}
-              >
-                {role === 'admin' ? 'Admin' : 'Perito'}
-              </div>
+            <div style={{marginBottom: 15}}>
+              <h1 style={{ 
+                fontSize: isMobile ? "18px" : "24px", 
+                margin: 0,
+                fontWeight: 700,
+                color: "var(--text)"
+              }}>
+                Plataforma Peritos
+              </h1>
+              <span className="badge info" style={{ marginTop: "4px"}}>
+                {role === 'admin' ? 'Administrador' : 'Perito'}
+              </span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', marginTop: isMobile ? '10px' : '0' }}>
+          <div className="row" style={{ 
+            gap: "12px", 
+            marginTop: isMobile ? "16px" : "0",
+            flexWrap: isMobile ? "wrap" : "nowrap"
+          }}>
             {role === 'admin' && (
               <button
-                style={{
-                  backgroundColor: '#00b300',
-                  color: 'white',
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontWeight: "bold"
-                }}
-                onClick={() => window.location.href = "/historial-perito"} // 👈 navega a historial
+                className="btn success"
+                onClick={() => navigate("/historial-perito")}
               >
                 Historial Perito
               </button>
@@ -135,21 +128,13 @@ export default function App() {
             {role === 'admin' && (
               <button
                 onClick={() => navigate("/agregar-perito")}
-                className="btn"
+                className="btn primary"
               >
                 + Agregar Perito
               </button>
             )}
             <button
-              style={{
-                backgroundColor: '#005eff',
-                color: 'white',
-                padding: "8px 16px",
-                borderRadius: "8px",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
+              className="btn secondary"
               onClick={() => {
                 setRole('');
                 localStorage.removeItem('role');
@@ -157,7 +142,6 @@ export default function App() {
             >
               Salir
             </button>
-
           </div>
         </div>
 
