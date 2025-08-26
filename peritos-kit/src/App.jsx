@@ -11,6 +11,7 @@ import HistorialCliente from './components/HistorialCliente.jsx'
 import logo from "./components/img/logo.png"
 import HistorialPerito from './components/HistorialPerito.jsx'
 import RequerimientoDetalle from './components/RequerimientoDetalle.jsx'
+import PeritoEnCurso from './components/peritoEnCurso.jsx'
 import img from "./components/img/perito.jpg"
 import { useNavigate } from "react-router-dom"
 
@@ -168,6 +169,7 @@ export default function App() {
                 {/* 👇 aquí pasamos el peritoId */}
                 <Route path="/" element={<Perito peritoId={peritoId} />} />
                 <Route path="/requerimiento/:id" element={<RequerimientoDetalle />} />
+                <Route path="/perito-en-curso/:id" element={<PeritoEnCurso />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </>
             )}

@@ -125,6 +125,8 @@ export default function Perito({ peritoId }) {
                 onClick={() => {
                   if (r.estado === "Finalizado") {
                     navigate(`/requerimiento/${r.id}`)
+                  } else if (r.estado === "En curso") {
+                    navigate(`/perito-en-curso/${r.id}`)
                   } else {
                     setSelected(r)
                   }
