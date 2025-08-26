@@ -183,6 +183,7 @@ export default function App() {
               <>
                 {/* 👇 aquí pasamos el peritoId */}
                 <Route path="/" element={<Perito peritoId={peritoId} />} />
+                <Route path="/requerimiento/:id" element={<RequerimientoDetalle />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </>
             )}

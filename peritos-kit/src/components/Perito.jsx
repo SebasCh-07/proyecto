@@ -41,27 +41,45 @@ export default function Perito({ peritoId }) {
 
   // ✅ Manejo de decisiones en modal
   const handleDecision = (id, decision, extraData = {}) => {
-  setRequerimientos((prev) =>
-    prev.map((r) => {
-      if (r.id !== id) return r;
+    setRequerimientos((prev) =>
+      prev.map((r) => {
+        if (r.id !== id) return r;
 
-      if (decision === "aceptar") {
-        return { ...r, estado: "En curso" };
-      }
+        if (decision === "aceptar") {
+          return { ...r, estado: "En curso" };
+        }
 
-      if (decision === "rechazar") {
-        return { ...r, estado: "Rechazado" };
-      }
+        if (decision === "rechazar") {
+          return { ...r, estado: "Rechazado" };
+        }
 
-      if (decision === "finalizado") {
-        return { ...r, estado: "Finalizado", ...extraData };
-      }
+        if (decision === "finalizado") {
+          // Actualizar el requerimiento en sampleRequerimientos con todas las evidencias
+          const updatedReq = { 
+            ...r, 
+            estado: "Finalizado", 
+            gps: extraData.gps,
+            fotos: extraData.photoFiles || [],
+            video: extraData.videoFile,
+            pdf: extraData.reportFile,
+            postVisitHours: extraData.postVisitHours || r.postVisitHours,
+            observaciones: extraData.observaciones || r.observaciones
+          };
+          
+          // Actualizar también en sampleRequerimientos
+          const index = sampleRequerimientos.findIndex(req => req.id === id);
+          if (index !== -1) {
+            sampleRequerimientos[index] = updatedReq;
+          }
+          
+          return updatedReq;
+        }
 
-      return r; 
-    })
-  );
-  setSelected(null);
-};
+        return r; 
+      })
+    );
+    setSelected(null);
+  };
 
 
   const filteredReqs = requerimientos.filter((r) => r.estado === tab);
@@ -70,7 +88,7 @@ export default function Perito({ peritoId }) {
     <div className="container">
       {/* Perfil del perito */}
       {perito && (
-        <div className="perfil" style={{ marginBottom: "10px" }}>
+        <div className="perfil" style={{ marginBottom: "10px"}}>
           <h2>👤 Perfil del Perito</h2>
           <p><strong>Nombre:</strong> {perito.nombre}</p>
           <p><strong>Teléfono:</strong> {perito.telefono}</p>

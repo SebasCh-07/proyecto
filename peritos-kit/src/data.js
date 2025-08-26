@@ -25,7 +25,7 @@ export class Perito {
 
 
 export class Requerimiento {
-  constructor({ id, clienteId = null, peritoId = null, direccion, estado, fechaAsignacion, plazoDias, postVisitHours }) {
+  constructor({ id, clienteId = null, peritoId = null, direccion, estado, fechaAsignacion, plazoDias, postVisitHours, gps = null, fotos = [], video = null, pdf = null, observaciones = '' }) {
     this.id = id
     this.clienteId = clienteId // puede ser null
     this.peritoId = peritoId   // puede ser null
@@ -34,6 +34,11 @@ export class Requerimiento {
     this.fechaAsignacion = fechaAsignacion
     this.plazoDias = plazoDias
     this.postVisitHours = postVisitHours
+    this.gps = gps
+    this.fotos = fotos
+    this.video = video
+    this.pdf = pdf
+    this.observaciones = observaciones
   }
 }
 
@@ -93,7 +98,7 @@ export let sampleRequerimientos = [
     clienteId: 1234526789,
     peritoId: 1753999364,
     direccion: 'Av. Amazonas 123, Quito',
-    estado: 'Finalizado',
+    estado: 'Asignado',
     fechaAsignacion: new Date().toISOString(),
     plazoDias: 4,
     postVisitHours: 24,
@@ -107,6 +112,22 @@ export let sampleRequerimientos = [
     fechaAsignacion: new Date(Date.now() - 36*3600*1000).toISOString(),
     plazoDias: 3,
     postVisitHours: 12,
+  }),
+  // Requerimiento finalizado de ejemplo con evidencias
+  new Requerimiento({
+    id: 103,
+    clienteId: 3316554165,
+    peritoId: 7889654223,
+    direccion: 'Av. Naciones Unidas 456, Quito',
+    estado: 'Finalizado',
+    fechaAsignacion: new Date(Date.now() - 72*3600*1000).toISOString(),
+    plazoDias: 5,
+    postVisitHours: 36,
+    gps: { lat: -0.180653, lng: -78.467834, acc: 15 },
+    fotos: [],
+    video: null,
+    pdf: null,
+    observaciones: 'Visita completada satisfactoriamente. Se encontró el inmueble en buen estado.'
   }),
 ]
 
