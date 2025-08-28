@@ -22,19 +22,19 @@ export default function RequerimientoDetalle() {
         <button onClick={() => navigate(-1)} className="btn secondary" style={{ marginRight: 12, fontSize: "17px" }}>
           ← Volver
         </button>
-        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700 }}>📋 Requerimiento #{req.id}</h2>
+        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700 }}>Requerimiento #{req.id}</h2>
         <span className={`badge ${req.estado === 'Finalizado' ? 'ok' : 'info'}`} style={{ marginLeft: 12 }}>
           {req.estado}
         </span>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16 }}>
-        <h3 style={{ marginBottom: 12, color: "#005eff" }}>Información del Perito</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <p><strong>Perito:</strong> {req.perito?.nombre}</p>
-          <p><strong>Teléfono:</strong> {req.perito?.telefono}</p>
-          <p><strong>Usuario:</strong> {req.perito?.username}</p>
-          <p><strong>Estado:</strong> 
+      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
+        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Información del Perito</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Perito:</strong> {req.perito?.nombre}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Teléfono:</strong> {req.perito?.telefono}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Usuario:</strong> {req.perito?.username}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Estado:</strong> 
             <span className={`badge ${req.perito?.disponible ? 'ok' : 'warning'}`} style={{ marginLeft: 8 }}>
               {req.perito?.disponible ? 'Disponible' : 'No disponible'}
             </span>
@@ -42,35 +42,66 @@ export default function RequerimientoDetalle() {
         </div>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16 }}>
-        <h3 style={{ marginBottom: 12, color: "#005eff" }}>Información del Cliente</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <p><strong>Cliente:</strong> {req.cliente?.nombre}</p>
-          <p><strong>Teléfono:</strong> {req.cliente?.telefono}</p>
-          <p><strong>Contacto:</strong> {req.cliente?.contacto}</p>
-          <p><strong>Correo:</strong> {req.cliente?.correo || 'N/A'}</p>
+      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
+        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Información del Cliente</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Cliente:</strong> {req.cliente?.nombre}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Teléfono:</strong> {req.cliente?.telefono}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Contacto:</strong> {req.cliente?.contacto}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Correo:</strong> {req.cliente?.correo || 'N/A'}</p>
         </div>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16 }}>
-        <h3 style={{ marginBottom: 12, color: "#005eff" }}>Detalles del Requerimiento</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <p><strong>Dirección:</strong> {req.direccion}</p>
-          <p><strong>Plazo:</strong> {req.plazoDias} días</p>
-          <p><strong>Fecha de Asignación:</strong> {new Date(req.fechaAsignacion).toLocaleString()}</p>
-          <p><strong>Tiempo en Sitio:</strong> {req.postVisitHours} horas</p>
-          <p><strong>Observaciones:</strong> {req.observaciones || 'N/A'}</p>
+      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
+        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Detalles del Requerimiento</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Dirección:</strong> {req.direccion}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Plazo:</strong> {req.plazoDias} días</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Fecha de Asignación:</strong> {new Date(req.fechaAsignacion).toLocaleString()}</p>
+          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Tiempo en Sitio:</strong> {req.postVisitHours} horas</p>
         </div>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16 }}>
+      {/* Observaciones */}
+      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
+        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Observaciones</h3>
+        {Array.isArray(req.observaciones) ? (
+          <div style={{ display: "grid", gap: "8px" }}>
+            {req.observaciones.map((obs, index) => (
+              <div 
+                key={obs.id || index} 
+                style={{ 
+                  padding: "12px", 
+                  backgroundColor: "#f8f9fa", 
+                  borderRadius: "8px", 
+                  border: "1px solid #e9ecef",
+                  fontSize: "16px"
+                }}
+              >
+                <div style={{ fontWeight: "500", marginBottom: "4px" }}>
+                  {obs.texto || obs}
+                </div>
+                {obs.timestamp && (
+                  <div style={{ fontSize: "14px", color: "#6c757d" }}>
+                    {obs.timestamp}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>{req.observaciones || 'N/A'}</p>
+        )}
+      </div>
+
+      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
         <div style={{display: "flex", justifyContent: "center"}}>
-          <h3 style={{ marginBottom: 12, color: "#005eff", fontSize: "30px" }}>Evidencias</h3>
+          <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "30px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Evidencias</h3>
         </div>
 
         {/* Mapa de Ubicación */}
         <div style={{ marginBottom: 16 }}>
-          <strong style={{fontSize: "25px"}}>📍 Mapa de Ubicación:</strong>
+          <strong style={{fontSize: "25px"}}>Mapa de Ubicación:</strong>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
             {req.gps && !req.gps.error ? (
               <iframe
@@ -91,7 +122,7 @@ export default function RequerimientoDetalle() {
         {req.fotos?.length > 0 && (
           <div style={{ marginBottom: 16 }}>
             <div style={{color: "gray" , marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
-            <strong style={{fontSize: "25px"}}>📸 Fotos:</strong>
+            <strong style={{fontSize: "25px"}}>Fotos:</strong>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8, justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
               {req.fotos.map((f, i) => (
                 <img
@@ -118,7 +149,7 @@ export default function RequerimientoDetalle() {
         {req.video && (
           <div style={{ marginBottom: 16 }}>
             <div style={{color: "gray" ,marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
-            <strong style={{fontSize: "25px"}}>🎥 Video:</strong>
+            <strong style={{fontSize: "25px"}}>Video:</strong>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
               <video
                 key={URL.createObjectURL(req.video)}
@@ -139,7 +170,7 @@ export default function RequerimientoDetalle() {
         {req.pdf && (
           <div style={{ marginBottom: 16 }}>
             <div style={{color: "gray" , marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
-            <strong style={{fontSize: "25px"}}>📄 Informe:</strong>
+            <strong style={{fontSize: "25px"}}>Informe:</strong>
             <div style={{ marginTop: 8 }}>
               <a
                 href={URL.createObjectURL(req.pdf)}
@@ -154,7 +185,7 @@ export default function RequerimientoDetalle() {
                   display: "inline-block"
                 }}
               >
-                📋 Ver Informe PDF
+                Ver Informe PDF
               </a>
             </div>
           </div>

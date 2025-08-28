@@ -24,6 +24,8 @@ export default function PeritoEnCurso() {
   const [timerStopped, setTimerStopped] = useState(false)
   const [videoFile, setVideoFile] = useState(null)
   const [videoUrl, setVideoUrl] = useState(null)
+  const [observaciones, setObservaciones] = useState("")
+  const [observacionesTemporales, setObservacionesTemporales] = useState([])
 
   // Cargar requerimiento
   useEffect(() => {
@@ -33,6 +35,7 @@ export default function PeritoEnCurso() {
       // Si ya tiene datos guardados, cargarlos
       if (req.arrivedAt) setArrivedAt(new Date(req.arrivedAt))
       if (req.gps) setGps(req.gps)
+      if (req.observaciones) setObservaciones(req.observaciones)
     } else {
       navigate("/")
     }
@@ -112,6 +115,23 @@ export default function PeritoEnCurso() {
     window.open(`https://maps.google.com/?q=${q}`, "_blank")
   }
 
+  const agregarObservacion = () => {
+    if (observaciones.trim()) {
+      const nuevaObservacion = {
+        id: Date.now(),
+        texto: observaciones.trim(),
+        timestamp: new Date().toLocaleString(),
+        tipo: "perito"
+      }
+      setObservacionesTemporales([...observacionesTemporales, nuevaObservacion])
+      setObservaciones("")
+    }
+  }
+
+  const eliminarObservacion = (id) => {
+    setObservacionesTemporales(observacionesTemporales.filter(obs => obs.id !== id))
+  }
+
   const canFinalize =
     arrivedAt &&
     gps &&
@@ -138,6 +158,7 @@ export default function PeritoEnCurso() {
         fotos: photoFiles,
         video: videoFile,
         pdf: reportFile,
+        observaciones: observacionesTemporales.length > 0 ? observacionesTemporales : observaciones,
         fechaFinalizacion: new Date()
       }
     }
@@ -151,49 +172,127 @@ export default function PeritoEnCurso() {
   }
 
   return (
-    <div className="container" style={{fontSize: "20px"}}>
+    <div className="container" style={{ fontSize: "18px" }}>
       {/* Header con botón de volver */}
-      <div className="header" style={{ marginBottom: "20px" }}>
+      <div className="header" style={{ marginBottom: "24px", display: "flex", alignItems: "center" }}>
         <button 
           className="btn secondary" 
           onClick={() => navigate("/")}
-          style={{ marginRight: "16px" }}
+          style={{ marginRight: "16px", fontSize: "16px" }}
         >
           ← Volver
         </button>
-        <h2>Requerimiento #{requerimiento.id} — {getCliente(requerimiento.clienteId).nombre}</h2>
+        <h2 style={{ margin: 0, color: "#005eff" }}>
+          Requerimiento #{requerimiento.id} — {getCliente(requerimiento.clienteId).nombre}
+        </h2>
       </div>
 
-      <div style={{ display: "grid", gap: 16 }}>
+      <div style={{ display: "grid", gap: "20px" }}>
         {/* DATOS BÁSICOS */}
         <div className="panel">
-          <strong>Cliente:</strong> {getCliente(requerimiento.clienteId).nombre} <br />
-          <strong>Estado:</strong> {requerimiento.estado} <br />
-          <strong>Plazo global:</strong> {requerimiento.plazoDias} días <br />
-          <strong>Dirección:</strong> {requerimiento.direccion}
+          <h3 style={{ margin: "0 0 16px 0", color: "#005eff", fontSize: "20px" }}>
+            Información del Requerimiento
+          </h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div>
+              <strong>Cliente:</strong> {getCliente(requerimiento.clienteId).nombre}
+            </div>
+            <div>
+              <strong>Estado:</strong> 
+              <span className="badge info" style={{ marginLeft: "8px" }}>{requerimiento.estado}</span>
+            </div>
+            <div>
+              <strong>Plazo:</strong> {requerimiento.plazoDias} días
+            </div>
+            <div>
+              <strong>Dirección:</strong> {requerimiento.direccion}
+            </div>
+          </div>
+        </div>
+
+        {/* OBSERVACIONES */}
+        <div className="panel">
+          <h3 style={{ margin: "0 0 16px 0", fontSize: "20px" }}>
+            Observaciones del Trabajo
+          </h3>
+          
+          {/* Agregar nueva observación */}
+          <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+            <input
+              type="text"
+              value={observaciones}
+              onChange={(e) => setObservaciones(e.target.value)}
+              placeholder="Agregar observación sobre el trabajo..."
+              className="input"
+              style={{ flex: 1, fontSize: "16px" }}
+              onKeyPress={(e) => e.key === 'Enter' && agregarObservacion()}
+            />
+            <button 
+              className="btn primary" 
+              onClick={agregarObservacion}
+              disabled={!observaciones.trim()}
+              style={{ fontSize: "16px" }}
+            >
+              Agregar
+            </button>
+          </div>
+
+          {/* Lista de observaciones */}
+          {observacionesTemporales.length > 0 && (
+            <div style={{ display: "grid", gap: "8px" }}>
+              {observacionesTemporales.map((obs) => (
+                <div 
+                  key={obs.id} 
+                  style={{ 
+                    display: "flex", 
+                    justifyContent: "space-between", 
+                    alignItems: "center",
+                    padding: "12px",
+                    backgroundColor: "#f8f9fa",
+                    borderRadius: "8px",
+                    border: "1px solid #e9ecef"
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: "500", marginBottom: "4px" }}>{obs.texto}</div>
+                    <div className="small" style={{ color: "#6c757d" }}>{obs.timestamp}</div>
+                  </div>
+                  <button 
+                    className="btn danger" 
+                    onClick={() => eliminarObservacion(obs.id)}
+                    style={{ fontSize: "14px", padding: "6px 10px" }}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Flujo EN CURSO */}
         <>
           {/* Llegada */}
           <div className="panel">
-            <strong>Llegada al sitio</strong>
-            <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="small" style={{fontSize: "18px"}}>
+            <h3 style={{ margin: "0 0 16px 0", fontSize: "20px" }}>
+              Llegada al Sitio
+            </h3>
+            <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
+              <div className="small" style={{ fontSize: "16px" }}>
                 {arrivedAt
                   ? `Marcado: ${arrivedAt.toLocaleString()}`
                   : "Sin marcar"}
               </div>
               {!arrivedAt ? (
-                <button className="btn" onClick={handleLlegada} style={{fontSize: "18px"}}>
-                  Marcar llegada + Capturar GPS
+                <button className="btn" onClick={handleLlegada} style={{ fontSize: "16px" }}>
+                  Marcar llegada + GPS
                 </button>
               ) : (
                 <button
                   className="btn secondary"
                   onClick={openMap}
                   disabled={!gps || gps.error}
-                  style={{fontSize: "18px"}}
+                  style={{ fontSize: "16px" }}
                 >
                   Ver mapa
                 </button>
@@ -202,22 +301,24 @@ export default function PeritoEnCurso() {
           </div>
 
           {/* Timer */}
-          <div className="panel" >
-            <strong>Tiempo en sitio</strong>
-            <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="badge info" style={{fontSize: "18px"}}>
+          <div className="panel">
+            <h3 style={{ margin: "0 0 16px 0", fontSize: "20px" }}>
+              Tiempo en Sitio
+            </h3>
+            <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
+              <div className="badge info" style={{ fontSize: "18px", padding: "8px 16px" }}>
                 {timerStart
                   ? `⏱ ${fmt(elapsed)}`
                   : timerStopped
-                    ? "⏹ Detenido"
+                    ? "Detenido"
                     : "No iniciado"}
               </div>
-              <div className="row">
+              <div className="row" style={{ gap: "8px" }}>
                 <button
                   className="btn"
                   onClick={() => setTimerStart(Date.now())}
                   disabled={!!timerStart}
-                  style={{fontSize: "18px"}}
+                  style={{ fontSize: "16px" }}
                 >
                   Iniciar
                 </button>
@@ -225,7 +326,7 @@ export default function PeritoEnCurso() {
                   className="btn secondary"
                   onClick={handleStopTimer}
                   disabled={!timerStart}
-                  style={{fontSize: "18px"}}
+                  style={{ fontSize: "16px" }}
                 >
                   Detener
                 </button>
@@ -235,51 +336,85 @@ export default function PeritoEnCurso() {
 
           {/* Evidencias */}
           <div className="panel">
-            <strong style={{fontSize: "25px"}}>Subir evidencias</strong>
-            <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
+            <h3 style={{ margin: "0 0 16px 0", fontSize: "20px" }}>
+              Subir Evidencias
+            </h3>
+            <div style={{ display: "grid", gap: "16px" }}>
               <div>
-                <div className="label" style={{fontSize: "18px"}}>Fotos</div>
+                <div className="label" style={{ fontSize: "16px", marginBottom: "8px" }}>
+                  Fotos (múltiples)
+                </div>
                 <input
                   type="file"
                   accept="image/*"
                   multiple
-                  style={{fontSize: "18px"}}
+                  style={{ fontSize: "16px" }}
                   onChange={(e) =>
                     setPhotoFiles(Array.from(e.target.files || []))
                   }
                 />
+                {photoFiles.length > 0 && (
+                  <div className="small" style={{ marginTop: "8px", color: "#6c757d" }}>
+                    {photoFiles.length} foto(s) seleccionada(s)
+                  </div>
+                )}
               </div>
               <div>
-                <div className="label" style={{fontSize: "20px"}}>Video (máx. 40s)</div>
+                <div className="label" style={{ fontSize: "16px", marginBottom: "8px" }}>
+                  Video (máximo 40s)
+                </div>
                 <input
                   type="file"
                   accept="video/*"
                   onChange={onVideoChange}
-                  style={{fontSize: "20px"}}
+                  style={{ fontSize: "16px" }}
                 />
+                {videoFile && (
+                  <div className="small" style={{ marginTop: "8px", color: "#6c757d" }}>
+                    Video seleccionado
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
           {/* Informe */}
           <div className="panel">
-            <strong style={{fontSize: "20px"}}>Informe final</strong>
-            <div className="row" style={{ marginTop: 8 }}>
+            <h3 style={{ margin: "0 0 16px 0", fontSize: "20px" }}>
+              Informe Final
+            </h3>
+            <div style={{ marginTop: "8px" }}>
               <input
                 type="file"
-                style={{fontSize: "20px"}}
+                style={{ fontSize: "16px" }}
                 accept=".pdf,.doc,.docx"
                 onChange={(e) =>
                   setReportFile(e.target.files?.[0] || null)
                 }
               />
+              {reportFile && (
+                <div className="small" style={{ marginTop: "8px", color: "#6c757d" }}>
+                  Informe seleccionado: {reportFile.name}
+                </div>
+              )}
             </div>
           </div>
 
+          {/* Botón de finalizar */}
           <div className="panel" style={{ textAlign: "center" }}>
-            <button className="btn success" onClick={handleFinalize} style={{fontSize: "20px"}}>
-              ✅ Finalizar Requerimiento
+            <button 
+              className="btn success" 
+              onClick={handleFinalize} 
+              style={{ fontSize: "18px", padding: "16px 32px" }}
+              disabled={!canFinalize}
+            >
+              Finalizar Requerimiento
             </button>
+            {!canFinalize && (
+              <div className="small" style={{ marginTop: "12px", color: "#6c757d" }}>
+                Completa todos los campos obligatorios para finalizar
+              </div>
+            )}
           </div>
         </>
       </div>

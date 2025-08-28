@@ -9,7 +9,6 @@ export default function CrearRequerimiento() {
     peritoId: "",
     direccion: "",
     plazoDias: 3,
-    postVisitHours: 24,
     observaciones: "",
     archivoAsignacion: null
   });
@@ -44,7 +43,6 @@ export default function CrearRequerimiento() {
         peritoId: parseInt(formData.peritoId),
         direccion: formData.direccion,
         plazoDias: parseInt(formData.plazoDias),
-        postVisitHours: parseInt(formData.postVisitHours),
         observaciones: formData.observaciones,
         archivoAsignacion: formData.archivoAsignacion
       });
@@ -113,9 +111,9 @@ export default function CrearRequerimiento() {
                 required
               >
                 <option value="">Seleccionar perito</option>
-                {samplePeritos.filter(p => p.disponible).map(perito => (
+                {samplePeritos.map(perito => (
                   <option key={perito.id} value={perito.id}>
-                    {perito.nombre} ({perito.username})
+                    {perito.nombre} ({perito.username}) - {perito.disponible ? "✅ Disponible" : "❌ No disponible"}
                   </option>
                 ))}
               </select>
@@ -138,38 +136,20 @@ export default function CrearRequerimiento() {
             />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
-            <div>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "#374151" }}>
-                Plazo (días)
-              </label>
-              <input
-                type="number"
-                name="plazoDias"
-                value={formData.plazoDias}
-                onChange={handleInputChange}
-                className="input"
-                min="1"
-                max="30"
-                style={{ width: "100%", fontSize: "16px" }}
-              />
-            </div>
-
-            <div>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "#374151" }}>
-                Tiempo en sitio (horas)
-              </label>
-              <input
-                type="number"
-                name="postVisitHours"
-                value={formData.postVisitHours}
-                onChange={handleInputChange}
-                className="input"
-                min="1"
-                max="72"
-                style={{ width: "100%", fontSize: "16px" }}
-              />
-            </div>
+          <div style={{ marginBottom: "16px" }}>
+            <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "#374151" }}>
+              Plazo (días)
+            </label>
+            <input
+              type="number"
+              name="plazoDias"
+              value={formData.plazoDias}
+              onChange={handleInputChange}
+              className="input"
+              min="1"
+              max="30"
+              style={{ width: "100%", fontSize: "16px" }}
+            />
           </div>
 
           <div style={{ marginBottom: "16px" }}>

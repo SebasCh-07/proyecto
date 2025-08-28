@@ -159,7 +159,35 @@ export function addPerito(perito) {
 }
 
 export function addRequerimiento(req) {
-  sampleRequerimientos.push(new Requerimiento(req))
+  // Generar ID único para el nuevo requerimiento
+  const id = Date.now();
+  console.log('Creando nuevo requerimiento con ID:', id);
+  console.log('Datos del requerimiento:', req);
+  
+  // Crear el requerimiento con ID único y fecha de asignación
+  const nuevoRequerimiento = new Requerimiento({
+    ...req,
+    id,
+    fechaAsignacion: new Date().toISOString(),
+    estado: req.estado || 'Asignado'
+  });
+  
+  console.log('Requerimiento creado:', nuevoRequerimiento);
+  
+  // Agregar a la lista
+  sampleRequerimientos.push(nuevoRequerimiento);
+  console.log('Requerimiento agregado a la lista. Total:', sampleRequerimientos.length);
+  
+  // Actualizar las relaciones del perito
+  if (req.peritoId) {
+    const perito = samplePeritos.find(p => p.id === req.peritoId);
+    if (perito) {
+      perito.requerimientoIds.push(id);
+      console.log('Perito actualizado:', perito);
+    }
+  }
+  
+  return nuevoRequerimiento;
 }
 
 // 🔎 Funciones utilitarias de relaciones
@@ -194,7 +222,17 @@ export function getPeritoConRequerimientos(peritoId) {
 
 // Traer un requerimiento con cliente y perito
 export function getRequerimientoCompleto(reqId) {
-  const req = sampleRequerimientos.find(r => r.id === reqId)
+  console.log('getRequerimientoCompleto llamado con ID:', reqId);
+  console.log('Tipo de ID:', typeof reqId);
+  console.log('Todos los requerimientos disponibles:', sampleRequerimientos);
+  
+  // Convertir reqId a número para comparación consistente
+  const reqIdNum = Number(reqId);
+  console.log('ID convertido a número:', reqIdNum);
+  
+  const req = sampleRequerimientos.find(r => r.id === reqIdNum)
+  console.log('Requerimiento encontrado:', req);
+  
   if (!req) return null
 
   const cliente = req.clienteId
@@ -205,7 +243,10 @@ export function getRequerimientoCompleto(reqId) {
     ? samplePeritos.find(p => p.id === req.peritoId)
     : null
 
-  return { ...req, cliente, perito }
+  const resultado = { ...req, cliente, perito }
+  console.log('Resultado final:', resultado);
+  
+  return resultado
 }
 
 export function asignarRequerimiento({ clienteId, peritoId, direccion, estado = 'Asignado', plazoDias = 3, postVisitHours = 24, archivoAsignacion = null }) {

@@ -6,7 +6,7 @@ import Perito from './components/Perito.jsx'
 import ClientesAdmin from './components/Clientes.Admin.jsx'
 import NuevoCliente from './components/NuevoCliente.jsx'
 import NuevoPerito from './components/AgregarPerito.jsx'
-import PeritosAdmin from './components/Peritos.Admin.jsx'
+
 import HistorialCliente from './components/HistorialCliente.jsx'
 import logo from "./components/img/logo.png"
 import HistorialPerito from './components/HistorialPerito.jsx'
@@ -172,7 +172,7 @@ export default function App() {
                 <Route path="/" element={<Admin />} />
                 <Route path="/clientes" element={<ClientesAdmin />} />
                 <Route path="/clientes/nuevo" element={<NuevoCliente />} />
-                <Route path="/peritos" element={<PeritosAdmin />} />
+                {/* <Route path="/peritos" element={<PeritosAdmin />} /> */}
                 <Route path="/agregar-perito" element={<NuevoPerito />} />
                 <Route path="/requerimientos" element={<Requerimientos />} />
                 <Route path="/crear-requerimiento" element={<CrearRequerimiento />} />

@@ -14,8 +14,17 @@ export default function Requerimientos() {
 
   // Obtener todos los requerimientos (asignados y sin asignar)
   const todosLosRequerimientos = requerimientosCompletos;
+  
+  // Debug: mostrar información de los requerimientos
+  console.log('Requerimientos en sampleRequerimientos:', sampleRequerimientos);
+  console.log('Requerimientos completos:', requerimientosCompletos);
+  console.log('Todos los requerimientos:', todosLosRequerimientos);
 
   const handleRequerimientoClick = (reqId) => {
+    console.log('Click en requerimiento:', reqId);
+    console.log('Tipo de ID:', typeof reqId);
+    console.log('Requerimiento encontrado:', sampleRequerimientos.find(r => r.id === reqId));
+    console.log('URL de navegación:', `/requerimiento/${reqId}`);
     navigate(`/requerimiento/${reqId}`);
   };
 

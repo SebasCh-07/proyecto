@@ -121,6 +121,16 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
     onClose()
   }
 
+  // Calcular fecha límite
+  const getFechaDeadline = () => {
+    if (!selected) return null
+    const asignacion = new Date(selected.fechaAsignacion).getTime()
+    const deadline = asignacion + selected.plazoDias * 24 * 3600 * 1000
+    return new Date(deadline)
+  }
+
+  const fechaDeadline = getFechaDeadline()
+
   return (
     <Modal
       open={!!selected}
@@ -131,20 +141,22 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
           : ""
       }
     >
-                {selected && (
-                <div style={{ display: "grid", gap: 12}}>
-          {/* DATOS BÁSICOS */}
-          <div className="panel"  style={{fontSize: "20px"}}>
-            <strong>Cliente:</strong> {getCliente(selected.clienteId).nombre} <br />
-            <strong>Estado:</strong> {selected.estado} <br />
-            <strong>Plazo global:</strong> {selected.plazoDias} días
+      {selected && (
+        <div style={{ display: "grid", gap: 12 }}>
+          {/* INFORMACIÓN BÁSICA COMPRIMIDA */}
+          <div className="panel" style={{ fontSize: "16px", backgroundColor: "#f8f9fa", border: "1px solid #e9ecef", padding: "16px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+              <div><strong>Cliente:</strong> {getCliente(selected.clienteId).nombre}</div>
+              <div><strong>Plazo:</strong> {selected.plazoDias} días</div>
+              <div><strong>Tel:</strong> {getCliente(selected.clienteId).telefono}</div>
+            </div>
           </div>
 
-          {/* Mostrar archivo adjunto */}
+          {/* ARCHIVO DE ASIGNACIÓN COMPRIMIDO */}
           {selected.archivoAsignacion && (
-            <div className="panel">
-              <strong  style={{fontSize: "18px"}}>Documento de Asignación:</strong>
-              <div style={{ marginTop: '8px' }}>
+            <div className="panel" style={{ backgroundColor: "#fff3cd", border: "1px solid #ffeaa7", padding: "16px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+                <strong style={{ fontSize: "16px" }}>Documento de Asignación</strong>
                 <a 
                   href={selected.archivoAsignacion} 
                   target="_blank" 
@@ -152,41 +164,63 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '8px',
+                    gap: '6px',
                     padding: '8px 12px',
-                    backgroundColor: '#f0f8ff',
-                    border: '1px solid #007bff',
+                    backgroundColor: '#007bff',
+                    border: '1px solid #0056b3',
                     borderRadius: '6px',
                     textDecoration: 'none',
-                    color: '#007bff',
-                    fontWeight: '500'
+                    color: 'white',
+                    fontWeight: '500',
+                    fontSize: '14px'
                   }}
                 >
-                  📋 {selected.archivoAsignacion.includes('.pdf') ? 'Ver PDF' : 'Ver Excel'}
+                  {typeof selected.archivoAsignacion === 'string' && selected.archivoAsignacion.includes('.pdf') ? 'Ver PDF' : 'Ver Excel'}
                 </a>
-                <div className="small" style={{ marginTop: '8px', color: '#666', fontSize: "18px"}}>
-                  Documento enviado al asignar este requerimiento
-                </div>
+              </div>
+              <div className="small" style={{ color: '#856404', fontSize: "14px" }}>
+                {selected.archivoAsignacion} - Revisa antes de aceptar
               </div>
             </div>
           )}
 
+          {/* FECHAS COMPRIMIDAS */}
+          <div className="panel" style={{ backgroundColor: "#d1ecf1", border: "1px solid #bee5eb", padding: "16px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+              <div>
+                <strong>Asignación:</strong> {new Date(selected.fechaAsignacion).toLocaleDateString('es-ES', {
+                  month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                })}
+              </div>
+              <div>
+                <strong>Límite:</strong> 
+                <span style={{ color: fechaDeadline && fechaDeadline < new Date() ? '#dc3545' : '#28a745' }}>
+                  {fechaDeadline ? fechaDeadline.toLocaleDateString('es-ES', {
+                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                  }) : 'N/A'}
+                </span>
+              </div>
+            </div>
+          </div>
+
           {/* Decisión inicial */}
           {selected.estado === "Asignado" && (
-            <div className="panel"  style={{fontSize: "20px"}}>
-              <strong style={{display: "flex", justifyContent: "center" }}>¿Aceptar este requerimiento?</strong>
-              <div className="row" style={{ marginTop: 8, display: "flex", justifyContent: "center" }}>
+            <div className="panel" style={{ fontSize: "18px", backgroundColor: "#d4edda", border: "1px solid #c3e6cb", textAlign: "center", padding: "16px" }}>
+              <strong style={{ display: "block", marginBottom: "12px", color: "#155724" }}>
+                ¿Aceptar este requerimiento?
+              </strong>
+              <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
                 <button
                   className="btn success"
                   onClick={() => onDecision(selected.id, "aceptar")}
-                   style={{fontSize: "20px"}}
+                  style={{ fontSize: "16px", padding: "10px 20px" }}
                 >
                   Aceptar
                 </button>
                 <button
                   className="btn danger"
                   onClick={() => onDecision(selected.id, "rechazar")}
-                   style={{fontSize: "20px"}}
+                  style={{ fontSize: "16px", padding: "10px 20px" }}
                 >
                   Rechazar
                 </button>
@@ -198,24 +232,18 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
           {selected.estado === "En curso" && (
             <>
               {/* Llegada */}
-              <div className="panel">
+              <div className="panel" style={{ padding: "16px" }}>
                 <strong>Llegada al sitio</strong>
-                <div className="row" style={{ justifyContent: "space-between" }}>
+                <div className="row" style={{ justifyContent: "space-between", marginTop: "8px" }}>
                   <div className="small">
-                    {arrivedAt
-                      ? `Marcado: ${arrivedAt.toLocaleString()}`
-                      : "Sin marcar"}
+                    {arrivedAt ? `Marcado: ${arrivedAt.toLocaleString()}` : "Sin marcar"}
                   </div>
                   {!arrivedAt ? (
                     <button className="btn" onClick={handleLlegada}>
-                      Marcar llegada + Capturar GPS
+                      Marcar llegada + GPS
                     </button>
                   ) : (
-                    <button
-                      className="btn secondary"
-                      onClick={openMap}
-                      disabled={!gps || gps.error}
-                    >
+                    <button className="btn secondary" onClick={openMap} disabled={!gps || gps.error}>
                       Ver mapa
                     </button>
                   )}
@@ -223,29 +251,17 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
               </div>
 
               {/* Timer */}
-              <div className="panel">
+              <div className="panel" style={{ padding: "16px" }}>
                 <strong>Tiempo en sitio</strong>
-                <div className="row" style={{ justifyContent: "space-between" }}>
+                <div className="row" style={{ justifyContent: "space-between", marginTop: "8px" }}>
                   <div className="badge info">
-                    {timerStart
-                      ? `⏱ ${fmt(elapsed)}`
-                      : timerStopped
-                        ? "⏹ Detenido"
-                        : "No iniciado"}
+                    {timerStart ? `${fmt(elapsed)}` : timerStopped ? "Detenido" : "No iniciado"}
                   </div>
                   <div className="row">
-                    <button
-                      className="btn"
-                      onClick={() => setTimerStart(Date.now())}
-                      disabled={!!timerStart}
-                    >
+                    <button className="btn" onClick={() => setTimerStart(Date.now())} disabled={!!timerStart}>
                       Iniciar
                     </button>
-                    <button
-                      className="btn secondary"
-                      onClick={handleStopTimer}
-                      disabled={!timerStart}
-                    >
+                    <button className="btn secondary" onClick={handleStopTimer} disabled={!timerStart}>
                       Detener
                     </button>
                   </div>
@@ -253,46 +269,29 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
               </div>
 
               {/* Evidencias */}
-              <div className="panel">
+              <div className="panel" style={{ padding: "16px" }}>
                 <strong>Subir evidencias</strong>
-                <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
+                <div style={{ display: "grid", gap: "8px", marginTop: "8px" }}>
                   <div>
                     <div className="label">Fotos</div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={(e) =>
-                        setPhotoFiles(Array.from(e.target.files || []))
-                      }
-                    />
+                    <input type="file" accept="image/*" multiple onChange={(e) => setPhotoFiles(Array.from(e.target.files || []))} />
                   </div>
                   <div>
                     <div className="label">Video (máx. 40s)</div>
-                    <input
-                      type="file"
-                      accept="video/*"
-                      onChange={onVideoChange}
-                    />
+                    <input type="file" accept="video/*" onChange={onVideoChange} />
                   </div>
                 </div>
               </div>
 
               {/* Informe */}
-              <div className="panel">
+              <div className="panel" style={{ padding: "16px" }}>
                 <strong>Informe final</strong>
-                <div className="row" style={{ marginTop: 8 }}>
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={(e) =>
-                      setReportFile(e.target.files?.[0] || null)
-                    }
-                  />
+                <div style={{ marginTop: "8px" }}>
+                  <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => setReportFile(e.target.files?.[0] || null)} />
                 </div>
               </div>
 
-              <div className="panel" style={{ textAlign: "center" }}>
+              <div className="panel" style={{ textAlign: "center", padding: "16px" }}>
                 <button className="btn success" onClick={handleFinalize}>
                   ✅ Finalizar Requerimiento
                 </button>
@@ -302,7 +301,7 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
 
           {/* Vista si ya está finalizado */}
           {selected.estado === "Finalizado" && (
-            <div className="panel">
+            <div className="panel" style={{ padding: "16px" }}>
               <h3>📋 Este requerimiento ya fue finalizado</h3>
               <p>Puedes consultarlo en la pantalla de detalle.</p>
             </div>
