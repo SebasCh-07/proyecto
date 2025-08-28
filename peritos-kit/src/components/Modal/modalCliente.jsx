@@ -36,14 +36,6 @@ export default function ModalCliente({ cliente, onClose }) {
 
                         <div style={{ display: 'grid', gap: 10 }}>
                             {/* 🔹 Ahora navega a /peritos */}
-                            <button
-                                className="btn"
-                                onClick={() => navigate("/peritos", { state: { cliente } })}
-                                style={{ fontSize: "20px" }}
-
-                            >
-                                ➕ Asignar Perito
-                            </button>
 
                             <button
                                 className="btn secondary"

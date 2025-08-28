@@ -4,17 +4,20 @@ import { sampleRequerimientos, sampleClientes, getPerito } from "../data.js";
 export default function ListaClientesHistorial() {
   const navigate = useNavigate();
   const { peritoId } = useParams();
+  const peritoIdNum = Number(peritoId);
 
   // Filtrar requerimientos por perito
   const requerimientosDelPerito = sampleRequerimientos.filter(
-    req => req.peritoId == peritoId
+    req => req.peritoId == peritoIdNum
   );
 
   // Obtener clientes únicos de los requerimientos
   const clientesIds = [...new Set(requerimientosDelPerito.map(req => req.clienteId))];
-  const clientes = clientesIds.map(id => sampleClientes.find(cliente => cliente.id == id));
-  const perito = getPerito(peritoId);
-  const nombrePerito = perito ? perito.nombre : `Perito #${peritoId}`;
+  const clientes = clientesIds
+    .map(id => sampleClientes.find(cliente => cliente.id == id))
+    .filter(Boolean);
+  const perito = getPerito(peritoIdNum);
+  const nombrePerito = perito ? perito.nombre : 'Perito desconocido';
   
   return (
     <div>

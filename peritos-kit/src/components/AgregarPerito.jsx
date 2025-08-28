@@ -32,7 +32,7 @@ export default function AgregarPerito() {
     <div>
       <div className="header" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <button 
-          onClick={() => navigate(-1)} 
+          onClick={() => navigate("/historial-perito")} 
           style={{
             border: "none",
             background: "transparent",
@@ -88,7 +88,7 @@ export default function AgregarPerito() {
           onChange={(e) => setPassword(e.target.value)}
           className="input"
         />
-        <button type="submit" className="btn" style={{marginBottom: "10px"}}>Guardar</button>
+        <button type="submit" className="btn" style={{marginBottom: "10px", fontSize: "20px", justifyContent: "center"}}>Guardar</button>
       </form>
     </div>
   )

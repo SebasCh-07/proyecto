@@ -13,6 +13,9 @@ import HistorialPerito from './components/HistorialPerito.jsx'
 import ListaClientesHistorial from './components/listaClientesHistorial.jsx'
 import DetalleCliente from './components/detalleCliente.jsx'
 import RequerimientoDetalle from './components/RequerimientoDetalle.jsx'
+import RequerimientoDetalleAdminPerito from './components/RequerimientoDetalleAdminPerito.jsx'
+import Requerimientos from './components/Requerimientos.jsx'
+import CrearRequerimiento from './components/CrearRequerimiento.jsx'
 import PeritoEnCurso from './components/peritoEnCurso.jsx'
 import img from "./components/img/perito.jpg"
 import { useNavigate } from "react-router-dom"
@@ -106,7 +109,6 @@ export default function App() {
                 margin: 0,
                 fontWeight: 700,
                 color: "var(--text)",
-                fontSize: "30px"
               }}>
                 Plataforma Peritos
               </h1>
@@ -123,20 +125,29 @@ export default function App() {
           }}>
             {role === 'admin' && (
               <button
-                className="btn success"
-                onClick={() => navigate("/historial-perito")}
+                onClick={() => navigate("/clientes")}
                 style={{fontSize: "20px"}}
+                className="btn success"
               >
-                Historial Perito
+                Clientes
               </button>
             )}
             {role === 'admin' && (
               <button
-                onClick={() => navigate("/agregar-perito")}
+                className="btn success"
+                onClick={() => navigate("/historial-perito")}
                 style={{fontSize: "20px"}}
-                className="btn primary"
               >
-                + Agregar Perito
+                Lista de Peritos
+              </button>
+            )}
+            {role === 'admin' && (
+              <button
+                onClick={() => navigate("/requerimientos")}
+                style={{fontSize: "20px"}}
+                className="btn success"
+              >
+                Requerimientos
               </button>
             )}
             <button
@@ -163,11 +174,13 @@ export default function App() {
                 <Route path="/clientes/nuevo" element={<NuevoCliente />} />
                 <Route path="/peritos" element={<PeritosAdmin />} />
                 <Route path="/agregar-perito" element={<NuevoPerito />} />
+                <Route path="/requerimientos" element={<Requerimientos />} />
+                <Route path="/crear-requerimiento" element={<CrearRequerimiento />} />
                 <Route path="/historial-perito" element={<HistorialPerito />} />
                 <Route path="/listaClientesHistorial/:peritoId" element={<ListaClientesHistorial />} />
                 <Route path="/detalleCliente/:clienteId" element={<DetalleCliente />} />
                 <Route path="/historial-cliente" element={<HistorialCliente />} />
-                <Route path="/requerimiento/:id" element={<RequerimientoDetalle />} />
+                <Route path="/requerimiento/:id" element={<RequerimientoDetalleAdminPerito />} />
               </>
             )}
 

@@ -20,7 +20,7 @@ function Countdown({ until }) {
     return () => clearInterval(id);
   }, [until]);
   return (
-    <span className="badge info"  style={{fontSize: "18px"}}>
+    <span className="badge info" style={{ fontSize: "18px" }}>
       {left > 0 ? `⏳ ${fmt(left)}` : "Vencido"}
     </span>
   );
@@ -36,9 +36,9 @@ export default function Perito({ peritoId }) {
 
   // ✅ Siempre refrescar requerimientos de este perito
   useEffect(() => {
-  const misReqs = sampleRequerimientos.filter((r) => r.peritoId == peritoId);
-  setRequerimientos(misReqs);
-}, [peritoId]);
+    const misReqs = sampleRequerimientos.filter((r) => r.peritoId == peritoId);
+    setRequerimientos(misReqs);
+  }, [peritoId]);
 
 
   // ✅ Manejo de decisiones en modal
@@ -57,9 +57,9 @@ export default function Perito({ peritoId }) {
 
         if (decision === "finalizado") {
           // Actualizar el requerimiento en sampleRequerimientos con todas las evidencias
-          const updatedReq = { 
-            ...r, 
-            estado: "Finalizado", 
+          const updatedReq = {
+            ...r,
+            estado: "Finalizado",
             gps: extraData.gps,
             fotos: extraData.photoFiles || [],
             video: extraData.videoFile,
@@ -67,17 +67,17 @@ export default function Perito({ peritoId }) {
             postVisitHours: extraData.postVisitHours || r.postVisitHours,
             observaciones: extraData.observaciones || r.observaciones
           };
-          
+
           // Actualizar también en sampleRequerimientos
           const index = sampleRequerimientos.findIndex(req => req.id === id);
           if (index !== -1) {
             sampleRequerimientos[index] = updatedReq;
           }
-          
+
           return updatedReq;
         }
 
-        return r; 
+        return r;
       })
     );
     setSelected(null);
@@ -90,9 +90,11 @@ export default function Perito({ peritoId }) {
     <div className="container">
       {/* Perfil del perito */}
       {perito && (
-        <div className="perfil" style={{ marginBottom: "10px", fontSize: "20px"}}>
-          <h2>👤 Perfil del Perito</h2>
-          <p><strong>Nombre:</strong> {perito.nombre}</p>
+        <div className="perfil" style={{ marginBottom: "5px", fontSize: "20px" }}>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <h2>👤 Bienvenido  {perito.nombre}</h2>
+          </div>
+          <p><strong>CI:</strong> {perito.id}</p>
           <p><strong>Teléfono:</strong> {perito.telefono}</p>
           <p><strong>Disponible:</strong> {perito.disponible ? "Sí" : "No"}</p>
         </div>
@@ -105,7 +107,7 @@ export default function Perito({ peritoId }) {
             key={t}
             className={`tab ${tab === t ? "active" : ""}`}
             onClick={() => setTab(t)}
-             style={{fontSize: "20px"}}
+            style={{ fontSize: "20px" }}
           >
             {t}
           </button>
@@ -115,7 +117,7 @@ export default function Perito({ peritoId }) {
       {/* Lista filtrada */}
       <div className="list">
         {filteredReqs.length === 0 ? (
-          <div className="small"  style={{fontSize: "20px"}}>No hay requerimientos en {tab}</div>
+          <div className="small" style={{ fontSize: "20px" }}>No hay requerimientos en {tab}</div>
         ) : (
           filteredReqs.map((r) => {
             const asignacion = new Date(r.fechaAsignacion).getTime();
@@ -125,7 +127,7 @@ export default function Perito({ peritoId }) {
               <div
                 key={r.id}
                 className="item"
-                style={{fontSize: "22px"}}
+                style={{ fontSize: "22px" }}
                 onClick={() => {
                   if (r.estado === "Finalizado") {
                     navigate(`/requerimiento/${r.id}`)
@@ -140,10 +142,10 @@ export default function Perito({ peritoId }) {
                   <strong>
                     {r.id}.- Cliente: {getCliente(r.clienteId).nombre}
                   </strong>
-                  <div className="small"  style={{fontSize: "18px"}}>{r.direccion}</div>
+                  <div className="small" style={{ fontSize: "18px" }}>{r.direccion}</div>
                 </div>
                 <div className="row" >
-                  <span className="badge info"  style={{fontSize: "15px"}}>{r.estado}</span>
+                  <span className="badge info" style={{ fontSize: "15px" }}>{r.estado}</span>
                   <Countdown until={globalDeadline} />
                 </div>
               </div>

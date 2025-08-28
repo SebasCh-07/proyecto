@@ -5,9 +5,11 @@
 | Login/Registro | MEDIA | 10 | Sistema de autenticación completo con dos roles (Admin/Perito) y localStorage para persistencia de sesión |
 | Onboarding Peritos | ALTA | 16 | Proceso de registro y verificación de peritos con validación y flujo de usuario |
 | Onboarding Clientes | ALTA | 16 | Registro de clientes con validación de datos y asignación de peritos |
+
 | Dashboard Peritos | ALTA | 34 | Panel principal para peritos que muestra requerimientos asignados, incluye estados y cronómetros de plazos |
 | Dashboard Clientes | ALTA | 34 | Panel principal para clientes con seguimiento de solicitudes de avalúos |
 | Dashboard Admin | MEDIA | 34 | Panel de administración con gestión de peritos y clientes, asignación de requerimientos |
+
 | Perfil Perito | ALTA | 24 | Gestión completa de perfiles de peritos con estados de disponibilidad |
 | Perfil Cliente | ALTA | 24 | Perfiles de clientes con datos de contacto e historial |
 | Edición de Perfiles | MEDIA | 16 | Sistema de edición de perfiles con validaciones |

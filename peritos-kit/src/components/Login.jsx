@@ -95,11 +95,12 @@ export default function Login({ onLogin }) {
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: 8,
+              my: 25,
               mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center"
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -132,7 +133,7 @@ export default function Login({ onLogin }) {
                   {error}
                 </Typography>
               )}
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 1 }}>
                 Ingresar
               </Button>
               <Grid item xs>
@@ -141,9 +142,6 @@ export default function Login({ onLogin }) {
                   ¿Olvido su Contraseña?
                 </Link>
               </Grid>
-              <Box mt={55}>
-                <Copyright />
-              </Box>
             </Box>
           </Box>
         </Grid>

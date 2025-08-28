@@ -29,6 +29,20 @@ export default function RequerimientoDetalle() {
       </div>
 
       <div className="panel" style={{ marginBottom: 16 }}>
+        <h3 style={{ marginBottom: 12, color: "#005eff" }}>Información del Perito</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <p><strong>Perito:</strong> {req.perito?.nombre}</p>
+          <p><strong>Teléfono:</strong> {req.perito?.telefono}</p>
+          <p><strong>Usuario:</strong> {req.perito?.username}</p>
+          <p><strong>Estado:</strong> 
+            <span className={`badge ${req.perito?.disponible ? 'ok' : 'warning'}`} style={{ marginLeft: 8 }}>
+              {req.perito?.disponible ? 'Disponible' : 'No disponible'}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div className="panel" style={{ marginBottom: 16 }}>
         <h3 style={{ marginBottom: 12, color: "#005eff" }}>Información del Cliente</h3>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <p><strong>Cliente:</strong> {req.cliente?.nombre}</p>
@@ -50,11 +64,13 @@ export default function RequerimientoDetalle() {
       </div>
 
       <div className="panel" style={{ marginBottom: 16 }}>
-        <h3 style={{ marginBottom: 12, color: "#005eff" }}>Evidencias</h3>
+        <div style={{display: "flex", justifyContent: "center"}}>
+          <h3 style={{ marginBottom: 12, color: "#005eff", fontSize: "30px" }}>Evidencias</h3>
+        </div>
 
         {/* Mapa de Ubicación */}
         <div style={{ marginBottom: 16 }}>
-          <strong>📍 Mapa de Ubicación:</strong>
+          <strong style={{fontSize: "25px"}}>📍 Mapa de Ubicación:</strong>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
             {req.gps && !req.gps.error ? (
               <iframe
@@ -74,8 +90,8 @@ export default function RequerimientoDetalle() {
         {/* Fotos */}
         {req.fotos?.length > 0 && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{marginBottom: "10px" ,display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
-            <strong>📸 Fotos:</strong>
+            <div style={{color: "gray" , marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
+            <strong style={{fontSize: "25px"}}>📸 Fotos:</strong>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8, justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
               {req.fotos.map((f, i) => (
                 <img
@@ -101,8 +117,8 @@ export default function RequerimientoDetalle() {
         {/* Video */}
         {req.video && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{marginBottom: "10px" ,display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
-            <strong>🎥 Video:</strong>
+            <div style={{color: "gray" ,marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
+            <strong style={{fontSize: "25px"}}>🎥 Video:</strong>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
               <video
                 key={URL.createObjectURL(req.video)}
@@ -122,8 +138,8 @@ export default function RequerimientoDetalle() {
         {/* Documentos */}
         {req.pdf && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{marginBottom: "10px" ,display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
-            <strong>📄 Informe:</strong>
+            <div style={{color: "gray" , marginBottom: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>_____________________________________________________________________</div>
+            <strong style={{fontSize: "25px"}}>📄 Informe:</strong>
             <div style={{ marginTop: 8 }}>
               <a
                 href={URL.createObjectURL(req.pdf)}

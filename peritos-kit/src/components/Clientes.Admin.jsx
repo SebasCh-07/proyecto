@@ -1,11 +1,9 @@
 import { useMemo, useState } from 'react'
 import { sampleClientes, removeCliente } from '../data.js'
-import ModalCliente from "./Modal/modalCliente.jsx"
 import { useNavigate } from "react-router-dom"
 
 export default function ClientesAdmin() {
     const [query, setQuery] = useState('')
-    const [clienteSeleccionado, setClienteSeleccionado] = useState(null)
     const [showConfirm, setShowConfirm] = useState(false)
     const [clienteEliminar, setClienteEliminar] = useState(null)
     const [clientesState, setClientesState] = useState(sampleClientes)
@@ -19,8 +17,9 @@ export default function ClientesAdmin() {
         )
     }, [query, clientesState])
 
-    const abrirModal = (cliente) => setClienteSeleccionado(cliente)
-    const cerrarModal = () => setClienteSeleccionado(null)
+    const navegarAHistorial = (cliente) => {
+        navigate("/historial-cliente", { state: { cliente } })
+    }
 
     // 🔹 abrir confirmación
     const abrirConfirmacion = (cliente) => {
@@ -44,7 +43,8 @@ export default function ClientesAdmin() {
     }
 
     return (
-        <div>
+        <div style={{ fontSize: "18px" }}>
+            <h1 style={{ fontSize: "35px" }}>Clientes</h1>
             <div className="header">
                 <button
                     className="btn primary"
@@ -53,7 +53,6 @@ export default function ClientesAdmin() {
                 >
                     + Agregar Cliente
                 </button>
-
                 <div className="row">
                     <input
                         style={{ fontSize: "20px" }}
@@ -70,16 +69,16 @@ export default function ClientesAdmin() {
                     <div
                         key={c.id}
                         className="item"
-                        style={{fontSize: "20px"}}
+                        style={{ fontSize: "20px" }}
                     >
-                        <div onClick={() => abrirModal(c)} style={{ cursor: "pointer", flex: 1 }}>
+                        <div onClick={() => navegarAHistorial(c)} style={{ cursor: "pointer", flex: 1 }}>
                             <div className="font-semibold mb-2">{c.nombre}</div>
-                            <div className="small text-muted" style={{fontSize: "18px"}}>CI: {c.id}</div>
-                            <div className="small text-muted" style={{fontSize: "18px"}}>Ver peritos y asignar</div>
+                            <div className="small text-muted" style={{ fontSize: "18px" }}>CI: {c.id}</div>
+                            <div className="small text-muted" style={{ fontSize: "18px" }}>Ver historial y peritos</div>
                         </div>
 
                         <div className="row gap-4">
-                            <span className="badge info" style={{fontSize: "17px"}}>Cliente</span>
+                            <span className="badge info" style={{ fontSize: "17px" }}>Cliente</span>
                             <button
                                 className="btn primary"
                                 onClick={() => abrirConfirmacion(c)}
@@ -97,13 +96,7 @@ export default function ClientesAdmin() {
                 )}
             </div>
 
-            {/* Modal info cliente */}
-            {clienteSeleccionado && (
-                <ModalCliente
-                    cliente={clienteSeleccionado}
-                    onClose={cerrarModal}
-                />
-            )}
+
 
             {/* Modal confirmación */}
             {showConfirm && (
