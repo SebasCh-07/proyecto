@@ -29,67 +29,145 @@ export default function AgregarPerito() {
   }
 
   return (
-    <div>
-      <div className="header" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <div className="container">
+      <div className="header" style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        gap: "16px",
+        marginBottom: "24px"
+      }}>
         <button 
           onClick={() => navigate("/historial-perito")} 
+          className="btn secondary"
           style={{
-            border: "none",
-            background: "transparent",
-            fontSize: "22px",
-            cursor: "pointer",
+            fontSize: "18px",
+            minWidth: "44px",
+            minHeight: "44px",
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           <FaArrowLeft />
         </button>
-        <h3 style={{ margin: 0, fontSize: "20px" }}>Nuevo Perito</h3>
+        <h3 style={{ 
+          margin: 0, 
+          fontSize: "24px",
+          flex: "1",
+          textAlign: "center"
+        }}>
+          Nuevo Perito
+        </h3>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ marginTop: "15px", display: "grid", gap: "10px", marginLeft: "400px", marginRight: "400px" }}>
-        <input
-          type="number"
-          placeholder="ID / Cédula"
-          style={{fontSize: "20px"}}
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-          className="input"
-        />
-        <input
-          type="text"
-          placeholder="Nombre"
-           style={{fontSize: "20px"}}
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          className="input"
-        />
-        <input
-          type="text"
-          placeholder="Teléfono"
-           style={{fontSize: "20px"}}
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
-          className="input"
-        />
-         <input
-          type="text"
-          placeholder="Username"
-           style={{fontSize: "20px"}}
-          value={Username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="input"
-        />
-         <input
-          type="text"
-          placeholder="Password"
-           style={{fontSize: "20px"}}
-          value={Password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="input"
-        />
-        <button type="submit" className="btn" style={{marginBottom: "10px", fontSize: "20px", justifyContent: "center"}}>Guardar</button>
-      </form>
+      <div className="card" style={{ 
+        maxWidth: "600px", 
+        margin: "0 auto",
+        width: "100%"
+      }}>
+        <form onSubmit={handleSubmit} style={{ 
+          display: "grid", 
+          gap: "20px"
+        }}>
+          <div>
+            <label className="label">ID / Cédula</label>
+            <input
+              type="number"
+              placeholder="ID / Cédula"
+              style={{fontSize: "18px"}}
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              className="input"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="label">Nombre Completo</label>
+            <input
+              type="text"
+              placeholder="Nombre del perito"
+              style={{fontSize: "18px"}}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              className="input"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="label">Teléfono</label>
+            <input
+              type="tel"
+              placeholder="Número de teléfono"
+              style={{fontSize: "18px"}}
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+              className="input"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="label">Nombre de Usuario</label>
+            <input
+              type="text"
+              placeholder="Username para login"
+              style={{fontSize: "18px"}}
+              value={Username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="input"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="label">Contraseña</label>
+            <input
+              type="password"
+              placeholder="Password para login"
+              style={{fontSize: "18px"}}
+              value={Password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input"
+              required
+            />
+          </div>
+          
+          <div style={{
+            display: "flex",
+            gap: "16px",
+            marginTop: "20px",
+            flexWrap: "wrap"
+          }}>
+            <button 
+              type="submit" 
+              className="btn success" 
+              style={{
+                fontSize: "18px",
+                flex: "1",
+                minWidth: "120px",
+                minHeight: "48px"
+              }}
+            >
+              Guardar Perito
+            </button>
+            <button 
+              type="button" 
+              className="btn secondary" 
+              onClick={() => navigate("/historial-perito")}
+              style={{
+                fontSize: "18px",
+                flex: "1",
+                minWidth: "120px",
+                minHeight: "48px"
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

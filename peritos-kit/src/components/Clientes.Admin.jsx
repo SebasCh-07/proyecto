@@ -44,18 +44,35 @@ export default function ClientesAdmin() {
 
     return (
         <div style={{ fontSize: "18px" }}>
-            <h1 style={{ fontSize: "35px" }}>Clientes</h1>
-            <div className="header">
+            <h1 style={{ 
+                fontSize: "35px",
+                textAlign: "center",
+                marginBottom: "24px"
+            }}>Clientes</h1>
+            
+            <div className="header" style={{
+                flexDirection: "column",
+                gap: "16px"
+            }}>
                 <button
-                    className="btn primary"
+                    className="btn success"
                     onClick={() => navigate("/clientes/nuevo")}
-                    style={{ fontSize: "20px" }}
+                    style={{ 
+                        fontSize: "20px",
+                        width: "100%",
+                        maxWidth: "300px",
+                        margin: "0 auto"
+                    }}
                 >
                     + Agregar Cliente
                 </button>
-                <div className="row">
+                <div style={{ width: "100%" }}>
                     <input
-                        style={{ fontSize: "20px" }}
+                        style={{ 
+                            fontSize: "20px",
+                            width: "100%",
+                            maxWidth: "400px"
+                        }}
                         className="input"
                         placeholder='🔍 Buscar cliente (ej: "Reisac")'
                         value={query}
@@ -69,45 +86,118 @@ export default function ClientesAdmin() {
                     <div
                         key={c.id}
                         className="item"
-                        style={{ fontSize: "20px" }}
+                        style={{ 
+                            fontSize: "20px",
+                            cursor: "pointer"
+                        }}
                     >
-                        <div onClick={() => navegarAHistorial(c)} style={{ cursor: "pointer", flex: 1 }}>
-                            <div className="font-semibold mb-2">{c.nombre}</div>
-                            <div className="small text-muted" style={{ fontSize: "18px" }}>CI: {c.id}</div>
-                            <div className="small text-muted" style={{ fontSize: "18px" }}>Ver historial y peritos</div>
+                        <div 
+                            onClick={() => navegarAHistorial(c)} 
+                            style={{ 
+                                cursor: "pointer", 
+                                flex: 1,
+                                width: "100%"
+                            }}
+                        >
+                            <div className="font-semibold mb-2" style={{
+                                fontSize: "22px",
+                                marginBottom: "8px"
+                            }}>
+                                {c.nombre}
+                            </div>
+                            <div className="small text-muted" style={{ 
+                                fontSize: "18px",
+                                marginBottom: "4px"
+                            }}>
+                                CI: {c.id}
+                            </div>
+                            <div className="small text-muted" style={{ 
+                                fontSize: "16px",
+                                color: "#64748b"
+                            }}>
+                                Ver historial y peritos
+                            </div>
                         </div>
 
-                        <div className="row gap-4">
-                            <span className="badge info" style={{ fontSize: "17px" }}>Cliente</span>
+                        <div className="row gap-4" style={{
+                            gap: "12px",
+                            alignItems: "center"
+                        }}>
+                            <span className="badge info" style={{ 
+                                fontSize: "17px",
+                                whiteSpace: "nowrap"
+                            }}>
+                                Cliente
+                            </span>
                             <button
-                                className="btn primary"
-                                onClick={() => abrirConfirmacion(c)}
-                                style={{ display: 'flex', alignItems: 'center' }}
+                                className="btn danger"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    abrirConfirmacion(c);
+                                }}
+                                style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    minWidth: "44px",
+                                    minHeight: "44px"
+                                }}
+                                aria-label="Eliminar cliente"
                             >
-                                <span className="small text-muted" style={{ fontSize: "12px", fontWeight: "bold", color: "black" }}>✖</span>
+                                <span style={{ 
+                                    fontSize: "16px", 
+                                    fontWeight: "bold", 
+                                    color: "white" 
+                                }}>
+                                    ✖
+                                </span>
                             </button>
                         </div>
                     </div>
                 ))}
                 {filteredClientes.length === 0 && (
-                    <div className="card text-center text-muted">
+                    <div className="card text-center text-muted" style={{
+                        padding: "40px 20px",
+                        fontSize: "18px"
+                    }}>
                         No se encontraron clientes
                     </div>
                 )}
             </div>
 
-
-
-            {/* Modal confirmación */}
+            {/* Modal de confirmación */}
             {showConfirm && (
                 <div className="modal-backdrop">
-                    <div className="modal">
-                        <h3 className="mb-4">¿Eliminar cliente?</h3>
-                        <p className="text-muted mb-6">Esta acción no se puede deshacer.</p>
-                        <div className="row" style={{ justifyContent: "flex-end", gap: "12px" }}>
-                            <button className="btn secondary" onClick={cerrarConfirmacion}>Cancelar</button>
-                            <button className="btn danger" onClick={confirmarEliminar}>
-                                Confirmar
+                    <div className="modal" style={{
+                        maxWidth: "400px",
+                        textAlign: "center"
+                    }}>
+                        <h3 style={{ marginBottom: "20px" }}>
+                            ¿Eliminar cliente?
+                        </h3>
+                        <p style={{ marginBottom: "24px" }}>
+                            ¿Estás seguro de que quieres eliminar a <strong>{clienteEliminar?.nombre}</strong>?
+                            Esta acción no se puede deshacer.
+                        </p>
+                        <div style={{
+                            display: "flex",
+                            gap: "16px",
+                            justifyContent: "center",
+                            flexWrap: "wrap"
+                        }}>
+                            <button
+                                className="btn secondary"
+                                onClick={cerrarConfirmacion}
+                                style={{ minWidth: "120px" }}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                className="btn danger"
+                                onClick={confirmarEliminar}
+                                style={{ minWidth: "120px" }}
+                            >
+                                Eliminar
                             </button>
                         </div>
                     </div>

@@ -26,7 +26,7 @@ function Countdown({ until }) {
   );
 }
 
-export default function Perito({ peritoId }) {
+export default function Perito({ peritoId, onLogout }) {
   const perito = samplePeritos.find((p) => p.id == peritoId);
   const navigate = useNavigate()
   const [requerimientos, setRequerimientos] = useState([]);
@@ -88,26 +88,92 @@ export default function Perito({ peritoId }) {
 
   return (
     <div className="container">
+      {/* Header con botón Salir */}
+      <div className="header" style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "24px",
+        flexWrap: "wrap",
+        gap: "16px"
+      }}>
+        <h2 style={{
+          fontSize: "28px",
+          margin: 0,
+          color: "var(--text)",
+          flex: "1",
+          textAlign: "center"
+        }}>
+          👤 Panel del Perito
+        </h2>
+        <button
+          className="btn secondary"
+          onClick={onLogout}
+          style={{
+            fontSize: "18px",
+            minWidth: "100px",
+            minHeight: "44px"
+          }}
+        >
+          Salir
+        </button>
+      </div>
+
       {/* Perfil del perito */}
       {perito && (
-        <div className="perfil" style={{ marginBottom: "5px", fontSize: "20px" }}>
-          <div style={{display: "flex", justifyContent: "center"}}>
-            <h2>👤 Bienvenido  {perito.nombre}</h2>
+        <div className="perfil" style={{ 
+          marginBottom: "24px", 
+          fontSize: "20px",
+          textAlign: "center"
+        }}>
+          <div style={{
+            display: "flex", 
+            justifyContent: "center",
+            marginBottom: "16px"
+          }}>
+            <h2 style={{
+              fontSize: "28px",
+              margin: 0,
+              color: "var(--text)"
+            }}>
+              👤 Bienvenido {perito.nombre}
+            </h2>
           </div>
-          <p><strong>CI:</strong> {perito.id}</p>
-          <p><strong>Teléfono:</strong> {perito.telefono}</p>
-          <p><strong>Disponible:</strong> {perito.disponible ? "Sí" : "No"}</p>
+          <div style={{
+            display: "grid",
+            gap: "8px",
+            textAlign: "left",
+            maxWidth: "400px",
+            margin: "0 auto"
+          }}>
+            <p style={{ margin: "4px 0" }}>
+              <strong>CI:</strong> {perito.id}
+            </p>
+            <p style={{ margin: "4px 0" }}>
+              <strong>Teléfono:</strong> {perito.telefono}
+            </p>
+            <p style={{ margin: "4px 0" }}>
+              <strong>Disponible:</strong> {perito.disponible ? "Sí" : "No"}
+            </p>
+          </div>
         </div>
       )}
 
       {/* Pestañas */}
-      <div className="tabs">
+      <div className="tabs" style={{
+        justifyContent: "center",
+        marginBottom: "24px"
+      }}>
         {["Asignado", "En curso", "Finalizado"].map((t) => (
           <button
             key={t}
             className={`tab ${tab === t ? "active" : ""}`}
             onClick={() => setTab(t)}
-            style={{ fontSize: "20px" }}
+            style={{ 
+              fontSize: "18px",
+              minWidth: "100px",
+              textAlign: "center"
+            }}
           >
             {t}
           </button>
@@ -117,7 +183,13 @@ export default function Perito({ peritoId }) {
       {/* Lista filtrada */}
       <div className="list">
         {filteredReqs.length === 0 ? (
-          <div className="small" style={{ fontSize: "20px" }}>No hay requerimientos en {tab}</div>
+          <div className="card text-center" style={{ 
+            fontSize: "20px",
+            padding: "40px 20px",
+            color: "var(--muted)"
+          }}>
+            No hay requerimientos en {tab}
+          </div>
         ) : (
           filteredReqs.map((r) => {
             const asignacion = new Date(r.fechaAsignacion).getTime();
@@ -127,7 +199,11 @@ export default function Perito({ peritoId }) {
               <div
                 key={r.id}
                 className="item"
-                style={{ fontSize: "22px" }}
+                style={{ 
+                  fontSize: "22px",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease"
+                }}
                 onClick={() => {
                   if (r.estado === "Finalizado") {
                     navigate(`/requerimiento/${r.id}`)
@@ -137,15 +213,46 @@ export default function Perito({ peritoId }) {
                     setSelected(r)
                   }
                 }}
+                onMouseEnter={(e) => {
+                  if (window.innerWidth > 768) {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = "var(--shadow-lg)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (window.innerWidth > 768) {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "var(--shadow)";
+                  }
+                }}
               >
-                <div>
-                  <strong>
+                <div style={{ flex: 1, width: "100%" }}>
+                  <strong style={{
+                    display: "block",
+                    marginBottom: "8px",
+                    fontSize: "20px"
+                  }}>
                     {r.id}.- Cliente: {getCliente(r.clienteId).nombre}
                   </strong>
-                  <div className="small" style={{ fontSize: "18px" }}>{r.direccion}</div>
+                  <div className="small" style={{ 
+                    fontSize: "16px",
+                    color: "var(--muted)",
+                    marginBottom: "8px"
+                  }}>
+                    {r.direccion}
+                  </div>
                 </div>
-                <div className="row" >
-                  <span className="badge info" style={{ fontSize: "15px" }}>{r.estado}</span>
+                <div className="row" style={{
+                  gap: "12px",
+                  alignItems: "center",
+                  flexWrap: "wrap"
+                }}>
+                  <span className="badge info" style={{ 
+                    fontSize: "15px",
+                    whiteSpace: "nowrap"
+                  }}>
+                    {r.estado}
+                  </span>
                   <Countdown until={globalDeadline} />
                 </div>
               </div>

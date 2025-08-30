@@ -26,52 +26,135 @@ export default function NuevoCliente() {
   }
 
   return (
-    <div className="card" style={{ maxWidth: 400, margin: "0 auto", padding: 20, fontSize: "20px" }}>
-      <h3>Nuevo Cliente</h3>
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 10 }}>
-        <input
-          type="text"
-          placeholder="Cedula"
-          value={id}
-          onChange={(e) => setID(parseInt(e.target.value))}
-          required
-          style={{ padding: 10, fontSize: "20px" }}
-        />
-        <input
-          type="text"
-          placeholder="Cliente"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-          style={{ padding: 10, fontSize: "20px" }}
-        />
-        <input
-          type="text"
-          placeholder="Contacto"
-          value={contacto}
-          onChange={(e) => setContacto(e.target.value)}
-          required
-          style={{ padding: 10, fontSize: "20px" }}
-        />
-        <input
-          type="tel"
-          placeholder="Teléfono"
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
-          required
-          style={{ padding: 10, fontSize: "20px" }}
-        />
-        <input
-          type="email"
-          placeholder="Correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-          style={{ padding: 10, fontSize: "20px" }}
-        />
-        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-evenly", marginTop: "10px"}}>
-          <button type="submit" className="btn primary" style={{ padding: 10, fontSize: "20px" }}>Guardar</button>
-          <button type="button" className="btn" onClick={() => navigate("/clientes")} style={{ padding: 10, fontSize: "20px" }}>
+    <div className="card" style={{ 
+      maxWidth: "100%", 
+      margin: "0 auto", 
+      padding: "20px", 
+      fontSize: "20px",
+      width: "100%"
+    }}>
+      <h3 style={{ 
+        textAlign: "center", 
+        marginBottom: "24px",
+        fontSize: "24px"
+      }}>Nuevo Cliente</h3>
+      <form onSubmit={handleSubmit} style={{ 
+        display: "grid", 
+        gap: "16px",
+        maxWidth: "500px",
+        margin: "0 auto"
+      }}>
+        <div>
+          <label className="label">Cédula</label>
+          <input
+            type="text"
+            placeholder="Cedula"
+            value={id}
+            onChange={(e) => setID(parseInt(e.target.value))}
+            required
+            className="input"
+            style={{ 
+              padding: "12px 16px", 
+              fontSize: "18px",
+              width: "100%"
+            }}
+          />
+        </div>
+        <div>
+          <label className="label">Nombre del Cliente</label>
+          <input
+            type="text"
+            placeholder="Cliente"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+            className="input"
+            style={{ 
+              padding: "12px 16px", 
+              fontSize: "18px",
+              width: "100%"
+            }}
+          />
+        </div>
+        <div>
+          <label className="label">Contacto</label>
+          <input
+            type="text"
+            placeholder="Contacto"
+            value={contacto}
+            onChange={(e) => setContacto(e.target.value)}
+            required
+            className="input"
+            style={{ 
+              padding: "12px 16px", 
+              fontSize: "18px",
+              width: "100%"
+            }}
+          />
+        </div>
+        <div>
+          <label className="label">Teléfono</label>
+          <input
+            type="tel"
+            placeholder="Teléfono"
+            value={telefono}
+            onChange={(e) => setTelefono(e.target.value)}
+            required
+            className="input"
+            style={{ 
+              padding: "12px 16px", 
+              fontSize: "18px",
+              width: "100%"
+            }}
+          />
+        </div>
+        <div>
+          <label className="label">Correo Electrónico</label>
+          <input
+            type="email"
+            placeholder="Correo"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            required
+            className="input"
+            style={{ 
+              padding: "12px 16px", 
+              fontSize: "18px",
+              width: "100%"
+            }}
+          />
+        </div>
+        <div style={{
+          display: "flex", 
+          flexDirection: "row", 
+          justifyContent: "space-evenly", 
+          marginTop: "20px",
+          gap: "16px",
+          flexWrap: "wrap"
+        }}>
+          <button 
+            type="submit" 
+            className="btn success" 
+            style={{ 
+              padding: "12px 24px", 
+              fontSize: "18px",
+              flex: "1",
+              minWidth: "120px"
+            }}
+          >
+            Guardar
+          </button>
+          <button 
+            type="button" 
+            className="btn secondary" 
+            onClick={() => navigate("/clientes")} 
+            style={{ 
+              padding: "12px 24px", 
+              fontSize: "18px",
+              flex: "1",
+              minWidth: "120px"
+            }}
+          >
             Cancelar
           </button>
         </div>
