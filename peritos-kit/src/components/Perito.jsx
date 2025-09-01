@@ -88,35 +88,21 @@ export default function Perito({ peritoId, onLogout }) {
 
   return (
     <div className="container">
-      {/* Header con botón Salir */}
+      {/* Header */}
       <div className="header" style={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
-        marginBottom: "24px",
-        flexWrap: "wrap",
-        gap: "16px"
+        marginBottom: "24px"
       }}>
         <h2 style={{
           fontSize: "28px",
           margin: 0,
           color: "var(--text)",
-          flex: "1",
           textAlign: "center"
         }}>
           👤 Panel del Perito
         </h2>
-        <button
-          className="btn secondary"
-          onClick={onLogout}
-          style={{
-            fontSize: "18px",
-            minWidth: "100px",
-            minHeight: "44px"
-          }}
-        >
-          Salir
-        </button>
       </div>
 
       {/* Perfil del perito */}

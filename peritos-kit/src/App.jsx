@@ -6,6 +6,7 @@ import Perito from './components/Perito.jsx'
 import ClientesAdmin from './components/Clientes.Admin.jsx'
 import NuevoCliente from './components/NuevoCliente.jsx'
 import NuevoPerito from './components/AgregarPerito.jsx'
+import MobileMenu from './components/MobileMenu.jsx'
 
 import HistorialCliente from './components/HistorialCliente.jsx'
 import logo from "./components/img/logo.png"
@@ -25,6 +26,7 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [peritoId, setPeritoId] = useState(localStorage.getItem('peritoId') || null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate()
 
   const handleLogin = (role, id) => {
@@ -92,67 +94,88 @@ export default function App() {
             alignItems: "center",
             gap: "16px",
             flex: 1,
-            justifyContent: isMobile ? "center" : "flex-start"
+            justifyContent: isMobile ? "flex-start" : "flex-start"
           }}>
+            {/* Botón hamburguesa para móvil */}
+            {isMobile && (
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                  color: "#005eff",
+                  padding: "8px",
+                  marginRight: "8px"
+                }}
+              >
+                ☰
+              </button>
+            )}
+            
             <img
               src={logo}
               alt="Logo"
               style={{ 
-                height: isMobile ? "60px" : "70px", 
+                height: isMobile ? "50px" : "70px", 
                 objectFit: "contain",
                 borderRadius: "8px"
               }}
             />
             <div style={{marginBottom: 15}}>
               <h1 style={{ 
-                fontSize: isMobile ? "18px" : "24px", 
+                fontSize: isMobile ? "16px" : "24px", 
                 margin: 0,
                 fontWeight: 700,
                 color: "var(--text)",
               }}>
                 Plataforma Peritos
               </h1>
-              <span className="badge info" style={{ marginTop: "4px"}}>
+              <span className="badge info" style={{ marginTop: "4px", fontSize: isMobile ? "12px" : "14px"}}>
                 {role === 'admin' ? 'Administrador' : 'Perito'}
               </span>
             </div>
           </div>
 
-          <div className="row" style={{ 
-            gap: "12px", 
-            marginTop: isMobile ? "16px" : "0",
-            flexWrap: isMobile ? "wrap" : "nowrap"
-          }}>
-            {role === 'admin' && (
-              <button
-                onClick={() => navigate("/clientes")}
-                style={{fontSize: "20px"}}
-                className="btn success"
-              >
-                Clientes
-              </button>
-            )}
+          {/* Botones de navegación - solo en escritorio */}
+          {!isMobile && (
+            <div className="row" style={{ 
+              gap: "12px", 
+              marginTop: "0",
+              flexWrap: "nowrap"
+            }}>
+              {role === 'admin' && (
+                <button
+                  onClick={() => navigate("/clientes")}
+                  style={{fontSize: "20px"}}
+                  className="btn success"
+                >
+                  Clientes
+                </button>
+              )}
 
-            {role === 'admin' && (
+              {role === 'admin' && (
+                <button
+                  onClick={() => navigate("/requerimientos")}
+                  style={{fontSize: "20px"}}
+                  className="btn success"
+                >
+                  Requerimientos
+                </button>
+              )}
               <button
-                onClick={() => navigate("/requerimientos")}
+                className="btn secondary"
+                onClick={() => {
+                  setRole('');
+                  localStorage.removeItem('role');
+                }}
                 style={{fontSize: "20px"}}
-                className="btn success"
               >
-                Requerimientos
+                Salir
               </button>
-            )}
-            <button
-              className="btn secondary"
-              onClick={() => {
-                setRole('');
-                localStorage.removeItem('role');
-              }}
-              style={{fontSize: "20px"}}
-            >
-              Salir
-            </button>
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Contenido dinámico según ruta */}
@@ -202,6 +225,13 @@ export default function App() {
           }}
         />
       )}
+
+      {/* Menú móvil */}
+      <MobileMenu 
+        isOpen={isMobileMenuOpen} 
+        onClose={() => setIsMobileMenuOpen(false)} 
+        role={role}
+      />
     </div>
   )
 }

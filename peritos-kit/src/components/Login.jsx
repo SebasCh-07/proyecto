@@ -93,16 +93,16 @@ export default function Login({ onLogin }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "100vh", width: "100vw" }}>
         <CssBaseline />
 
         {/* Imagen izquierda - solo visible en web */}
         <Grid
           item
           sx={{
-            display: { xs: "none", md: "block" },
+            display: { xs: "none", lg: "block" },
             flexGrow: 1,
-            flexBasis: { md: "60%" },
+            flexBasis: { lg: "50%" },
             backgroundImage: `url(${imgPerito})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
@@ -115,7 +115,7 @@ export default function Login({ onLogin }) {
         <Grid 
           item 
           xs={12} 
-          md={6} 
+          lg={6} 
           component={Paper} 
           elevation={6} 
           square
@@ -123,15 +123,30 @@ export default function Login({ onLogin }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            minHeight: "100vh"
+            minHeight: "100vh",
+            width: { xs: "100vw", lg: "auto" },
+            backgroundColor: { xs: "white", lg: "white" },
+            padding: { xs: 0, lg: 0 },
+            margin: { xs: 0, lg: 0 },
+            position: { xs: "fixed", lg: "static" },
+            top: { xs: 0, lg: "auto" },
+            left: { xs: 0, lg: "auto" },
+            right: { xs: 0, lg: "auto" },
+            bottom: { xs: 0, lg: "auto" },
+            zIndex: { xs: 1, lg: "auto" }
           }}
         >
           <Box
             sx={{
               width: "100%",
-              maxWidth: { xs: "100%", md: "400px" },
-              px: { xs: 3, md: 4 },
-              py: { xs: 2, md: 4 }
+              maxWidth: { xs: "90%", md: "500px", lg: "600px" },
+              px: { xs: 4, md: 6, lg: 8 },
+              py: { xs: 4, md: 4, lg: 5 },
+              margin: { xs: "auto", lg: 0 },
+              height: { xs: "100vh", lg: "auto" },
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center"
             }}
           >
             <Box
@@ -145,19 +160,19 @@ export default function Login({ onLogin }) {
               <Avatar sx={{ 
                 m: 2, 
                 bgcolor: "secondary.main",
-                width: { xs: 64, md: 80 },
-                height: { xs: 64, md: 80 }
+                width: { xs: 80, md: 100, lg: 120 },
+                height: { xs: 80, md: 100, lg: 120 }
               }}>
-                <LockOutlinedIcon sx={{ fontSize: { xs: 32, md: 40 } }} />
+                <LockOutlinedIcon sx={{ fontSize: { xs: 40, md: 50, lg: 60 } }} />
               </Avatar>
               
               <Typography 
                 component="h1" 
                 variant="h4"
                 sx={{
-                  fontSize: { xs: "1.75rem", md: "2.125rem" },
+                  fontSize: { xs: "1.75rem", md: "2.25rem", lg: "2.5rem" },
                   textAlign: "center",
-                  mb: 3,
+                  mb: { xs: 3, md: 4, lg: 5 },
                   fontWeight: 600
                 }}
               >
@@ -182,9 +197,13 @@ export default function Login({ onLogin }) {
                   onChange={(e) => setUsername(e.target.value)}
                   autoFocus
                   sx={{
-                    mb: 2,
+                    mb: { xs: 2, md: 3, lg: 3 },
                     '& .MuiInputLabel-root': {
-                      fontSize: { xs: '16px', md: '16px' }
+                      fontSize: { xs: '16px', md: '18px', lg: '18px' }
+                    },
+                    '& .MuiInputBase-root': {
+                      fontSize: { xs: '16px', md: '18px', lg: '18px' },
+                      minHeight: { xs: '48px', md: '56px', lg: '56px' }
                     }
                   }}
                 />
@@ -197,9 +216,13 @@ export default function Login({ onLogin }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   sx={{
-                    mb: 2,
+                    mb: { xs: 2, md: 3, lg: 3 },
                     '& .MuiInputLabel-root': {
-                      fontSize: { xs: '16px', md: '16px' }
+                      fontSize: { xs: '16px', md: '18px', lg: '18px' }
+                    },
+                    '& .MuiInputBase-root': {
+                      fontSize: { xs: '16px', md: '18px', lg: '18px' },
+                      minHeight: { xs: '48px', md: '56px', lg: '56px' }
                     }
                   }}
                 />
@@ -222,11 +245,12 @@ export default function Login({ onLogin }) {
                   fullWidth 
                   variant="contained" 
                   sx={{ 
-                    mt: 2, 
-                    mb: 2,
-                    py: { xs: 1.5, md: 2 },
-                    fontSize: { xs: '18px', md: '18px' },
-                    minHeight: { xs: '48px', md: '48px' }
+                    mt: { xs: 2, md: 3, lg: 4 }, 
+                    mb: { xs: 2, md: 3, lg: 3 },
+                    py: { xs: 1.5, md: 2, lg: 2.5 },
+                    fontSize: { xs: '18px', md: '20px', lg: '22px' },
+                    minHeight: { xs: '48px', md: '56px', lg: '64px' },
+                    fontWeight: 600
                   }}
                 >
                   Ingresar

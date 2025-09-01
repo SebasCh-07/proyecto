@@ -37,7 +37,7 @@ export default function AgregarPerito() {
         marginBottom: "24px"
       }}>
         <button 
-          onClick={() => navigate("/historial-perito")} 
+          onClick={() => navigate("/clientes")} 
           className="btn secondary"
           style={{
             fontSize: "18px",

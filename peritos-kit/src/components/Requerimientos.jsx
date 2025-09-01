@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { sampleRequerimientos, getCliente, getPerito, samplePeritos } from "../data.js";
+import { useResponsive } from "../hooks/useResponsive.js";
 
 export default function Requerimientos() {
   const navigate = useNavigate();
+  const { isMobile } = useResponsive();
   
   // Estados para los filtros
   const [filtroFechaInicio, setFiltroFechaInicio] = useState('');
@@ -116,7 +118,7 @@ export default function Requerimientos() {
       key={req.id}
       className="panel"
       style={{
-        padding: "20px",
+        padding: isMobile ? "16px" : "20px",
         cursor: "pointer",
         transition: "all 0.2s ease",
         border: "1px solid #e2e8f0",
@@ -124,87 +126,154 @@ export default function Requerimientos() {
       }}
       onClick={() => handleRequerimientoClick(req.id)}
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-2px)";
-        e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)";
+        if (window.innerWidth > 768) {
+          e.currentTarget.style.transform = "translateY(-2px)";
+          e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)";
+        }
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
+        if (window.innerWidth > 768) {
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
+        }
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <h3 style={{ margin: 0, fontSize: "22px", fontWeight: 600, color: "#005eff" }}>
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: isMobile ? "flex-start" : "flex-start", 
+        marginBottom: "16px",
+        flexDirection: isMobile ? "column" : "row",
+        gap: isMobile ? "8px" : "0"
+      }}>
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          gap: isMobile ? "8px" : "12px",
+          flexWrap: "wrap"
+        }}>
+          <h3 style={{ 
+            margin: 0, 
+            fontSize: isMobile ? "18px" : "22px", 
+            fontWeight: 600, 
+            color: "#005eff" 
+          }}>
             Requerimiento #{req.id}
           </h3>
-          <span className={`badge ${getEstadoColor(req.estado)}`} style={{ fontSize: "14px" }}>
+          <span className={`badge ${getEstadoColor(req.estado)}`} style={{ 
+            fontSize: isMobile ? "12px" : "14px" 
+          }}>
             {req.estado}
           </span>
         </div>
-        <div style={{ textAlign: "right", fontSize: "14px", color: "#64748b" }}>
+        <div style={{ 
+          textAlign: isMobile ? "left" : "right", 
+          fontSize: isMobile ? "12px" : "14px", 
+          color: "#64748b" 
+        }}>
           {formatDate(req.fechaAsignacion)}
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+      <div style={{ 
+        display: "grid", 
+        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
+        gap: isMobile ? "12px" : "16px", 
+        marginBottom: "16px" 
+      }}>
         <div>
-          <strong style={{ color: "#374151" }}>Cliente:</strong>
-          <p style={{ margin: "4px 0", fontSize: "16px" }}>
+          <strong style={{ 
+            color: "#374151",
+            fontSize: isMobile ? "14px" : "16px"
+          }}>Cliente:</strong>
+          <p style={{ 
+            margin: "4px 0", 
+            fontSize: isMobile ? "14px" : "16px" 
+          }}>
             {req.cliente?.nombre || 'N/A'}
           </p>
         </div>
-                 <div>
-           <strong style={{ color: "#374151" }}>Perito:</strong>
-           <p style={{ margin: "4px 0", fontSize: "16px" }}>
-             {req.perito ? req.perito.nombre : (
-               <span style={{ color: "#ef4444", fontStyle: "italic" }}>⚠️ Sin asignar</span>
-             )}
-           </p>
-         </div>
         <div>
-          <strong style={{ color: "#374151" }}>Dirección:</strong>
-          <p style={{ margin: "4px 0", fontSize: "16px" }}>
+          <strong style={{ 
+            color: "#374151",
+            fontSize: isMobile ? "14px" : "16px"
+          }}>Perito:</strong>
+          <p style={{ 
+            margin: "4px 0", 
+            fontSize: isMobile ? "14px" : "16px" 
+          }}>
+            {req.perito ? req.perito.nombre : (
+              <span style={{ color: "#ef4444", fontStyle: "italic" }}>⚠️ Sin asignar</span>
+            )}
+          </p>
+        </div>
+        <div>
+          <strong style={{ 
+            color: "#374151",
+            fontSize: isMobile ? "14px" : "16px"
+          }}>Dirección:</strong>
+          <p style={{ 
+            margin: "4px 0", 
+            fontSize: isMobile ? "14px" : "16px" 
+          }}>
             {req.direccion}
           </p>
         </div>
         <div>
-          <strong style={{ color: "#374151" }}>Plazo:</strong>
-          <p style={{ margin: "4px 0", fontSize: "16px" }}>
+          <strong style={{ 
+            color: "#374151",
+            fontSize: isMobile ? "14px" : "16px"
+          }}>Plazo:</strong>
+          <p style={{ 
+            margin: "4px 0", 
+            fontSize: isMobile ? "14px" : "16px" 
+          }}>
             {req.plazoDias} días
           </p>
         </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-           {req.perito ? (
-             <span style={{ 
-               backgroundColor: "#dcfce7", 
-               color: "#166534", 
-               padding: "4px 8px", 
-               borderRadius: "6px", 
-               fontSize: "12px",
-               fontWeight: "500"
-             }}>
-               ✅ Asignado a {req.perito.nombre}
-             </span>
-           ) : (
-             <span style={{ 
-               backgroundColor: "#fef3c7", 
-               color: "#92400e", 
-               padding: "4px 8px", 
-               borderRadius: "6px", 
-               fontSize: "12px",
-               fontWeight: "500"
-             }}>
-               ⏳ Pendiente de asignación
-             </span>
-           )}
-         </div>
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: isMobile ? "flex-start" : "center",
+        flexDirection: isMobile ? "column" : "row",
+        gap: isMobile ? "12px" : "0"
+      }}>
+        <div style={{ 
+          display: "flex", 
+          gap: "8px", 
+          alignItems: "center",
+          flexWrap: "wrap"
+        }}>
+          {req.perito ? (
+            <span style={{ 
+              backgroundColor: "#dcfce7", 
+              color: "#166534", 
+              padding: isMobile ? "6px 10px" : "4px 8px", 
+              borderRadius: "6px", 
+              fontSize: isMobile ? "12px" : "12px",
+              fontWeight: "500"
+            }}>
+              ✅ Asignado a {req.perito.nombre}
+            </span>
+          ) : (
+            <span style={{ 
+              backgroundColor: "#fef3c7", 
+              color: "#92400e", 
+              padding: isMobile ? "6px 10px" : "4px 8px", 
+              borderRadius: "6px", 
+              fontSize: isMobile ? "12px" : "12px",
+              fontWeight: "500"
+            }}>
+              ⏳ Pendiente de asignación
+            </span>
+          )}
+        </div>
         
         <div style={{ 
           color: "#64748b", 
-          fontSize: "14px",
+          fontSize: isMobile ? "12px" : "14px",
           display: "flex",
           alignItems: "center",
           gap: "4px"
@@ -216,20 +285,55 @@ export default function Requerimientos() {
   );
 
   return (
-    <div className="card" style={{ padding: 24, maxWidth: 1200, margin: "0 auto", fontSize: "19px" }}>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>
-        <button 
-          onClick={() => navigate(-1)} 
-          className="btn secondary" 
-          style={{ marginRight: 16, fontSize: "17px" }}
-        >
-          ← Volver
-        </button>
-        <h2 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>📋 Lista de Requerimientos</h2>
+    <div className="card" style={{ 
+      padding: isMobile ? "16px" : "24px", 
+      maxWidth: 1200, 
+      margin: "0 auto", 
+      fontSize: isMobile ? "16px" : "19px" 
+    }}>
+      <div style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        marginBottom: 24,
+        flexDirection: isMobile ? "column" : "row",
+        gap: isMobile ? "12px" : "0"
+      }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          width: isMobile ? "100%" : "auto",
+          justifyContent: isMobile ? "space-between" : "flex-start"
+        }}>
+          <button 
+            onClick={() => navigate(-1)} 
+            className="btn secondary" 
+            style={{ 
+              marginRight: isMobile ? 0 : 16, 
+              fontSize: isMobile ? "16px" : "17px",
+              minHeight: isMobile ? "44px" : "auto",
+              padding: isMobile ? "12px 16px" : "8px 16px"
+            }}
+          >
+            ← Volver
+          </button>
+          <h2 style={{ 
+            margin: 0, 
+            fontSize: isMobile ? "20px" : "28px", 
+            fontWeight: 700,
+            textAlign: isMobile ? "center" : "left",
+            flex: isMobile ? 1 : "none"
+          }}>📋 Lista de Requerimientos</h2>
+        </div>
         <button 
           onClick={() => navigate("/crear-requerimiento")} 
           className="btn primary" 
-          style={{ marginLeft: "auto", fontSize: "18px" }}
+          style={{ 
+            marginLeft: isMobile ? 0 : "auto", 
+            fontSize: isMobile ? "16px" : "18px",
+            minHeight: isMobile ? "44px" : "auto",
+            padding: isMobile ? "12px 20px" : "8px 16px",
+            width: isMobile ? "100%" : "auto"
+          }}
         >
           ➕ Crear Requerimiento
         </button>
@@ -237,20 +341,28 @@ export default function Requerimientos() {
 
       {/* Panel de Filtros */}
       <div className="panel" style={{ 
-        padding: "20px", 
+        padding: isMobile ? "16px" : "20px", 
         marginBottom: "24px", 
         backgroundColor: "#f8fafc",
         border: "1px solid #e2e8f0",
         borderRadius: "12px"
       }}>
-        <h3 style={{ fontSize: "18px", margin: "0 0 16px 0", color: "#374151" }}>
+        <h3 style={{ 
+          fontSize: isMobile ? "16px" : "18px", 
+          margin: "0 0 16px 0", 
+          color: "#374151" 
+        }}>
           🔍 Filtros de Búsqueda
         </h3>
         
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
-          gap: "16px",
+          gridTemplateColumns: isMobile 
+            ? "1fr" 
+            : window.innerWidth <= 1024 
+              ? "repeat(2, 1fr)" 
+              : "repeat(auto-fit, minmax(200px, 1fr))", 
+          gap: isMobile ? "12px" : "16px",
           marginBottom: "16px"
         }}>
           {/* Búsqueda por texto */}
@@ -265,10 +377,12 @@ export default function Requerimientos() {
               onChange={(e) => setBusquedaTexto(e.target.value)}
               style={{
                 width: "100%",
-                padding: "8px 12px",
+                padding: isMobile ? "12px 16px" : "8px 12px",
                 border: "1px solid #d1d5db",
                 borderRadius: "6px",
-                fontSize: "14px"
+                fontSize: isMobile ? "16px" : "14px",
+                minHeight: isMobile ? "44px" : "auto",
+                boxSizing: "border-box"
               }}
             />
           </div>
@@ -284,10 +398,12 @@ export default function Requerimientos() {
               onChange={(e) => setFiltroFechaInicio(e.target.value)}
               style={{
                 width: "100%",
-                padding: "8px 12px",
+                padding: isMobile ? "12px 16px" : "8px 12px",
                 border: "1px solid #d1d5db",
                 borderRadius: "6px",
-                fontSize: "14px"
+                fontSize: isMobile ? "16px" : "14px",
+                minHeight: isMobile ? "44px" : "auto",
+                boxSizing: "border-box"
               }}
             />
           </div>
@@ -303,10 +419,12 @@ export default function Requerimientos() {
               onChange={(e) => setFiltroFechaFin(e.target.value)}
               style={{
                 width: "100%",
-                padding: "8px 12px",
+                padding: isMobile ? "12px 16px" : "8px 12px",
                 border: "1px solid #d1d5db",
                 borderRadius: "6px",
-                fontSize: "14px"
+                fontSize: isMobile ? "16px" : "14px",
+                minHeight: isMobile ? "44px" : "auto",
+                boxSizing: "border-box"
               }}
             />
           </div>
@@ -321,11 +439,13 @@ export default function Requerimientos() {
               onChange={(e) => setFiltroEstado(e.target.value)}
               style={{
                 width: "100%",
-                padding: "8px 12px",
+                padding: isMobile ? "12px 16px" : "8px 12px",
                 border: "1px solid #d1d5db",
                 borderRadius: "6px",
-                fontSize: "14px",
-                backgroundColor: "white"
+                fontSize: isMobile ? "16px" : "14px",
+                backgroundColor: "white",
+                minHeight: isMobile ? "44px" : "auto",
+                boxSizing: "border-box"
               }}
             >
               <option value="">Todos los estados</option>
@@ -345,11 +465,13 @@ export default function Requerimientos() {
               onChange={(e) => setFiltroPerito(e.target.value)}
               style={{
                 width: "100%",
-                padding: "8px 12px",
+                padding: isMobile ? "12px 16px" : "8px 12px",
                 border: "1px solid #d1d5db",
                 borderRadius: "6px",
-                fontSize: "14px",
-                backgroundColor: "white"
+                fontSize: isMobile ? "16px" : "14px",
+                backgroundColor: "white",
+                minHeight: isMobile ? "44px" : "auto",
+                boxSizing: "border-box"
               }}
             >
               <option value="">Todos los peritos</option>
@@ -364,22 +486,36 @@ export default function Requerimientos() {
         </div>
 
         {/* Botones de acción */}
-        <div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+        <div style={{ 
+          display: "flex", 
+          gap: isMobile ? "8px" : "12px", 
+          justifyContent: isMobile ? "space-between" : "flex-end",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "stretch" : "center"
+        }}>
           <button
             onClick={limpiarFiltros}
             className="btn secondary"
-            style={{ fontSize: "14px", padding: "8px 16px" }}
+            style={{ 
+              fontSize: isMobile ? "16px" : "14px", 
+              padding: isMobile ? "12px 20px" : "8px 16px",
+              minHeight: isMobile ? "44px" : "auto",
+              width: isMobile ? "100%" : "auto"
+            }}
           >
             🗑️ Limpiar filtros
           </button>
           <div style={{ 
             display: "flex", 
             alignItems: "center", 
-            fontSize: "14px", 
+            justifyContent: "center",
+            fontSize: isMobile ? "16px" : "14px", 
             color: "#64748b",
-            padding: "8px 12px",
+            padding: isMobile ? "12px 16px" : "8px 12px",
             backgroundColor: "#f1f5f9",
-            borderRadius: "6px"
+            borderRadius: "6px",
+            minHeight: isMobile ? "44px" : "auto",
+            width: isMobile ? "100%" : "auto"
           }}>
             📊 {requerimientosFiltrados.length} de {requerimientosCompletos.length} requerimientos
           </div>

@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { getRequerimientoCompleto } from "../data.js";
+import { useResponsive } from "../hooks/useResponsive.js";
 
 function fmt(t) {
   const n = Math.max(0, Math.floor(t / 1000))
@@ -12,53 +13,274 @@ function fmt(t) {
 export default function RequerimientoDetalle() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isMobile } = useResponsive();
   const req = getRequerimientoCompleto(parseInt(id));
 
   if (!req) return <div>No se encontró el requerimiento</div>;
 
   return (
-    <div className="card" style={{ padding: 24, maxWidth: 900, margin: "0 auto", fontSize: "19px" }}>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
-        <button onClick={() => navigate(-1)} className="btn secondary" style={{ marginRight: 12, fontSize: "17px" }}>
-          ← Volver
-        </button>
-        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700 }}>Requerimiento #{req.id}</h2>
-        <span className={`badge ${req.estado === 'Finalizado' ? 'ok' : 'info'}`} style={{ marginLeft: 12 }}>
+    <div className="card" style={{ 
+      padding: isMobile ? "12px" : "40px", 
+      maxWidth: isMobile ? "100%" : "1200px", 
+      margin: "0 auto", 
+      fontSize: isMobile ? "16px" : "19px",
+      width: "100%"
+    }}>
+      <div style={{ 
+        display: "flex", 
+        alignItems: isMobile ? "flex-start" : "center", 
+        marginBottom: isMobile ? "12px" : "32px",
+        flexDirection: isMobile ? "column" : "row",
+        gap: isMobile ? "8px" : "0"
+      }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          width: isMobile ? "100%" : "auto",
+          flexWrap: "wrap",
+          gap: isMobile ? "8px" : "0"
+        }}>
+          <button 
+            onClick={() => navigate(-1)} 
+            className="btn secondary" 
+            style={{ 
+              marginRight: isMobile ? 0 : 16, 
+              fontSize: isMobile ? "16px" : "17px", 
+              padding: isMobile ? "10px 16px" : "12px 20px",
+              minHeight: isMobile ? "44px" : "auto"
+            }}
+          >
+            ← Volver
+          </button>
+          <h2 style={{ 
+            margin: 0, 
+            fontSize: isMobile ? "20px" : "28px", 
+            fontWeight: 700,
+            flex: isMobile ? 1 : "none"
+          }}>
+            Requerimiento #{req.id}
+          </h2>
+        </div>
+        <span 
+          className={`badge ${req.estado === 'Finalizado' ? 'ok' : 'info'}`} 
+          style={{ 
+            marginLeft: isMobile ? 0 : 16, 
+            fontSize: isMobile ? "14px" : "16px", 
+            padding: isMobile ? "6px 12px" : "8px 16px",
+            alignSelf: isMobile ? "flex-start" : "center"
+          }}
+        >
           {req.estado}
         </span>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
-        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Información del Perito</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Perito:</strong> {req.perito?.nombre}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Teléfono:</strong> {req.perito?.telefono}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Usuario:</strong> {req.perito?.username}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Estado:</strong> 
-            <span className={`badge ${req.perito?.disponible ? 'ok' : 'warning'}`} style={{ marginLeft: 8 }}>
-              {req.perito?.disponible ? 'Disponible' : 'No disponible'}
-            </span>
-          </p>
+      <div className="panel" style={{ 
+        marginBottom: isMobile ? "12px" : "32px", 
+        padding: isMobile ? "16px" : "32px", 
+        backgroundColor: "#f8f9fa", 
+        border: "1px solid #e9ecef", 
+        borderRadius: "12px" 
+      }}>
+        <h3 style={{ 
+          marginBottom: isMobile ? "12px" : "24px", 
+          color: "#005eff", 
+          fontSize: isMobile ? "20px" : "24px", 
+          borderBottom: "2px solid #005eff", 
+          paddingBottom: "12px" 
+        }}>
+          Información del Perito
+        </h3>
+        <div style={{ 
+          display: "flex", 
+          flexDirection: "column",
+          gap: isMobile ? "12px" : "24px" 
+        }}>
+          <div style={{ 
+            padding: isMobile ? "16px" : "36px", 
+            backgroundColor: "white", 
+            borderRadius: "12px", 
+            border: "1px solid #e2e8f0",
+            width: "100%"
+          }}>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              gap: isMobile ? "12px" : "20px" 
+            }}>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Perito:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.perito?.nombre}</span>
+              </div>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Teléfono:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.perito?.telefono}</span>
+              </div>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Usuario:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.perito?.username}</span>
+              </div>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Estado:</strong>
+                <span className={`badge ${req.perito?.disponible ? 'ok' : 'warning'}`} style={{ marginLeft: isMobile ? 0 : 8 }}>
+                  {req.perito?.disponible ? 'Disponible' : 'No disponible'}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
-        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Información del Cliente</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Cliente:</strong> {req.cliente?.nombre}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Teléfono:</strong> {req.cliente?.telefono}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Contacto:</strong> {req.cliente?.contacto}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Correo:</strong> {req.cliente?.correo || 'N/A'}</p>
+      <div className="panel" style={{ 
+        marginBottom: isMobile ? "12px" : "32px", 
+        padding: isMobile ? "16px" : "32px", 
+        backgroundColor: "#f8f9fa", 
+        border: "1px solid #e9ecef", 
+        borderRadius: "12px" 
+      }}>
+        <h3 style={{ 
+          marginBottom: isMobile ? "12px" : "24px", 
+          color: "#005eff", 
+          fontSize: isMobile ? "20px" : "24px", 
+          borderBottom: "2px solid #005eff", 
+          paddingBottom: "12px" 
+        }}>
+          Información del Cliente
+        </h3>
+        <div style={{ 
+          display: "flex", 
+          flexDirection: "column",
+          gap: isMobile ? "12px" : "24px" 
+        }}>
+          <div style={{ 
+            padding: isMobile ? "16px" : "36px", 
+            backgroundColor: "white", 
+            borderRadius: "12px", 
+            border: "1px solid #e2e8f0",
+            width: "100%"
+          }}>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              gap: isMobile ? "12px" : "20px" 
+            }}>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Cliente:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.cliente?.nombre}</span>
+              </div>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Teléfono:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.cliente?.telefono}</span>
+              </div>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Contacto:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.cliente?.contacto}</span>
+              </div>
+              <div style={{ 
+                display: "flex", 
+                flexDirection: isMobile ? "column" : "row", 
+                gap: isMobile ? "4px" : "12px",
+                alignItems: isMobile ? "flex-start" : "center"
+              }}>
+                <strong style={{ fontSize: isMobile ? "16px" : "18px", minWidth: "80px" }}>Correo:</strong>
+                <span style={{ fontSize: isMobile ? "16px" : "18px", lineHeight: "1.5" }}>{req.cliente?.correo || 'N/A'}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="panel" style={{ marginBottom: 16, backgroundColor: "#f8f9fa", border: "1px solid #e9ecef" }}>
-        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "20px", borderBottom: "2px solid #005eff", paddingBottom: "8px" }}>Detalles del Requerimiento</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Dirección:</strong> {req.direccion}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Plazo:</strong> {req.plazoDias} días</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Fecha de Asignación:</strong> {new Date(req.fechaAsignacion).toLocaleString()}</p>
-          <p style={{ margin: "8px 0", padding: "8px", backgroundColor: "white", borderRadius: "6px" }}><strong>Tiempo en Sitio:</strong> {req.postVisitHours} horas</p>
+      <div className="panel" style={{ 
+        marginBottom: isMobile ? "16px" : "16px", 
+        padding: isMobile ? "16px" : "24px", 
+        backgroundColor: "#f8f9fa", 
+        border: "1px solid #e9ecef", 
+        borderRadius: "12px" 
+      }}>
+        <h3 style={{ 
+          marginBottom: isMobile ? "16px" : "16px", 
+          color: "#005eff", 
+          fontSize: isMobile ? "18px" : "20px", 
+          borderBottom: "2px solid #005eff", 
+          paddingBottom: "8px" 
+        }}>
+          Detalles del Requerimiento
+        </h3>
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", 
+          gap: isMobile ? "12px" : "16px" 
+        }}>
+          <div style={{ 
+            padding: isMobile ? "12px" : "8px", 
+            backgroundColor: "white", 
+            borderRadius: "6px" 
+          }}>
+            <p style={{ margin: 0, fontSize: isMobile ? "16px" : "18px" }}>
+              <strong>Dirección:</strong> {req.direccion}
+            </p>
+          </div>
+          <div style={{ 
+            padding: isMobile ? "12px" : "8px", 
+            backgroundColor: "white", 
+            borderRadius: "6px" 
+          }}>
+            <p style={{ margin: 0, fontSize: isMobile ? "16px" : "18px" }}>
+              <strong>Plazo:</strong> {req.plazoDias} días
+            </p>
+          </div>
+          <div style={{ 
+            padding: isMobile ? "12px" : "8px", 
+            backgroundColor: "white", 
+            borderRadius: "6px" 
+          }}>
+            <p style={{ margin: 0, fontSize: isMobile ? "16px" : "18px" }}>
+              <strong>Fecha de Asignación:</strong> {new Date(req.fechaAsignacion).toLocaleString()}
+            </p>
+          </div>
+          <div style={{ 
+            padding: isMobile ? "12px" : "8px", 
+            backgroundColor: "white", 
+            borderRadius: "6px" 
+          }}>
+            <p style={{ margin: 0, fontSize: isMobile ? "16px" : "18px" }}>
+              <strong>Tiempo en Sitio:</strong> {req.postVisitHours} horas
+            </p>
+          </div>
         </div>
       </div>
 
