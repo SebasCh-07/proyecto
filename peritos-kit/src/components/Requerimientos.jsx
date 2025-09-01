@@ -1,24 +1,82 @@
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { sampleRequerimientos, getCliente, getPerito } from "../data.js";
+import { sampleRequerimientos, getCliente, getPerito, samplePeritos } from "../data.js";
 
 export default function Requerimientos() {
   const navigate = useNavigate();
-  // Ya no necesitamos estado para pestañas
+  
+  // Estados para los filtros
+  const [filtroFechaInicio, setFiltroFechaInicio] = useState('');
+  const [filtroFechaFin, setFiltroFechaFin] = useState('');
+  const [filtroEstado, setFiltroEstado] = useState('');
+  const [filtroPerito, setFiltroPerito] = useState('');
+  const [busquedaTexto, setBusquedaTexto] = useState('');
 
   // Obtener todos los requerimientos con información completa
-  const requerimientosCompletos = sampleRequerimientos.map(req => ({
-    ...req,
-    cliente: getCliente(req.clienteId),
-    perito: getPerito(req.peritoId)
-  }));
+  const requerimientosCompletos = useMemo(() => 
+    sampleRequerimientos.map(req => ({
+      ...req,
+      cliente: getCliente(req.clienteId),
+      perito: getPerito(req.peritoId)
+    })), [sampleRequerimientos]);
 
-  // Obtener todos los requerimientos (asignados y sin asignar)
-  const todosLosRequerimientos = requerimientosCompletos;
+  // Función para filtrar requerimientos
+  const requerimientosFiltrados = useMemo(() => {
+    let filtrados = requerimientosCompletos;
+
+    // Filtro por rango de fechas
+    if (filtroFechaInicio) {
+      filtrados = filtrados.filter(req => 
+        new Date(req.fechaAsignacion) >= new Date(filtroFechaInicio)
+      );
+    }
+    if (filtroFechaFin) {
+      filtrados = filtrados.filter(req => 
+        new Date(req.fechaAsignacion) <= new Date(filtroFechaFin)
+      );
+    }
+
+    // Filtro por estado
+    if (filtroEstado) {
+      filtrados = filtrados.filter(req => req.estado === filtroEstado);
+    }
+
+    // Filtro por perito
+    if (filtroPerito) {
+      if (filtroPerito === 'sin-asignar') {
+        filtrados = filtrados.filter(req => !req.peritoId);
+      } else {
+        filtrados = filtrados.filter(req => req.peritoId === parseInt(filtroPerito));
+      }
+    }
+
+    // Filtro por texto (búsqueda en cliente, dirección, etc.)
+    if (busquedaTexto) {
+      const texto = busquedaTexto.toLowerCase();
+      filtrados = filtrados.filter(req => 
+        req.cliente?.nombre?.toLowerCase().includes(texto) ||
+        req.direccion?.toLowerCase().includes(texto) ||
+        req.perito?.nombre?.toLowerCase().includes(texto) ||
+        req.id.toString().includes(texto)
+      );
+    }
+
+    return filtrados;
+  }, [requerimientosCompletos, filtroFechaInicio, filtroFechaFin, filtroEstado, filtroPerito, busquedaTexto]);
+
+  // Función para limpiar filtros
+  const limpiarFiltros = () => {
+    setFiltroFechaInicio('');
+    setFiltroFechaFin('');
+    setFiltroEstado('');
+    setFiltroPerito('');
+    setBusquedaTexto('');
+  };
   
   // Debug: mostrar información de los requerimientos
   console.log('Requerimientos en sampleRequerimientos:', sampleRequerimientos);
   console.log('Requerimientos completos:', requerimientosCompletos);
-  console.log('Todos los requerimientos:', todosLosRequerimientos);
+  console.log('Requerimientos filtrados:', requerimientosFiltrados);
 
   const handleRequerimientoClick = (reqId) => {
     console.log('Click en requerimiento:', reqId);
@@ -177,23 +235,188 @@ export default function Requerimientos() {
         </button>
       </div>
 
-             {/* Título de la sección */}
-       <div style={{ marginBottom: 24 }}>
-         <h3 style={{ fontSize: "20px", color: "#64748b", margin: 0 }}>
-           📋 Todos los Requerimientos ({todosLosRequerimientos.length})
-         </h3>
-       </div>
+      {/* Panel de Filtros */}
+      <div className="panel" style={{ 
+        padding: "20px", 
+        marginBottom: "24px", 
+        backgroundColor: "#f8fafc",
+        border: "1px solid #e2e8f0",
+        borderRadius: "12px"
+      }}>
+        <h3 style={{ fontSize: "18px", margin: "0 0 16px 0", color: "#374151" }}>
+          🔍 Filtros de Búsqueda
+        </h3>
+        
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
+          gap: "16px",
+          marginBottom: "16px"
+        }}>
+          {/* Búsqueda por texto */}
+          <div>
+            <label style={{ display: "block", marginBottom: "4px", fontSize: "14px", fontWeight: "500", color: "#374151" }}>
+              🔎 Búsqueda general
+            </label>
+            <input
+              type="text"
+              placeholder="Cliente, dirección, perito, ID..."
+              value={busquedaTexto}
+              onChange={(e) => setBusquedaTexto(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                border: "1px solid #d1d5db",
+                borderRadius: "6px",
+                fontSize: "14px"
+              }}
+            />
+          </div>
 
-             {/* Contenido de todos los requerimientos */}
-       {todosLosRequerimientos.length === 0 ? (
-         <div className="panel" style={{ textAlign: "center", padding: "40px 20px" }}>
-           <p style={{ fontSize: "20px", color: "#64748b" }}>No hay requerimientos registrados.</p>
-         </div>
-       ) : (
-         <div className="list" style={{ display: "grid", gap: "16px" }}>
-           {todosLosRequerimientos.map(renderRequerimiento)}
-         </div>
-       )}
+          {/* Filtro por fecha inicio */}
+          <div>
+            <label style={{ display: "block", marginBottom: "4px", fontSize: "14px", fontWeight: "500", color: "#374151" }}>
+              📅 Fecha desde
+            </label>
+            <input
+              type="date"
+              value={filtroFechaInicio}
+              onChange={(e) => setFiltroFechaInicio(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                border: "1px solid #d1d5db",
+                borderRadius: "6px",
+                fontSize: "14px"
+              }}
+            />
+          </div>
+
+          {/* Filtro por fecha fin */}
+          <div>
+            <label style={{ display: "block", marginBottom: "4px", fontSize: "14px", fontWeight: "500", color: "#374151" }}>
+              📅 Fecha hasta
+            </label>
+            <input
+              type="date"
+              value={filtroFechaFin}
+              onChange={(e) => setFiltroFechaFin(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                border: "1px solid #d1d5db",
+                borderRadius: "6px",
+                fontSize: "14px"
+              }}
+            />
+          </div>
+
+          {/* Filtro por estado */}
+          <div>
+            <label style={{ display: "block", marginBottom: "4px", fontSize: "14px", fontWeight: "500", color: "#374151" }}>
+              📊 Estado
+            </label>
+            <select
+              value={filtroEstado}
+              onChange={(e) => setFiltroEstado(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                border: "1px solid #d1d5db",
+                borderRadius: "6px",
+                fontSize: "14px",
+                backgroundColor: "white"
+              }}
+            >
+              <option value="">Todos los estados</option>
+              <option value="Asignado">Asignado</option>
+              <option value="En curso">En curso</option>
+              <option value="Finalizado">Finalizado</option>
+            </select>
+          </div>
+
+          {/* Filtro por perito */}
+          <div>
+            <label style={{ display: "block", marginBottom: "4px", fontSize: "14px", fontWeight: "500", color: "#374151" }}>
+              👨‍💼 Perito asignado
+            </label>
+            <select
+              value={filtroPerito}
+              onChange={(e) => setFiltroPerito(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                border: "1px solid #d1d5db",
+                borderRadius: "6px",
+                fontSize: "14px",
+                backgroundColor: "white"
+              }}
+            >
+              <option value="">Todos los peritos</option>
+              <option value="sin-asignar">⚠️ Sin asignar</option>
+              {samplePeritos.map(perito => (
+                <option key={perito.id} value={perito.id}>
+                  ✅ {perito.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Botones de acción */}
+        <div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+          <button
+            onClick={limpiarFiltros}
+            className="btn secondary"
+            style={{ fontSize: "14px", padding: "8px 16px" }}
+          >
+            🗑️ Limpiar filtros
+          </button>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            fontSize: "14px", 
+            color: "#64748b",
+            padding: "8px 12px",
+            backgroundColor: "#f1f5f9",
+            borderRadius: "6px"
+          }}>
+            📊 {requerimientosFiltrados.length} de {requerimientosCompletos.length} requerimientos
+          </div>
+        </div>
+      </div>
+
+      {/* Título de la sección */}
+      <div style={{ marginBottom: 24 }}>
+        <h3 style={{ fontSize: "20px", color: "#64748b", margin: 0 }}>
+          📋 Requerimientos Filtrados ({requerimientosFiltrados.length})
+        </h3>
+      </div>
+
+      {/* Contenido de requerimientos filtrados */}
+      {requerimientosFiltrados.length === 0 ? (
+        <div className="panel" style={{ textAlign: "center", padding: "40px 20px" }}>
+          <p style={{ fontSize: "20px", color: "#64748b" }}>
+            {requerimientosCompletos.length === 0 
+              ? "No hay requerimientos registrados." 
+              : "No se encontraron requerimientos que coincidan con los filtros aplicados."
+            }
+          </p>
+          {requerimientosCompletos.length > 0 && (
+            <button
+              onClick={limpiarFiltros}
+              className="btn secondary"
+              style={{ marginTop: "16px", fontSize: "16px" }}
+            >
+              🗑️ Limpiar filtros para ver todos
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="list" style={{ display: "grid", gap: "16px" }}>
+          {requerimientosFiltrados.map(renderRequerimiento)}
+        </div>
+      )}
     </div>
   );
 }

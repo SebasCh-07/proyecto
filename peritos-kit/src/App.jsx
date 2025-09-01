@@ -9,8 +9,8 @@ import NuevoPerito from './components/AgregarPerito.jsx'
 
 import HistorialCliente from './components/HistorialCliente.jsx'
 import logo from "./components/img/logo.png"
-import HistorialPerito from './components/HistorialPerito.jsx'
-import ListaClientesHistorial from './components/listaClientesHistorial.jsx'
+
+
 import DetalleCliente from './components/detalleCliente.jsx'
 import RequerimientoDetalle from './components/RequerimientoDetalle.jsx'
 import RequerimientoDetalleAdminPerito from './components/RequerimientoDetalleAdminPerito.jsx'
@@ -132,15 +132,7 @@ export default function App() {
                 Clientes
               </button>
             )}
-            {role === 'admin' && (
-              <button
-                className="btn success"
-                onClick={() => navigate("/historial-perito")}
-                style={{fontSize: "20px"}}
-              >
-                Lista de Peritos
-              </button>
-            )}
+
             {role === 'admin' && (
               <button
                 onClick={() => navigate("/requerimientos")}
@@ -176,8 +168,8 @@ export default function App() {
                 <Route path="/agregar-perito" element={<NuevoPerito />} />
                 <Route path="/requerimientos" element={<Requerimientos />} />
                 <Route path="/crear-requerimiento" element={<CrearRequerimiento />} />
-                <Route path="/historial-perito" element={<HistorialPerito />} />
-                <Route path="/listaClientesHistorial/:peritoId" element={<ListaClientesHistorial />} />
+
+
                 <Route path="/detalleCliente/:clienteId" element={<DetalleCliente />} />
                 <Route path="/historial-cliente" element={<HistorialCliente />} />
                 <Route path="/requerimiento/:id" element={<RequerimientoDetalleAdminPerito />} />
