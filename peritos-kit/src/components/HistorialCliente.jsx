@@ -19,6 +19,18 @@ export default function HistorialCliente() {
   const peritosIds = [...new Set(requerimientosDelCliente.map(req => req.peritoId))];
   const peritos = peritosIds.map(id => getPerito(id)).filter(Boolean);
 
+  // Función para navegar a detalleCliente
+  const navegarADetalleCliente = () => {
+    navigate(`/detalleCliente/${cliente.id}`);
+  };
+
+  // Función para navegar a detalleCliente con un requerimiento específico
+  const navegarADetalleConRequerimiento = (requerimientoId) => {
+    navigate(`/detalleCliente/${cliente.id}`, { 
+      state: { requerimientoId } 
+    });
+  };
+
   return (
     <div className="card" style={{ padding: 24, maxWidth: 1000, margin: "0 auto", fontSize: "19px" }}>
       <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>
@@ -34,7 +46,9 @@ export default function HistorialCliente() {
 
       {/* Información del Cliente */}
       <div className="panel" style={{ marginBottom: 24 }}>
-        <h3 style={{ marginBottom: 16, color: "#005eff", fontSize: "22px" }}>📋 Información del Cliente</h3>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h3 style={{ margin: 0, color: "#005eff", fontSize: "22px" }}>📋 Información del Cliente</h3>
+        </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           <div>
             <strong style={{ color: "#374151" }}>Nombre:</strong>
@@ -102,6 +116,17 @@ export default function HistorialCliente() {
                     <strong style={{ color: "#374151" }}>👤 Usuario:</strong>
                     <p style={{ margin: "0", fontSize: "16px" }}>{perito.username}</p>
                   </div>
+                </div>
+                
+                {/* Botón para ver detalles del perito en detalleCliente */}
+                <div style={{ marginTop: "16px", textAlign: "right" }}>
+                  <button
+                    onClick={navegarADetalleCliente}
+                    className="btn info"
+                    style={{ fontSize: "14px", padding: "6px 12px" }}
+                  >
+                    📊 Ver en Detalle Cliente
+                  </button>
                 </div>
               </div>
             ))}

@@ -137,7 +137,7 @@ export default function ModalPerito({ selected, onClose, onDecision }) {
       onClose={onClose}
       title={
         selected 
-          ? `Requerimiento ${selected.id} — ${getCliente(selected.clienteId).nombre}`
+          ? `Requerimiento ${selected.id} | Cliente: ${getCliente(selected.clienteId).nombre}`
           : ""
       }
     >

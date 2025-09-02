@@ -93,7 +93,7 @@ export default function CrearRequerimiento() {
             flex: "1",
             textAlign: "center"
           }}>
-            ➕ Crear Nuevo Requerimiento
+            Crear Nuevo Requerimiento
           </h2>
         </div>
 

@@ -223,7 +223,7 @@ export default function PeritoEnCurso() {
               value={observaciones}
               onChange={(e) => setObservaciones(e.target.value)}
               placeholder="Agregar observación sobre el trabajo..."
-              className="input"
+              className="input input-observacion"
               style={{ flex: 1, fontSize: "16px" }}
               onKeyPress={(e) => e.key === 'Enter' && agregarObservacion()}
             />
@@ -254,7 +254,7 @@ export default function PeritoEnCurso() {
                   }}
                 >
                   <div>
-                    <div style={{ fontWeight: "500", marginBottom: "4px" }}>{obs.texto}</div>
+                    <div className="observacion-texto" style={{ fontWeight: "500", marginBottom: "4px" }}>{obs.texto}</div>
                     <div className="small" style={{ color: "#6c757d" }}>{obs.timestamp}</div>
                   </div>
                   <button 

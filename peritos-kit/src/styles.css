@@ -413,9 +413,13 @@ body {
 
 @media (max-width: 768px) {
   .container {
-    padding: 16px 12px;
+    padding: 16px 8px;
   }
-  
+
+  .panel {
+    padding: 16px;
+  }
+
   .header {
     flex-direction: column;
     gap: 16px;
@@ -485,13 +489,30 @@ body {
   .header .mobile-nav-toggle {
     display: flex;
   }
+
+  .observacion-texto {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .input-observacion {
+    word-break: break-all;
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 12px 8px;
+    padding: 12px 4px;
   }
-  
+
+  .panel {
+    padding: 12px;
+  }
+
   .header {
     padding: 12px;
   }
