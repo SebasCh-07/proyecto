@@ -46,7 +46,7 @@ export class Requerimiento {
 // 📦 Datos iniciales
 export let sampleClientes = [
   new Cliente({ id: 1234526789, nombre: 'Reisac', telefono: '+593 99 111 1111', correo: "email@test.com", peritoId: 1753999364, contacto: "Reisac" }),
-  new Cliente({ id: 2654556565, nombre: 'Inmobiliaria Quito', telefono: '+593 99 111 1111', correo: "email@test.com", peritoId: null, contacto: "Juan Jose" }),
+  new Cliente({ id: 2654556565, nombre: 'Inmobiliaria Quito', telefono: '+593 99 111 1111', correo: "email@test.com", peritoId: 1234567890, contacto: "Juan Jose" }),
   new Cliente({ id: 3316554165, nombre: 'Alfa Properties', telefono: '+593 99 111 1111', correo: "email@test.com", peritoId: 3025445485, contacto: "David Guetta" }),
 ]
 
@@ -66,8 +66,8 @@ export let samplePeritos = [
     nombre: 'María Gómez', 
     disponible: false, 
     telefono: '+593 98 222 2222', 
-    clienteId: null, 
-    requerimientoIds: [],
+    clienteId: 2654556565, 
+    requerimientoIds: [102],
     username: "perito2",
     password: "clave123"
   }),
@@ -77,7 +77,7 @@ export let samplePeritos = [
     disponible: true, 
     telefono: '+593 97 333 3333', 
     clienteId: 3316554165, 
-    requerimientoIds: [102],
+    requerimientoIds: [103],
     username: "perito3",
     password: "ruizpass"
   }),
@@ -108,9 +108,9 @@ export let sampleRequerimientos = [
   new Requerimiento({
     id: 102,
     clienteId: 2654556565,
-    peritoId: 3025445485,
+    peritoId: 1234567890,
     direccion: 'Calle 10 de Agosto 55, Quito',
-    estado: 'En curso',
+    estado: 'En Proceso',
     fechaAsignacion: new Date(Date.now() - 36*3600*1000).toISOString(),
     plazoDias: 3,
     postVisitHours: 12,
@@ -120,17 +120,33 @@ export let sampleRequerimientos = [
   new Requerimiento({
     id: 103,
     clienteId: 3316554165,
-    peritoId: 7889654223,
+    peritoId: 3025445485,
     direccion: 'Av. Naciones Unidas 456, Quito',
     estado: 'Finalizado',
     fechaAsignacion: new Date(Date.now() - 72*3600*1000).toISOString(),
     plazoDias: 5,
     postVisitHours: 36,
     gps: { lat: -0.180653, lng: -78.467834, acc: 15 },
-    fotos: [],
-    video: null,
-    pdf: null,
-    observaciones: 'Visita completada satisfactoriamente. Se encontró el inmueble en buen estado.',
+    fotos: [
+      '/img/perito.png',
+      '/img/perito2.png'
+    ],
+    video: '/video/videoP.mp4',
+    pdf: '/pdf/perito.pdf',
+    observaciones: [
+      {
+        texto: 'Visita completada satisfactoriamente. Se encontró el inmueble en buen estado general.',
+        timestamp: '2024-01-15 14:30:00'
+      },
+      {
+        texto: 'Se realizaron las mediciones correspondientes y se documentó el estado actual de la propiedad.',
+        timestamp: '2024-01-15 14:45:00'
+      },
+      {
+        texto: 'Se identificaron algunas áreas que requieren mantenimiento menor en los próximos meses.',
+        timestamp: '2024-01-15 15:00:00'
+      }
+    ],
     archivoAsignacion: '/documentos/requerimiento-103.pdf' // Archivo PDF de ejemplo
   }),
 ]

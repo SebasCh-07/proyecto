@@ -361,9 +361,15 @@ export default function RequerimientoDetalleAdminPerito() {
               {req.gps && !req.gps.error ? (
                 <iframe
                   title="Mapa ubicación"
-                  width= {isMobile? "70%" : "90%"}
-                  height= {isMobile? "200" : "300"}
-                  style={{ border: 0, marginTop: "20px", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+                  width={isMobile ? "100%" : "90%"}
+                  height={isMobile ? "250" : "300"}
+                  style={{ 
+                    border: 0, 
+                    marginTop: "20px", 
+                    borderRadius: "12px", 
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    maxWidth: isMobile ? "350px" : "90%"
+                  }}
                   loading="lazy"
                   src={`https://www.google.com/maps?q=${req.gps.lat},${req.gps.lng}&z=15&output=embed`}
                 />
@@ -378,21 +384,22 @@ export default function RequerimientoDetalleAdminPerito() {
             <div style={{ marginBottom: 16 }}>
               <strong style={{ fontSize: "25px" }}>Fotos:</strong>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8, justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                {req.fotos.map((f, i) => (
+                {req.fotos.map((fotoPath, i) => (
                   <img
                     key={i}
-                    src={URL.createObjectURL(f)}
+                    src={fotoPath}
                     alt={`Foto ${i + 1}`}
                     style={{
-                      width: isMobile ? 400 : 500,
-                      height: isMobile ? 200 : 300,
+                      width: isMobile ? "100%" : 500,
+                      height: isMobile ? 250 : 300,
+                      maxWidth: isMobile ? "350px" : "500px",
                       marginTop: "20px",
                       objectFit: "cover",
                       borderRadius: "12px",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                       cursor: "pointer"
                     }}
-                    onClick={() => window.open(URL.createObjectURL(f), '_blank')}
+                    onClick={() => window.open(fotoPath, '_blank')}
                   />
                 ))}
               </div>
@@ -405,15 +412,16 @@ export default function RequerimientoDetalleAdminPerito() {
               <strong style={{ fontSize: "25px" }}>Video:</strong>
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                 <video
-                  key={URL.createObjectURL(req.video)}
+                  key={req.video}
                   controls
-                  width= {isMobile? "70%" : "90%"}
-                  src={URL.createObjectURL(req.video)}
+                  width={isMobile ? "100%" : "90%"}
                   style={{
                     borderRadius: "12px",
                     marginTop: 20,
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    maxWidth: isMobile ? "350px" : "90%"
                   }}
+                  src={req.video}
                 />
               </div>
             </div>
@@ -425,7 +433,7 @@ export default function RequerimientoDetalleAdminPerito() {
               <strong style={{ fontSize: "25px" }}>Informe:</strong>
               <div style={{ marginTop: 8 }}>
                 <a
-                  href={URL.createObjectURL(req.pdf)}
+                  href={req.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
